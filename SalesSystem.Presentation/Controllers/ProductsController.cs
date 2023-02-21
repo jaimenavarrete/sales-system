@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
 
-namespace SalesSystem.Controllers
+namespace SalesSystem.Presentation.Controllers
 {
     public class ProductsController : Controller
     {

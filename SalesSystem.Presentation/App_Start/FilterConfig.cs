@@ -1,7 +1,6 @@
-﻿using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 
-namespace SalesSystem
+namespace SalesSystem.Presentation
 {
     public class FilterConfig
     {
