@@ -22,3 +22,25 @@ select,
 textarea {
     max-width: 280px;
 }
+
+@media (min-width: 1500px) {
+    .container {
+        width: 1450px !important;
+    }
+}
+
+/* PAGE TITLES */
+
+.container .page-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* TABLES */
+
+/* Action buttons */
+
+.action-buttons button {
+    padding: 7px 10px;
+}
