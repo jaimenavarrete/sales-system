@@ -1,5 +1,5 @@
 ﻿using SalesSystem.Business.Services;
-using SalesSystem.Presentation.Models.ViewModels;
+using SalesSystem.Presentation.Models.ViewModels.Products;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -15,6 +15,7 @@ namespace SalesSystem.Presentation.Controllers
         }
 
         // GET: Products
+        [HttpGet]
         public ActionResult Index()
         {
             var products = _productsService.GetProducts();
@@ -29,11 +30,20 @@ namespace SalesSystem.Presentation.Controllers
                     UnitTypeName = product.UnitTypes.Name,
                     CategoryName = product.Categories.Name,
                     PhotoUrl = product.PhotoUrl,
-                    Created = product.Created
+                    Created = product.Created,
+                    CreatedBy = product.CreatedBy,
+                    Modified = product.Modified,
+                    ModifiedBy = product.ModifiedBy
                 })
                 .ToList();
 
             return View(productsViewModel);
+        }
+
+        [HttpGet]
+        public ActionResult CreateProduct()
+        {
+            return View();
         }
     }
 }

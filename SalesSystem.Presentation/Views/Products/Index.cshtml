@@ -1,15 +1,17 @@
-﻿@model List<SalesSystem.Presentation.Models.ViewModels.ProductViewModel>
+﻿@model List<SalesSystem.Presentation.Models.ViewModels.Products.ProductViewModel>
 @{
     ViewBag.Title = "Productos";
 }
 
 <div class="page-title">
-    <h2>@ViewBag.Title</h2>
-    <button class="btn btn-success"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Agregar producto</button>
+    <h2><span class="glyphicon glyphicon-inbox"></span> @ViewBag.Title</h2>
+    <a href="@Url.Action("CreateProduct", "Products")" class="btn btn-success">
+        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Agregar producto
+    </a>
 </div>
 <ol class="breadcrumb">
     <li>@Html.ActionLink("Inicio", "Index", "Home")</li>
-    <li class="active">Productos</li>
+    <li class="active">@ViewBag.Title</li>
 </ol>
 
 <div class="panel panel-primary">

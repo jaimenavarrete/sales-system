@@ -21,10 +21,18 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Inicio", "Index", "Home")</li>
-                    <li>@Html.ActionLink("Acerca de", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contacto", "Contact", "Home")</li>
-                    <li>@Html.ActionLink("Productos", "Index", "Products")</li>
+                    <li>
+                        <a href="@Url.Action("Index", "Home")"><span class="glyphicon glyphicon-home"></span> Inicio</a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("About", "Home")"><span class="glyphicon glyphicon-info-sign"></span> Acerca de</a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("Contact", "Home")"><span class="glyphicon glyphicon-envelope"></span> Contacto</a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("Index", "Products")"><span class="glyphicon glyphicon-inbox"></span> Productos</a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -33,10 +41,10 @@
         @RenderBody()
         <hr />
         <br />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - Sistema de Ventas</p>
-        </footer>
     </div>
+    <footer class="footer bg-primary text-center">
+        <p>&copy; @DateTime.Now.Year - Sistema de Ventas</p>
+    </footer>
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")

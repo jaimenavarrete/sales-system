@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SalesSystem.Presentation.Models.ViewModels
+namespace SalesSystem.Presentation.Models.ViewModels.Products
 {
     public class ProductViewModel
     {
