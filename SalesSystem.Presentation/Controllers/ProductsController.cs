@@ -1,4 +1,5 @@
 ﻿using SalesSystem.Business.Services;
+using SalesSystem.DataAccess.Data;
 using SalesSystem.Presentation.Models.ViewModels.Products;
 using System.Collections.Generic;
 using System.Linq;
@@ -44,22 +45,52 @@ namespace SalesSystem.Presentation.Controllers
         [HttpGet]
         public ActionResult CreateProduct()
         {
-            var categoriesList = new List<SelectListItem>() {
-                new SelectListItem { Text = "Categoría 1", Value = "2" },
-                new SelectListItem { Text = "Categoría 2", Value = "3" }
-            };
-            var unitTypesList = new List<SelectListItem>() {
-                new SelectListItem { Text = "Pieza", Value = "2" },
-                new SelectListItem { Text = "Litro", Value = "4" }
-            };
-
-            var model = new CreateProductViewModel()
+            var viewModel = new CreateProductViewModel()
             {
-                CategoriesList = categoriesList,
-                UnitTypesList = unitTypesList
+                CategoriesList = GetCategories(),
+                UnitTypesList = GetUnitTypes()
             };
 
-            return View(model);
+            return View(viewModel);
         }
+
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public ActionResult CreateProduct(CreateProductViewModel viewModel)
+        {
+            if(!ModelState.IsValid)
+            {
+                viewModel.CategoriesList = GetCategories();
+                viewModel.UnitTypesList = GetUnitTypes();
+
+                return View(viewModel);
+            }
+
+            var product = new Products()
+            {
+                Name = viewModel.Name,
+                Description = viewModel.Description,
+                Stock = viewModel.Stock,
+                Price = viewModel.Price,
+                UnitTypeId = viewModel.UnitTypeId,
+                CategoryId = viewModel.CategoryId
+            };
+
+            _productsService.CreateProduct(product);
+
+            return RedirectToAction("Index", "Products");
+        }
+
+        private List<SelectListItem> GetCategories() => new List<SelectListItem>() {
+            new SelectListItem { Text = "Seleccionar categoría", Value = ""},
+            new SelectListItem { Text = "Categoría 1", Value = "2" },
+            new SelectListItem { Text = "Categoría 2", Value = "3" }
+        };
+
+        private List<SelectListItem> GetUnitTypes() => new List<SelectListItem>() {
+            new SelectListItem { Text = "Seleccionar tipo de medida", Value = ""},
+            new SelectListItem { Text = "Pieza", Value = "2" },
+            new SelectListItem { Text = "Litro", Value = "4" }
+        };
     }
 }

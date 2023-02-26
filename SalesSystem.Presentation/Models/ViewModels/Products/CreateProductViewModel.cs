@@ -7,7 +7,7 @@ namespace SalesSystem.Presentation.Models.ViewModels.Products
 {
     public class CreateProductViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "Este campo es requerido")]
         [DisplayName("Nombre")]
         [StringLength(50, MinimumLength = 1, ErrorMessage = "El nombre debe contener entre 1 y 50 caracteres. Se han colocado {0} caracteres.")]
         public string Name { get; set; }
@@ -16,22 +16,23 @@ namespace SalesSystem.Presentation.Models.ViewModels.Products
         [DisplayName("Descripción")]
         public string Description { get; set; }
 
+        [Required(ErrorMessage = "Este campo es requerido")]
         [DisplayName("Existencias")]
         public decimal Stock { get; set; } = 0m;
 
-        [Required]
+        [Required(ErrorMessage = "Este campo es requerido")]
         [DisplayName("Precio")]
         public decimal Price { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Este campo es requerido")]
         [DisplayName("Unidad de medida")]
-        public string UnitTypeId { get; set; }
+        public int UnitTypeId { get; set; }
 
         public IEnumerable<SelectListItem> UnitTypesList { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Este campo es requerido")]
         [DisplayName("Categoría")]
-        public string CategoryId { get; set; }
+        public int CategoryId { get; set; }
 
         public IEnumerable<SelectListItem> CategoriesList { get; set; }
 
