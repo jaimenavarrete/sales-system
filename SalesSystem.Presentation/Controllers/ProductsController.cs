@@ -1,5 +1,6 @@
 ﻿using SalesSystem.Business.Services;
 using SalesSystem.Presentation.Models.ViewModels.Products;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -43,7 +44,22 @@ namespace SalesSystem.Presentation.Controllers
         [HttpGet]
         public ActionResult CreateProduct()
         {
-            return View();
+            var categoriesList = new List<SelectListItem>() {
+                new SelectListItem { Text = "Categoría 1", Value = "2" },
+                new SelectListItem { Text = "Categoría 2", Value = "3" }
+            };
+            var unitTypesList = new List<SelectListItem>() {
+                new SelectListItem { Text = "Pieza", Value = "2" },
+                new SelectListItem { Text = "Litro", Value = "4" }
+            };
+
+            var model = new CreateProductViewModel()
+            {
+                CategoriesList = categoriesList,
+                UnitTypesList = unitTypesList
+            };
+
+            return View(model);
         }
     }
 }
