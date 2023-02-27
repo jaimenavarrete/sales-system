@@ -1,0 +1,15 @@
+﻿@if (TempData["success"] is object)
+{
+    <div class="alert alert-dismissible alert-success">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <span class="glyphicon glyphicon-ok"></span> @TempData["success"]
+    </div>
+}
+
+@if (TempData["error"] is object)
+{
+    <div class="alert alert-dismissible alert-danger">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <span class="glyphicon glyphicon-remove"></span> @TempData["error"]
+    </div>
+}

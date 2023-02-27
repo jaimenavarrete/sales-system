@@ -63,6 +63,8 @@ namespace SalesSystem.Presentation.Controllers
                 viewModel.CategoriesList = GetCategories();
                 viewModel.UnitTypesList = GetUnitTypes();
 
+                TempData["error"] = "Error. Por favor, revise que todos los campos sean válidos.";
+
                 return View(viewModel);
             }
 
@@ -77,6 +79,8 @@ namespace SalesSystem.Presentation.Controllers
             };
 
             _productsService.CreateProduct(product);
+
+            TempData["success"] = "El producto ha sido creado exitosamente.";
 
             return RedirectToAction("Index", "Products");
         }

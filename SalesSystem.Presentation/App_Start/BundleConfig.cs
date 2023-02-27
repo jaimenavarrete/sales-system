@@ -24,6 +24,14 @@ namespace SalesSystem.Presentation
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
+
+            // JQUERY CONFIRM
+
+            bundles.Add(new StyleBundle("~/Content/jquery-confirm").Include(
+                      "~/Content/jquery-confirm/jquery-confirm.min.css"));
+
+            bundles.Add(new ScriptBundle("~/bundles/jquery-confirm").Include(
+                      "~/Scripts/jquery-confirm/jquery-confirm.min.js"));
         }
     }
 }
