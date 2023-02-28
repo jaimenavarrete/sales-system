@@ -38,7 +38,8 @@
 
 /* Action buttons */
 
-.action-buttons button {
+.action-buttons button,
+.action-buttons a {
     padding: 7px 10px;
 }
 

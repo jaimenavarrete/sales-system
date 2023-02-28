@@ -82,7 +82,34 @@ namespace SalesSystem.Presentation.Controllers
 
             TempData["success"] = "El producto ha sido creado exitosamente.";
 
-            return RedirectToAction("Index", "Products");
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public ActionResult EditProduct(int id)
+        {
+            var product = _productsService.GetProductById(id);
+
+            if(product is null)
+            {
+                TempData["error"] = "El producto que ha seleccionado no existe.";
+                return RedirectToAction("Index");
+            }
+
+            var viewModel = new EditProductViewModel()
+            {
+                Name = product.Name,
+                Description = product.Description,
+                Stock = product.Stock,
+                Price = product.Price,
+                UnitTypeId = product.UnitTypeId,
+                CategoryId = product.CategoryId,
+
+                CategoriesList = GetCategories(),
+                UnitTypesList = GetUnitTypes()
+            };
+
+            return View(viewModel);
         }
 
         [HttpPost]

@@ -20,6 +20,16 @@ namespace SalesSystem.Business.Services
             }
         }
 
+        public Products GetProductById(int id)
+        {
+            using (var context = new SalesSystemEntities())
+            {
+                var product = context.Products.Find(id);
+
+                return product;
+            }
+        }
+
         public void CreateProduct(Products product)
         {
             product.Created = DateTime.UtcNow;

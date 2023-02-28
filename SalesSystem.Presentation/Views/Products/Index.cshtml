@@ -38,7 +38,7 @@
             <tbody>
                 @foreach (var product in Model)
                 {
-                    <tr class="action-buttons">
+                    <tr>
                         <td>@product.Id</td>
                         <td>@product.Name</td>
                         <td>@product.UnitTypeName</td>
@@ -47,12 +47,19 @@
                         <td>$@product.Total</td>
                         <td>@product.CategoryName</td>
                         <td>@product.Created</td>
-                        <td class="btn-group" role="group" aria-label="Action buttons">
-                            <button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-eye-open"></span></button>
-                            <button type="button" class="btn btn-warning"><span class="glyphicon glyphicon-pencil"></span></button>
+                        <td class="btn-group action-buttons" role="group" aria-label="Action buttons">
+                            <a href="@Url.Action("ViewProduct", "Products")" class="btn btn-primary">
+                                <span class="glyphicon glyphicon-eye-open"></span>
+                            </a>
+                            <a href="@Url.Action("EditProduct", "Products", new { id = product.Id })" class="btn btn-warning">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                            </a>
 
-                            <button class="btn btn-danger" form="DeleteProduct-@(product.Id)"><span class="glyphicon glyphicon-trash"></span></button>
-                            @using (Html.BeginForm("DeleteProduct", "Products", FormMethod.Post, new { id = "DeleteProduct-" + product.Id, @class = "delete-product-button" }))
+                            <button form="DeleteProduct-@(product.Id)" class="btn btn-danger">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </button>
+                            @using (Html.BeginForm("DeleteProduct", "Products", FormMethod.Post, 
+                                new { id = "DeleteProduct-" + product.Id, @class = "delete-product-button" }))
                             {
                                 @Html.Hidden("Id", product.Id)
                             }
