@@ -31,5 +31,17 @@ namespace SalesSystem.Business.Services
                 context.SaveChanges();
             }
         }
+
+        public void DeleteProduct(int id)
+        {
+            using(var context = new SalesSystemEntities())
+            {
+                var product = new Products() { Id = id };
+
+                context.Products.Attach(product);
+                context.Products.Remove(product);
+                context.SaveChanges();
+            }
+        }
     }
 }

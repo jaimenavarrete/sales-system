@@ -85,6 +85,16 @@ namespace SalesSystem.Presentation.Controllers
             return RedirectToAction("Index", "Products");
         }
 
+        [HttpPost]
+        public ActionResult DeleteProduct(int id)
+        {
+            _productsService.DeleteProduct(id);
+
+            TempData["success"] = "El producto ha sido borrado exitosamente.";
+
+            return RedirectToAction("Index");
+        }
+
         private List<SelectListItem> GetCategories() => new List<SelectListItem>() {
             new SelectListItem { Text = "Seleccionar categoría", Value = ""},
             new SelectListItem { Text = "Categoría 1", Value = "2" },

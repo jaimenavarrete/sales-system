@@ -50,7 +50,12 @@
                         <td class="btn-group" role="group" aria-label="Action buttons">
                             <button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-eye-open"></span></button>
                             <button type="button" class="btn btn-warning"><span class="glyphicon glyphicon-pencil"></span></button>
-                            <button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></button>
+
+                            <button class="btn btn-danger" form="DeleteProduct-@(product.Id)"><span class="glyphicon glyphicon-trash"></span></button>
+                            @using (Html.BeginForm("DeleteProduct", "Products", FormMethod.Post, new { id = "DeleteProduct-" + product.Id, @class = "delete-product-button" }))
+                            {
+                                @Html.Hidden("Id", product.Id)
+                            }
                         </td>
                     </tr>
                 }
@@ -58,3 +63,38 @@
         </table>
     </div>
 </div>
+
+@section scripts {
+    @Styles.Render("~/Content/jquery-confirm")
+    @Scripts.Render("~/bundles/jquery-confirm")
+
+    <script>
+
+        // Confirm product deletion.
+        $(".delete-product-button").on('submit', function (e) {
+            e.preventDefault();
+
+            $.confirm({
+                icon: 'glyphicon glyphicon-trash',
+                title: '¿Está seguro?',
+                content: 'Una vez borrado el producto, no podrá recuperarlo.',
+                type: 'red',
+                buttons: {
+                    confirm: {
+                        text: 'Si, borrar',
+                        btnClass: 'btn btn-danger',
+                        action: function () {
+                            e.currentTarget.submit();
+                        }
+                    },
+                    cancel: {
+                        text: 'Cancelar',
+                        btnClass: 'btn btn-default',
+                    }
+                },
+                closeIcon: true,
+            })
+        });
+
+    </script>
+}
