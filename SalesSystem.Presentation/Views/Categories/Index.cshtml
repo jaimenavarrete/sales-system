@@ -1,0 +1,59 @@
+﻿@model List<SalesSystem.Presentation.Models.ViewModels.Categories.CategoryViewModel>
+@{
+    ViewBag.Title = "Categorías";
+}
+
+<div class="page-title">
+    <h2><span class="glyphicon glyphicon-inbox"></span> @ViewBag.Title</h2>
+    <a href="#" class="btn btn-success">
+        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Agregar categoría
+    </a>
+</div>
+<ol class="breadcrumb">
+    <li>@Html.ActionLink("Inicio", "Index", "Home")</li>
+    <li class="active">@ViewBag.Title</li>
+</ol>
+
+@{ Html.RenderPartial("_ResultMessage"); }
+
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h3 class="panel-title">Listado de categorías</h3>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Nombre</th>
+                    <th>Descripción</th>
+                    <th>Creado</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var category in Model)
+                {
+                    <tr>
+                        <td>@category.Id</td>
+                        <td>@category.Name</td>
+                        <td>@category.Description</td>
+                        <td>@category.Created</td>
+                        <td class="btn-group action-buttons" role="group" aria-label="Action buttons">
+                            <a href="#" class="btn btn-primary">
+                                <span class="glyphicon glyphicon-eye-open"></span>
+                            </a>
+                            <a href="#" class="btn btn-warning">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                            </a>
+
+                            <button form="DeleteProduct-@(category.Id)" class="btn btn-danger">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

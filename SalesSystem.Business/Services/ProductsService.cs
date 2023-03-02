@@ -53,9 +53,8 @@ namespace SalesSystem.Business.Services
 
         public void DeleteProduct(int id)
         {
-            var product = new Products() { Id = id };
+            var product = GetProductById(id);
 
-            _context.Products.Attach(product);
             _context.Products.Remove(product);
             _context.SaveChanges();
         }
