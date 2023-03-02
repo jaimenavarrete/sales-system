@@ -134,6 +134,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\ViewModels\Categories\CategoryViewModel.cs" />
+    <Compile Include="Models\ViewModels\Categories\CreateCategoryViewModel.cs" />
     <Compile Include="Models\ViewModels\Products\CreateProductViewModel.cs" />
     <Compile Include="Models\ViewModels\Products\EditProductViewModel.cs" />
     <Compile Include="Models\ViewModels\Products\ProductViewModel.cs" />
@@ -182,6 +183,7 @@
     <Content Include="Views\Shared\_ResultMessage.cshtml" />
     <Content Include="Views\Products\EditProduct.cshtml" />
     <Content Include="Views\Categories\Index.cshtml" />
+    <Content Include="Views\Categories\CreateCategory.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

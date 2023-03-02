@@ -5,7 +5,7 @@
 
 <div class="page-title">
     <h2><span class="glyphicon glyphicon-tag"></span> @ViewBag.Title</h2>
-    <a href="#" class="btn btn-success">
+    <a href="@Url.Action("CreateCategory", "Categories")" class="btn btn-success">
         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Agregar categoría
     </a>
 </div>
@@ -42,9 +42,6 @@
                         </td>
                         <td>@category.Created</td>
                         <td class="btn-group action-buttons" role="group" aria-label="Action buttons">
-                            <a href="#" class="btn btn-primary">
-                                <span class="glyphicon glyphicon-eye-open"></span>
-                            </a>
                             <a href="#" class="btn btn-warning">
                                 <span class="glyphicon glyphicon-pencil"></span>
                             </a>
