@@ -60,6 +60,27 @@ namespace SalesSystem.Presentation.Controllers
             return RedirectToAction("Index");
         }
 
+        public ActionResult EditCategory(int id = 0)
+        {
+            var category = _categoriesService.GetCategoryById(id);
+
+            if(category is null)
+            {
+                TempData["error"] = "La categoría que ha seleccionado no existe.";
+                return RedirectToAction("Index");
+            }
+
+            var viewModel = new EditCategoryViewModel()
+            {
+                Id = id,
+                Name = category.Name,
+                Description = category.Description,
+            };
+
+            return View(viewModel);
+        }
+
+        [ValidateAntiForgeryToken]
         [HttpPost]
         public ActionResult DeleteCategory(int id)
         {

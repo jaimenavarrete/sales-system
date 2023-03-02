@@ -140,6 +140,7 @@ namespace SalesSystem.Presentation.Controllers
             return RedirectToAction("Index");
         }
 
+        [ValidateAntiForgeryToken]
         [HttpPost]
         public ActionResult DeleteProduct(int id)
         {

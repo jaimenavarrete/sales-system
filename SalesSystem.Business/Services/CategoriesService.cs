@@ -17,6 +17,13 @@ namespace SalesSystem.Business.Services
             return categories;
         }
 
+        public Categories GetCategoryById(int id)
+        {
+            var category = _context.Categories.Find(id);
+
+            return category;
+        }
+
         public void CreateCategory(Categories category)
         {
             category.Created = DateTime.UtcNow;
