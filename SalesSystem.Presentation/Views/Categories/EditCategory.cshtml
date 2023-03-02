@@ -22,7 +22,7 @@
         <h3 class="panel-title">Información de categoría</h3>
     </div>
     <div class="panel-body">
-        @using (Html.BeginForm("CreateCategory", "Categories", FormMethod.Post, new { id = "EditCategoryForm" }))
+        @using (Html.BeginForm("EditCategory", "Categories", FormMethod.Post, new { id = "EditCategoryForm" }))
         {
             @Html.AntiForgeryToken()
             @Html.HiddenFor(m => m.Id)

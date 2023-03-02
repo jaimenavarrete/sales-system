@@ -37,6 +37,7 @@ namespace SalesSystem.Presentation.Controllers
             return View();
         }
 
+        [ValidateAntiForgeryToken]
         [HttpPost]
         public ActionResult CreateCategory(CreateCategoryViewModel viewModel)
         {
@@ -78,6 +79,38 @@ namespace SalesSystem.Presentation.Controllers
             };
 
             return View(viewModel);
+        }
+
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public ActionResult EditCategory(EditCategoryViewModel viewModel)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    TempData["error"] = "Error. Por favor, revise que todos los campos sean válidos.";
+
+                    return View(viewModel);
+                }
+
+                var category = new Categories()
+                {
+                    Id = viewModel.Id,
+                    Name = viewModel.Name,
+                    Description = viewModel.Description
+                };
+
+                _categoriesService.EditCategory(category);
+
+                TempData["success"] = "La categoría ha sido editada exitosamente.";
+            }
+            catch(BusinessException exception)
+            {
+                TempData["error"] = exception.Message;
+            }
+
+            return RedirectToAction("Index");
         }
 
         [ValidateAntiForgeryToken]

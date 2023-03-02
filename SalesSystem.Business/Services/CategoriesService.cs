@@ -33,6 +33,23 @@ namespace SalesSystem.Business.Services
             _context.SaveChanges();
         }
 
+        public void EditCategory(Categories category)
+        {
+            var currentCategory = _context.Categories.Find(category.Id);
+
+            if(currentCategory is null)
+            {
+                throw new BusinessException("La categoría que intenta editar, no existe.");
+            }
+
+            currentCategory.Name = category.Name;
+            currentCategory.Description = category.Description;
+            currentCategory.Modified = DateTime.UtcNow;
+            currentCategory.ModifiedBy = Guid.NewGuid().ToString();
+
+            _context.SaveChanges();
+        }
+
         public void DeleteCategory(int id)
         {
             var category = _context.Categories.Find(id);

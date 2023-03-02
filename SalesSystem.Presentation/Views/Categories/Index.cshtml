@@ -52,6 +52,7 @@
                             @using (Html.BeginForm("DeleteCategory", "Categories", FormMethod.Post,
                                 new { id = "DeleteCategory-" + category.Id, @class = "delete-category-button" }))
                             {
+                                @Html.AntiForgeryToken()
                                 @Html.Hidden("Id", category.Id)
                             }
                         </td>
