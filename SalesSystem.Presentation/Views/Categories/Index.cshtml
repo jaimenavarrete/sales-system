@@ -4,7 +4,7 @@
 }
 
 <div class="page-title">
-    <h2><span class="glyphicon glyphicon-inbox"></span> @ViewBag.Title</h2>
+    <h2><span class="glyphicon glyphicon-tag"></span> @ViewBag.Title</h2>
     <a href="#" class="btn btn-success">
         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Agregar categoría
     </a>
@@ -37,7 +37,9 @@
                     <tr>
                         <td>@category.Id</td>
                         <td>@category.Name</td>
-                        <td>@category.Description</td>
+                        <td class="@(category.Description is null ? "text-bold" : "")">
+                            @(category.Description ?? "[Sin descripción]")
+                        </td>
                         <td>@category.Created</td>
                         <td class="btn-group action-buttons" role="group" aria-label="Action buttons">
                             <a href="#" class="btn btn-primary">
