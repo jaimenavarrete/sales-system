@@ -7,27 +7,23 @@ namespace SalesSystem.Business.Services
 {
     public class ProductsService
     {
+        private readonly SalesSystemEntities _context = new SalesSystemEntities();
+
         public List<Products> GetProducts()
         {
-            using(var context = new SalesSystemEntities())
-            {
-                var products = context.Products
+            var products = _context.Products
                     .Include("UnitTypes")
                     .Include("Categories")
                     .ToList();
 
-                return products;
-            }
+            return products;
         }
 
         public Products GetProductById(int id)
         {
-            using (var context = new SalesSystemEntities())
-            {
-                var product = context.Products.Find(id);
+            var product = _context.Products.Find(id);
 
-                return product;
-            }
+            return product;
         }
 
         public void CreateProduct(Products product)
@@ -35,43 +31,33 @@ namespace SalesSystem.Business.Services
             product.Created = DateTime.UtcNow;
             product.CreatedBy = Guid.NewGuid().ToString();
 
-            using(var context = new SalesSystemEntities())
-            {
-                context.Products.Add(product);
-                context.SaveChanges();
-            }
+            _context.Products.Add(product);
+            _context.SaveChanges();
         }
 
         public void EditProduct(Products product)
         {
-            using (var context = new SalesSystemEntities())
-            {
-                var currentProduct = GetProductById(product.Id);
-                context.Products.Attach(currentProduct);
+            var currentProduct = GetProductById(product.Id);
 
-                currentProduct.Name = product.Name;
-                currentProduct.Description = product.Description;
-                currentProduct.Stock = product.Stock;
-                currentProduct.Price = product.Price;
-                currentProduct.UnitTypeId = product.UnitTypeId;
-                currentProduct.CategoryId = product.CategoryId;
-                currentProduct.Modified = DateTime.UtcNow;
-                currentProduct.ModifiedBy = Guid.NewGuid().ToString();
+            currentProduct.Name = product.Name;
+            currentProduct.Description = product.Description;
+            currentProduct.Stock = product.Stock;
+            currentProduct.Price = product.Price;
+            currentProduct.UnitTypeId = product.UnitTypeId;
+            currentProduct.CategoryId = product.CategoryId;
+            currentProduct.Modified = DateTime.UtcNow;
+            currentProduct.ModifiedBy = Guid.NewGuid().ToString();
 
-                context.SaveChanges();
-            }
+            _context.SaveChanges();
         }
 
         public void DeleteProduct(int id)
         {
-            using(var context = new SalesSystemEntities())
-            {
-                var product = new Products() { Id = id };
+            var product = new Products() { Id = id };
 
-                context.Products.Attach(product);
-                context.Products.Remove(product);
-                context.SaveChanges();
-            }
+            _context.Products.Attach(product);
+            _context.Products.Remove(product);
+            _context.SaveChanges();
         }
     }
 }

@@ -9,12 +9,7 @@ namespace SalesSystem.Presentation.Controllers
 {
     public class ProductsController : Controller
     {
-        private readonly ProductsService _productsService;
-
-        public ProductsController()
-        {
-            _productsService = new ProductsService();
-        }
+        private readonly ProductsService _productsService = new ProductsService();
 
         // GET: Products
         [HttpGet]
