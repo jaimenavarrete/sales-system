@@ -42,6 +42,26 @@ namespace SalesSystem.Business.Services
             }
         }
 
+        public void EditProduct(Products product)
+        {
+            using (var context = new SalesSystemEntities())
+            {
+                var currentProduct = GetProductById(product.Id);
+                context.Products.Attach(currentProduct);
+
+                currentProduct.Name = product.Name;
+                currentProduct.Description = product.Description;
+                currentProduct.Stock = product.Stock;
+                currentProduct.Price = product.Price;
+                currentProduct.UnitTypeId = product.UnitTypeId;
+                currentProduct.CategoryId = product.CategoryId;
+                currentProduct.Modified = DateTime.UtcNow;
+                currentProduct.ModifiedBy = Guid.NewGuid().ToString();
+
+                context.SaveChanges();
+            }
+        }
+
         public void DeleteProduct(int id)
         {
             using(var context = new SalesSystemEntities())

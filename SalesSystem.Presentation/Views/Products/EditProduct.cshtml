@@ -22,9 +22,11 @@
         <h3 class="panel-title">Información de producto</h3>
     </div>
     <div class="panel-body">
-        @using (Html.BeginForm("CreateProduct", "Products", FormMethod.Post, new { id = "EditProductForm" }))
+        @using (Html.BeginForm("EditProduct", "Products", FormMethod.Post, new { id = "EditProductForm" }))
         {
             @Html.AntiForgeryToken()
+            @Html.HiddenFor(m => m.Id)
+            @Html.ValidationMessageFor(m => m.Id, null, new { @class = "text-danger" })
 
             <div class="form-group">
                 @Html.LabelFor(m => m.Name)

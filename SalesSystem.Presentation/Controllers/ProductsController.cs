@@ -86,7 +86,7 @@ namespace SalesSystem.Presentation.Controllers
         }
 
         [HttpGet]
-        public ActionResult EditProduct(int id)
+        public ActionResult EditProduct(int id = 0)
         {
             var product = _productsService.GetProductById(id);
 
@@ -98,6 +98,7 @@ namespace SalesSystem.Presentation.Controllers
 
             var viewModel = new EditProductViewModel()
             {
+                Id = product.Id,
                 Name = product.Name,
                 Description = product.Description,
                 Stock = product.Stock,
@@ -110,6 +111,38 @@ namespace SalesSystem.Presentation.Controllers
             };
 
             return View(viewModel);
+        }
+
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public ActionResult EditProduct(EditProductViewModel viewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                viewModel.CategoriesList = GetCategories();
+                viewModel.UnitTypesList = GetUnitTypes();
+
+                TempData["error"] = "Error. Por favor, revise que todos los campos sean válidos.";
+
+                return View(viewModel);
+            }
+
+            var product = new Products()
+            {
+                Id = viewModel.Id,
+                Name = viewModel.Name,
+                Description = viewModel.Description,
+                Stock = viewModel.Stock,
+                Price = viewModel.Price,
+                UnitTypeId = viewModel.UnitTypeId,
+                CategoryId = viewModel.CategoryId
+            };
+
+            _productsService.EditProduct(product);
+
+            TempData["success"] = "El producto ha sido editado exitosamente.";
+
+            return RedirectToAction("Index");
         }
 
         [HttpPost]
