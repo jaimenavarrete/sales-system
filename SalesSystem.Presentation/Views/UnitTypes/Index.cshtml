@@ -1,0 +1,58 @@
+﻿@model List<SalesSystem.Presentation.Models.ViewModels.UnitTypes.UnitTypeViewModel>
+@{
+    ViewBag.Title = "Unidades de medida";
+}
+
+<div class="page-title">
+    <h2><span class="glyphicon glyphicon-scale"></span> @ViewBag.Title</h2>
+    <a href="@Url.Action("CreateUnitType", "UnitTypes")" class="btn btn-success">
+        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Agregar medida
+    </a>
+</div>
+<ol class="breadcrumb">
+    <li>@Html.ActionLink("Inicio", "Index", "Home")</li>
+    <li class="active">@ViewBag.Title</li>
+</ol>
+
+@{ Html.RenderPartial("_ResultMessage"); }
+
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h3 class="panel-title">Listado de unidades de medida</h3>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Nombre</th>
+                    <th>Descripción</th>
+                    <th>Creado</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var unitType in Model)
+                {
+                    <tr>
+                        <td>@unitType.Id</td>
+                        <td>@unitType.Name</td>
+                        <td class="@(unitType.Description is null ? "text-bold" : "")">
+                            @(unitType.Description ?? "[Sin descripción]")
+                        </td>
+                        <td>@unitType.Created</td>
+                        <td class="btn-group action-buttons" role="group" aria-label="Action buttons">
+                            <a href="#" class="btn btn-warning">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                            </a>
+
+                            <button form="DeleteCategory-@(unitType.Id)" class="btn btn-danger">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -129,6 +129,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\CategoriesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\UnitTypesController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -136,6 +137,7 @@
     <Compile Include="Models\ViewModels\Categories\CategoryViewModel.cs" />
     <Compile Include="Models\ViewModels\Categories\CreateCategoryViewModel.cs" />
     <Compile Include="Models\ViewModels\Categories\EditCategoryViewModel.cs" />
+    <Compile Include="Models\ViewModels\UnitTypes\UnitTypeViewModel.cs" />
     <Compile Include="Models\ViewModels\Products\CreateProductViewModel.cs" />
     <Compile Include="Models\ViewModels\Products\EditProductViewModel.cs" />
     <Compile Include="Models\ViewModels\Products\ProductViewModel.cs" />
@@ -186,6 +188,7 @@
     <Content Include="Views\Categories\Index.cshtml" />
     <Content Include="Views\Categories\CreateCategory.cshtml" />
     <Content Include="Views\Categories\EditCategory.cshtml" />
+    <Content Include="Views\UnitTypes\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
