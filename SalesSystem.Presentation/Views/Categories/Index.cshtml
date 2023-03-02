@@ -46,9 +46,14 @@
                                 <span class="glyphicon glyphicon-pencil"></span>
                             </a>
 
-                            <button form="DeleteProduct-@(category.Id)" class="btn btn-danger">
+                            <button form="DeleteCategory-@(category.Id)" class="btn btn-danger">
                                 <span class="glyphicon glyphicon-trash"></span>
                             </button>
+                            @using (Html.BeginForm("DeleteCategory", "Categories", FormMethod.Post,
+                                new { id = "DeleteCategory-" + category.Id, @class = "delete-category-button" }))
+                            {
+                                @Html.Hidden("Id", category.Id)
+                            }
                         </td>
                     </tr>
                 }
@@ -56,3 +61,38 @@
         </table>
     </div>
 </div>
+
+@section scripts {
+    @Styles.Render("~/Content/jquery-confirm")
+    @Scripts.Render("~/bundles/jquery-confirm")
+
+    <script>
+
+        // Confirm category deletion.
+        $(".delete-category-button").on('submit', function (e) {
+            e.preventDefault();
+
+            $.confirm({
+                icon: 'glyphicon glyphicon-trash',
+                title: '¿Está seguro?',
+                content: 'Una vez borrada la categoría, no podrá recuperarla.',
+                type: 'red',
+                buttons: {
+                    confirm: {
+                        text: 'Si, borrar',
+                        btnClass: 'btn btn-danger',
+                        action: function () {
+                            e.currentTarget.submit();
+                        }
+                    },
+                    cancel: {
+                        text: 'Cancelar',
+                        btnClass: 'btn btn-default',
+                    }
+                },
+                closeIcon: true,
+            })
+        });
+
+    </script>
+}

@@ -1,4 +1,5 @@
-﻿using SalesSystem.Business.Services;
+﻿using SalesSystem.Business.Exceptions;
+using SalesSystem.Business.Services;
 using SalesSystem.DataAccess.Data;
 using SalesSystem.Presentation.Models.ViewModels.Categories;
 using System.Linq;
@@ -55,6 +56,23 @@ namespace SalesSystem.Presentation.Controllers
             _categoriesService.CreateCategory(category);
 
             TempData["success"] = "La categoría ha sido creada exitosamente.";
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public ActionResult DeleteCategory(int id)
+        {
+            try
+            {
+                _categoriesService.DeleteCategory(id);
+
+                TempData["success"] = "La categoría ha sido borrada exitosamente.";
+            }
+            catch(BusinessException exception)
+            {
+                TempData["error"] = exception.Message;
+            }
 
             return RedirectToAction("Index");
         }
