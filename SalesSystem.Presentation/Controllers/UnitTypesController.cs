@@ -1,4 +1,5 @@
-﻿using SalesSystem.Business.Services;
+﻿using SalesSystem.Business.Exceptions;
+using SalesSystem.Business.Services;
 using SalesSystem.DataAccess.Data;
 using SalesSystem.Presentation.Models.ViewModels.UnitTypes;
 using System.Linq;
@@ -83,23 +84,48 @@ namespace SalesSystem.Presentation.Controllers
         [HttpPost]
         public ActionResult EditUnitType(EditUnitTypeViewModel viewModel)
         {
-            if (!ModelState.IsValid)
+            try
             {
-                TempData["error"] = "Error. Por favor, revise que todos los campos sean válidos.";
+                if (!ModelState.IsValid)
+                {
+                    TempData["error"] = "Error. Por favor, revise que todos los campos sean válidos.";
 
-                return View(viewModel);
+                    return View(viewModel);
+                }
+
+                var unitType = new UnitTypes()
+                {
+                    Id = viewModel.Id,
+                    Name = viewModel.Name,
+                    Description = viewModel.Description
+                };
+
+                _unitTypesService.EditUnitType(unitType);
+
+                TempData["success"] = "La unidad de medida fue editada exitosamente.";
+            }
+            catch (BusinessException exception)
+            {
+                TempData["error"] = exception.Message;
             }
 
-            var unitType = new UnitTypes()
+            return RedirectToAction("Index");
+        }
+
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public ActionResult DeleteUnitType(int id = 0)
+        {
+            try
             {
-                Id = viewModel.Id,
-                Name = viewModel.Name,
-                Description = viewModel.Description
-            };
+                _unitTypesService.DeleteUnitType(id);
 
-            _unitTypesService.EditUnitType(unitType);
-
-            TempData["success"] = "La unidad de medida fue editada exitosamente.";
+                TempData["success"] = "La unidad de medida fue borrada exitosamente.";
+            }
+            catch (BusinessException exception)
+            {
+                TempData["error"] = exception.Message;
+            }
 
             return RedirectToAction("Index");
         }

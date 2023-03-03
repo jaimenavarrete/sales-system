@@ -49,5 +49,25 @@ namespace SalesSystem.Business.Services
 
             _context.SaveChanges();
         }
+
+        public void DeleteUnitType(int id)
+        {
+            var unitType = _context.UnitTypes.Find(id);
+
+            if (unitType is null)
+            {
+                throw new BusinessException("La unidad de medida que intenta borrar, no existe.");
+            }
+
+            var hasProducts = _context.Products.Any(product => product.UnitTypeId == id);
+
+            if(hasProducts)
+            {
+                throw new BusinessException("La unidad de medida no se puede borrar, porque está siendo utilizada en uno o más productos.");
+            }
+
+            _context.UnitTypes.Remove(unitType);
+            _context.SaveChanges();
+        }
     }
 }

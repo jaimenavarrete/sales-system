@@ -46,9 +46,15 @@
                                 <span class="glyphicon glyphicon-pencil"></span>
                             </a>
 
-                            <button form="DeleteCategory-@(unitType.Id)" class="btn btn-danger">
+                            <button form="DeleteUnitType-@(unitType.Id)" class="btn btn-danger">
                                 <span class="glyphicon glyphicon-trash"></span>
                             </button>
+                            @using (Html.BeginForm("DeleteUnitType", "UnitTypes", FormMethod.Post,
+                                new { id = "DeleteUnitType-" + unitType.Id, @class = "delete-unit-type-button" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                @Html.Hidden("Id", unitType.Id)
+                            }
                         </td>
                     </tr>
                 }
@@ -56,3 +62,38 @@
         </table>
     </div>
 </div>
+
+@section scripts {
+    @Styles.Render("~/Content/jquery-confirm")
+    @Scripts.Render("~/bundles/jquery-confirm")
+
+    <script>
+
+        // Confirm unit deletion.
+        $(".delete-unit-type-button").on('submit', function (e) {
+            e.preventDefault();
+
+            $.confirm({
+                icon: 'glyphicon glyphicon-trash',
+                title: '¿Está seguro?',
+                content: 'Una vez borrada la unidad de medida, no podrá recuperarla.',
+                type: 'red',
+                buttons: {
+                    confirm: {
+                        text: 'Si, borrar',
+                        btnClass: 'btn btn-danger',
+                        action: function () {
+                            e.currentTarget.submit();
+                        }
+                    },
+                    cancel: {
+                        text: 'Cancelar',
+                        btnClass: 'btn btn-default',
+                    }
+                },
+                closeIcon: true,
+            })
+        });
+
+    </script>
+}
