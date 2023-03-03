@@ -137,6 +137,7 @@
     <Compile Include="Models\ViewModels\Categories\CategoryViewModel.cs" />
     <Compile Include="Models\ViewModels\Categories\CreateCategoryViewModel.cs" />
     <Compile Include="Models\ViewModels\Categories\EditCategoryViewModel.cs" />
+    <Compile Include="Models\ViewModels\UnitTypes\CreateUnitTypeViewModel.cs" />
     <Compile Include="Models\ViewModels\UnitTypes\UnitTypeViewModel.cs" />
     <Compile Include="Models\ViewModels\Products\CreateProductViewModel.cs" />
     <Compile Include="Models\ViewModels\Products\EditProductViewModel.cs" />
@@ -189,6 +190,7 @@
     <Content Include="Views\Categories\CreateCategory.cshtml" />
     <Content Include="Views\Categories\EditCategory.cshtml" />
     <Content Include="Views\UnitTypes\Index.cshtml" />
+    <Content Include="Views\UnitTypes\CreateUnitType.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

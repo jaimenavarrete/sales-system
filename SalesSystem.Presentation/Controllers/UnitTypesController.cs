@@ -29,5 +29,10 @@ namespace SalesSystem.Presentation.Controllers
 
             return View(viewModel);
         }
+
+        public ActionResult CreateUnitType()
+        {
+            return View();
+        }
     }
 }
