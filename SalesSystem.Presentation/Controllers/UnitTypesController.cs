@@ -58,5 +58,25 @@ namespace SalesSystem.Presentation.Controllers
 
             return RedirectToAction("Index");
         }
+
+        public ActionResult EditUnitType(int id = 0)
+        {
+            var unitType = _unitTypesService.GetUnitTypeById(id);
+
+            if(unitType is null)
+            {
+                TempData["error"] = "La unidad de medida que ha seleccionado no existe.";
+                return RedirectToAction("Index");
+            }
+
+            var viewModel = new EditUnitTypeViewModel()
+            {
+                Id = id,
+                Name = unitType.Name,
+                Description = unitType.Description
+            };
+
+            return View(viewModel);
+        }
     }
 }

@@ -16,6 +16,13 @@ namespace SalesSystem.Business.Services
             return unitTypes;
         }
 
+        public UnitTypes GetUnitTypeById(int id)
+        {
+            var unitType = _context.UnitTypes.Find(id);
+
+            return unitType;
+        }
+
         public void CreateUnitType(UnitTypes unitType)
         {
             unitType.Created = DateTime.UtcNow;
