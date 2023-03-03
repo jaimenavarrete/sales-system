@@ -1,4 +1,5 @@
 ﻿using SalesSystem.DataAccess.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -13,6 +14,15 @@ namespace SalesSystem.Business.Services
             var unitTypes = _context.UnitTypes.ToList();
 
             return unitTypes;
+        }
+
+        public void CreateUnitType(UnitTypes unitType)
+        {
+            unitType.Created = DateTime.UtcNow;
+            unitType.CreatedBy = Guid.NewGuid().ToString();
+
+            _context.UnitTypes.Add(unitType);
+            _context.SaveChanges();
         }
     }
 }

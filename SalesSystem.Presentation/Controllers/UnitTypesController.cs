@@ -34,5 +34,29 @@ namespace SalesSystem.Presentation.Controllers
         {
             return View();
         }
+
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public ActionResult CreateUnitType(CreateUnitTypeViewModel viewModel)
+        {
+            if(!ModelState.IsValid)
+            {
+                TempData["error"] = "Error. Por favor, revise que todos los campos sean válidos.";
+
+                return View(viewModel);
+            }
+
+            var unitType = new UnitTypes()
+            {
+                Name = viewModel.Name,
+                Description = viewModel.Description
+            };
+
+            _unitTypesService.CreateUnitType(unitType);
+
+            TempData["success"] = "La unidad de medida fue creada exitosamente.";
+
+            return RedirectToAction("Index");
+        }
     }
 }
