@@ -1,4 +1,5 @@
-﻿using SalesSystem.DataAccess.Data;
+﻿using SalesSystem.Business.Exceptions;
+using SalesSystem.DataAccess.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,6 +30,23 @@ namespace SalesSystem.Business.Services
             unitType.CreatedBy = Guid.NewGuid().ToString();
 
             _context.UnitTypes.Add(unitType);
+            _context.SaveChanges();
+        }
+
+        public void EditUnitType(UnitTypes unitTypes)
+        {
+            var currentUnitType = _context.UnitTypes.Find(unitTypes.Id);
+
+            if(currentUnitType is null)
+            {
+                throw new BusinessException("La unidad de medida que intenta editar, no existe.");
+            }
+
+            currentUnitType.Name = unitTypes.Name;
+            currentUnitType.Description = unitTypes.Description;
+            currentUnitType.Modified = DateTime.UtcNow;
+            currentUnitType.ModifiedBy = Guid.NewGuid().ToString();
+
             _context.SaveChanges();
         }
     }

@@ -26,6 +26,7 @@
         {
             @Html.AntiForgeryToken()
             @Html.HiddenFor(m => m.Id)
+            @Html.ValidationMessageFor(m => m.Id, null, new { @class = "text-danger" })
 
             <div class="form-group">
                 @Html.LabelFor(m => m.Name)

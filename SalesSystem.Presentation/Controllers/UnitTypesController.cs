@@ -78,5 +78,30 @@ namespace SalesSystem.Presentation.Controllers
 
             return View(viewModel);
         }
+
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public ActionResult EditUnitType(EditUnitTypeViewModel viewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                TempData["error"] = "Error. Por favor, revise que todos los campos sean válidos.";
+
+                return View(viewModel);
+            }
+
+            var unitType = new UnitTypes()
+            {
+                Id = viewModel.Id,
+                Name = viewModel.Name,
+                Description = viewModel.Description
+            };
+
+            _unitTypesService.EditUnitType(unitType);
+
+            TempData["success"] = "La unidad de medida fue editada exitosamente.";
+
+            return RedirectToAction("Index");
+        }
     }
 }
