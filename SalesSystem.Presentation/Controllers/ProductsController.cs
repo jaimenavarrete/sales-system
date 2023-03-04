@@ -10,6 +10,8 @@ namespace SalesSystem.Presentation.Controllers
     public class ProductsController : Controller
     {
         private readonly ProductsService _productsService = new ProductsService();
+        private readonly CategoriesService _categoriesService = new CategoriesService();
+        private readonly UnitTypesService _unitTypesService = new UnitTypesService();
 
         // GET: Products
         [HttpGet]
@@ -151,16 +153,44 @@ namespace SalesSystem.Presentation.Controllers
             return RedirectToAction("Index");
         }
 
-        private List<SelectListItem> GetCategories() => new List<SelectListItem>() {
-            new SelectListItem { Text = "Seleccionar categoría", Value = ""},
-            new SelectListItem { Text = "Categoría 1", Value = "2" },
-            new SelectListItem { Text = "Categoría 2", Value = "3" }
-        };
+        private List<SelectListItem> GetCategories()
+        {
+            var categories = _categoriesService.GetCategories();
 
-        private List<SelectListItem> GetUnitTypes() => new List<SelectListItem>() {
-            new SelectListItem { Text = "Seleccionar tipo de medida", Value = ""},
-            new SelectListItem { Text = "Pieza", Value = "2" },
-            new SelectListItem { Text = "Litro", Value = "4" }
-        };
+            var categoriesSelectList = categories
+                .Select(category => new SelectListItem
+                {
+                    Value = category.Id.ToString(),
+                    Text = category.Name
+                })
+                .Prepend(new SelectListItem
+                {
+                    Value = "",
+                    Text = "Seleccionar categoria"
+                })
+                .ToList();
+
+            return categoriesSelectList;
+        }
+
+        private List<SelectListItem> GetUnitTypes()
+        {
+            var unitTypes = _unitTypesService.GetUnitTypes();
+
+            var unitTypesSelectList = unitTypes
+                .Select(unitType => new SelectListItem
+                {
+                    Value = unitType.Id.ToString(),
+                    Text = unitType.Name
+                })
+                .Prepend(new SelectListItem
+                {
+                    Value = "",
+                    Text = "Seleccionar unidad de medida"
+                })
+                .ToList();
+
+            return unitTypesSelectList;
+        }
     }
 }
