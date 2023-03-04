@@ -30,8 +30,55 @@
     }
 }
 
-/***** PAGE TITLES *****/
+/***** INPUT FILE - PHOTO *****/
 
+.input-photo-container input[type='file'] {
+    display: none;
+}
+
+.input-photo-container label {
+    background-color: #2E3F4F;
+    border-radius: 5px;
+    color: #FFF;
+    cursor: pointer;
+    display: block;
+    margin: auto;
+    padding: 10px 0;
+    text-align: center;
+    width: 400px;
+}
+
+.input-photo-container label:hover {
+    background-color: #1D2730;
+}
+
+.photo-container {
+    margin: 0 auto 10px auto;
+}
+
+.photo-container img {
+    border: 2px dashed #DDE4EC;
+    border-radius: 5px;
+    display: block;
+    margin: auto;
+    max-height: 350px;
+    max-width: 400px;
+    min-height: 100px;
+    position: relative;
+    width: 100%;
+}
+
+.photo-container img::before {
+    content: 'Sin foto';
+    color: #BECBDA;
+    font-weight: bold;
+    left: 50%;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/***** PAGE TITLES *****/
 .container .page-title {
     display: flex;
     justify-content: space-between;
