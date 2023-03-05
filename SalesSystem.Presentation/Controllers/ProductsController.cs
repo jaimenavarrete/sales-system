@@ -2,7 +2,9 @@
 using SalesSystem.DataAccess.Data;
 using SalesSystem.Presentation.Models.ViewModels.Products;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 
 namespace SalesSystem.Presentation.Controllers
@@ -75,7 +77,9 @@ namespace SalesSystem.Presentation.Controllers
                 CategoryId = viewModel.CategoryId
             };
 
-            _productsService.CreateProduct(product);
+            var productPhotoBytes = ConvertPhotoToBytes(viewModel.Photo);
+
+            _productsService.CreateProduct(product, productPhotoBytes);
 
             TempData["success"] = "El producto ha sido creado exitosamente.";
 
@@ -191,6 +195,19 @@ namespace SalesSystem.Presentation.Controllers
                 .ToList();
 
             return unitTypesSelectList;
+        }
+
+        private byte[] ConvertPhotoToBytes(HttpPostedFileBase photo)
+        {
+            if(photo is null)
+            {
+                return null;
+            }
+
+            BinaryReader reader = new BinaryReader(photo.InputStream);
+            byte[] photoBytes = reader.ReadBytes((int)photo.ContentLength);
+
+            return photoBytes;
         }
     }
 }

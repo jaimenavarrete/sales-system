@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Web;
 using System.Web.Mvc;
 
 namespace SalesSystem.Presentation.Models.ViewModels.Products
@@ -36,7 +37,6 @@ namespace SalesSystem.Presentation.Models.ViewModels.Products
 
         public IEnumerable<SelectListItem> CategoriesList { get; set; }
 
-        [DisplayName("Foto")]
-        public string Photo { get; set; }
+        public HttpPostedFileBase Photo { get; set; }
     }
 }

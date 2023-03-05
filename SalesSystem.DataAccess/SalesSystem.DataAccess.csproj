@@ -74,6 +74,7 @@
     <Compile Include="Data\UnitTypes.cs">
       <DependentUpon>Data.tt</DependentUpon>
     </Compile>
+    <Compile Include="Files\PhotoStorage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

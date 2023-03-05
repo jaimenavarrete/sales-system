@@ -1,4 +1,5 @@
 ﻿using SalesSystem.DataAccess.Data;
+using SalesSystem.DataAccess.Files;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +9,7 @@ namespace SalesSystem.Business.Services
     public class ProductsService
     {
         private readonly SalesSystemEntities _context = new SalesSystemEntities();
+        private readonly PhotoStorage _photoStorage = new PhotoStorage();
 
         public List<Products> GetProducts()
         {
@@ -26,8 +28,11 @@ namespace SalesSystem.Business.Services
             return product;
         }
 
-        public void CreateProduct(Products product)
+        public void CreateProduct(Products product, byte[] productPhotoBytes)
         {
+            var photoFilename = _photoStorage.SavePhotoFromBytes(productPhotoBytes);
+
+            product.PhotoUrl = photoFilename;
             product.Created = DateTime.UtcNow;
             product.CreatedBy = Guid.NewGuid().ToString();
 
