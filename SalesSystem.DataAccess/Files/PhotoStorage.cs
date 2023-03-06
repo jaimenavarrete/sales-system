@@ -14,7 +14,7 @@ namespace SalesSystem.DataAccess.Files
                 return null;
             }
 
-            var photoFilename = Guid.NewGuid().ToString() + ".jpg";
+            var photoFilename = Guid.NewGuid().ToString() + ".jpeg";
             var photoPath = Path.Combine(PhotosFolderPath, photoFilename);
 
             File.WriteAllBytes(photoPath, photoBytes);

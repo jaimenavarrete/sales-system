@@ -1,7 +1,10 @@
 ﻿using SalesSystem.Business.Services;
 using SalesSystem.DataAccess.Data;
 using SalesSystem.Presentation.Models.ViewModels.Products;
+using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -77,7 +80,7 @@ namespace SalesSystem.Presentation.Controllers
                 CategoryId = viewModel.CategoryId
             };
 
-            var productPhotoBytes = ConvertPhotoToBytes(viewModel.Photo);
+            var productPhotoBytes = ConvertPhotoToJpegBytes(viewModel.Photo);
 
             _productsService.CreateProduct(product, productPhotoBytes);
 
@@ -197,6 +200,19 @@ namespace SalesSystem.Presentation.Controllers
             return unitTypesSelectList;
         }
 
+        private byte[] ConvertPhotoToJpegBytes(HttpPostedFileBase photo)
+        {
+            var oldPhoto = new MemoryStream();
+            photo.InputStream.CopyTo(oldPhoto);
+
+            var newPhoto = new MemoryStream();
+
+            var imageStream = Image.FromStream(oldPhoto);
+            imageStream.Save(newPhoto, ImageFormat.Jpeg);
+
+            return newPhoto.ToArray();
+        }
+
         private byte[] ConvertPhotoToBytes(HttpPostedFileBase photo)
         {
             if(photo is null)
@@ -208,6 +224,19 @@ namespace SalesSystem.Presentation.Controllers
             byte[] photoBytes = reader.ReadBytes((int)photo.ContentLength);
 
             return photoBytes;
+        }
+
+        private string ConvertBytesToBase64(byte[] photoBytes)
+        {
+            if (photoBytes is null)
+            {
+                return null;
+            }
+
+            var base64String = Convert.ToBase64String(photoBytes);
+            var photoBase64 = "data:image/jpeg;base64," + base64String;
+
+            return photoBase64;
         }
     }
 }
