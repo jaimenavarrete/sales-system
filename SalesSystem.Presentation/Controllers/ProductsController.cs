@@ -100,6 +100,8 @@ namespace SalesSystem.Presentation.Controllers
                 return RedirectToAction("Index");
             }
 
+            var productPhotoBytes = _productsService.GetProductPhotoBytesByFileName(product.PhotoUrl);
+
             var viewModel = new EditProductViewModel()
             {
                 Id = product.Id,
@@ -109,6 +111,7 @@ namespace SalesSystem.Presentation.Controllers
                 Price = product.Price,
                 UnitTypeId = product.UnitTypeId,
                 CategoryId = product.CategoryId,
+                PhotoBase64 = ConvertBytesToBase64(productPhotoBytes),
 
                 CategoriesList = GetCategories(),
                 UnitTypesList = GetUnitTypes()

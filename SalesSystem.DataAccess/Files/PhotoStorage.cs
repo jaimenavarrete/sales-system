@@ -21,5 +21,24 @@ namespace SalesSystem.DataAccess.Files
 
             return photoFilename;
         }
+
+        public byte[] GetPhotoBytesByFileName(string photoFilename)
+        {
+            if (photoFilename is null)
+            {
+                return null;
+            }
+
+            var photoPath = Path.Combine(PhotosFolderPath, photoFilename);
+
+            if(!File.Exists(photoPath))
+            {
+                return null;
+            }
+
+            var photoBytes = File.ReadAllBytes(photoPath);
+
+            return photoBytes;
+        }
     }
 }

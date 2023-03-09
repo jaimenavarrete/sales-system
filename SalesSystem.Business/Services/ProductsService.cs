@@ -28,6 +28,13 @@ namespace SalesSystem.Business.Services
             return product;
         }
 
+        public byte[] GetProductPhotoBytesByFileName(string photoFileName)
+        {
+            var photoBytes = _photoStorage.GetPhotoBytesByFileName(photoFileName);
+
+            return photoBytes;
+        }
+
         public void CreateProduct(Products product, byte[] productPhotoBytes)
         {
             var photoFilename = _photoStorage.SavePhotoFromBytes(productPhotoBytes);

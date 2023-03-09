@@ -6,5 +6,7 @@ namespace SalesSystem.Presentation.Models.ViewModels.Products
     {
         [Required(ErrorMessage = "Hubo un error con el producto que está modificando. Por favor, refresque la página")]
         public int Id { get; set; }
+
+        public string PhotoBase64 { get; set; }
     }
 }
