@@ -40,5 +40,22 @@ namespace SalesSystem.DataAccess.Files
 
             return photoBytes;
         }
+
+        public void DeletePhotoByFileName(string photoFilename)
+        {
+            if (photoFilename is null)
+            {
+                return;
+            }
+
+            var photoPath = Path.Combine(PhotosFolderPath, photoFilename);
+
+            if (!File.Exists(photoPath))
+            {
+                return;
+            }
+
+            File.Delete(photoPath);
+        }
     }
 }

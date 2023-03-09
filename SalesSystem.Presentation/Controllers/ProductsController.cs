@@ -142,10 +142,12 @@ namespace SalesSystem.Presentation.Controllers
                 Stock = viewModel.Stock,
                 Price = viewModel.Price,
                 UnitTypeId = viewModel.UnitTypeId,
-                CategoryId = viewModel.CategoryId
+                CategoryId = viewModel.CategoryId,
             };
 
-            _productsService.EditProduct(product);
+            var productPhotoBytes = ConvertPhotoToJpegBytes(viewModel.Photo);
+
+            _productsService.EditProduct(product, productPhotoBytes);
 
             TempData["success"] = "El producto ha sido editado exitosamente.";
 
@@ -205,6 +207,11 @@ namespace SalesSystem.Presentation.Controllers
 
         private byte[] ConvertPhotoToJpegBytes(HttpPostedFileBase photo)
         {
+            if (photo is null)
+            {
+                return null;
+            }
+
             var oldPhoto = new MemoryStream();
             photo.InputStream.CopyTo(oldPhoto);
 

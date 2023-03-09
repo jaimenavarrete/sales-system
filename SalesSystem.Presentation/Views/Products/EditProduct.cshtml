@@ -22,7 +22,7 @@
         <h3 class="panel-title">Información de producto</h3>
     </div>
     <div class="panel-body">
-        @using (Html.BeginForm("EditProduct", "Products", FormMethod.Post, new { id = "EditProductForm" }))
+        @using (Html.BeginForm("EditProduct", "Products", FormMethod.Post, new { id = "EditProductForm", enctype = "multipart/form-data" }))
         {
             @Html.AntiForgeryToken()
             @Html.HiddenFor(m => m.Id)
@@ -30,6 +30,8 @@
 
             <div class="form-group input-photo-container">
                 <figure class="photo-container">
+                    @* Just for visualization of the product photo. *@
+                    @Html.HiddenFor(m => m.PhotoBase64)
                     <img id="chosen-photo" src="@(Model.PhotoBase64 ?? "")" />
                 </figure>
                 <label for="upload-photo-button">

@@ -47,9 +47,17 @@ namespace SalesSystem.Business.Services
             _context.SaveChanges();
         }
 
-        public void EditProduct(Products product)
+        public void EditProduct(Products product, byte[] productPhotoBytes)
         {
             var currentProduct = GetProductById(product.Id);
+
+            if(productPhotoBytes is object)
+            {
+                _photoStorage.DeletePhotoByFileName(currentProduct.PhotoUrl);
+
+                var photoFileName = _photoStorage.SavePhotoFromBytes(productPhotoBytes);
+                currentProduct.PhotoUrl = photoFileName;
+            }
 
             currentProduct.Name = product.Name;
             currentProduct.Description = product.Description;
