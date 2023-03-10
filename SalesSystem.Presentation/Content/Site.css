@@ -32,12 +32,30 @@
 
 /***** VIEW DETAILS *****/
 
+.view-details-modal .product-name {
+    color: #39BC9D;
+    font-weight: bold;
+    font-size: 25px;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
 .view-details-modal .dl-horizontal {
     font-size: 16px;
+    margin-bottom: 0;
 }
 
 .view-details-modal .dl-horizontal dd {
     margin-bottom: 15px;
+}
+
+.view-details-modal .stock-details {
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.view-details-modal .stock-details dd {
+    color: #2E3F4F;
 }
 
 /* View details photo */
@@ -48,8 +66,8 @@
 }
 
 .view-details-photo-container img {
-    max-height: 300px;
-    max-width: 350px;
+    max-height: 250px;
+    max-width: 300px;
     width: 100%;
 }
 

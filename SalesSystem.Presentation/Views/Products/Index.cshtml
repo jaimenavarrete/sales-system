@@ -48,9 +48,9 @@
                         <td>@product.CategoryName</td>
                         <td>@product.Created</td>
                         <td class="btn-group action-buttons" role="group" aria-label="Action buttons">
-                            <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#viewDetailsModal">
+                            <button class="btn btn-primary" data-toggle="modal" data-target="#viewDetailsModal" onclick="addProductDetails(@product.Id)">
                                 <span class="glyphicon glyphicon-eye-open"></span>
-                            </a>
+                            </button>
                             <a href="@Url.Action("EditProduct", "Products", new { id = product.Id })" class="btn btn-warning">
                                 <span class="glyphicon glyphicon-pencil"></span>
                             </a>
@@ -105,40 +105,40 @@
                 </h4>
             </div>
             <div class="modal-body view-details-modal">
+                <p class="product-name"><span id="product-id"></span> - <span id="product-name"></span></p>
                 <figure class="view-details-photo-container">
-                    <img class="img-rounded" src="@Url.Content("~/Content/098daf82-5e90-4117-94fe-0017181beab9.jpg")" />
+                    <img id="product-photo" class="img-rounded" src="" />
                 </figure>
                 <hr />
                 <dl class="dl-horizontal">
-                    <dt>Nombre:</dt>
-                    <dd>Producto 1</dd>
-
                     <dt>Descripción:</dt>
-                    <dd>Esta es una descripción del producto 1 y ayudará a comprobar el espacio que existe entre los elementos de esta lista</dd>
+                    <dd id="product-description"></dd>
 
                     <dt>Unidad de medida:</dt>
-                    <dd>Unidad de medida 1</dd>
-
-                    <dt>Existencias:</dt>
-                    <dd>100</dd>
-
-                    <dt>Precio unidad:</dt>
-                    <dd>$10</dd>
-
-                    <dt>Valor total:</dt>
-                    <dd>$1000</dd>
+                    <dd id="product-unit-type" ></dd>
 
                     <dt>Categoría:</dt>
-                    <dd>Categoría 1</dd>
+                    <dd id="product-category"></dd>
 
                     <dt>Creado:</dt>
-                    <dd>10/3/2023 00:33:30</dd>
+                    <dd id="product-created"></dd>
+                </dl>
+                <hr />
+                <dl class="dl-horizontal stock-details">
+                    <dt>Existencias:</dt>
+                    <dd id="product-stock"></dd>
+
+                    <dt>Precio unidad:</dt>
+                    <dd id="product-price"></dd>
+
+                    <dt>Valor total:</dt>
+                    <dd id="product-total"></dd>
                 </dl>
             </div>
-            <div class="modal-footer">
-                <button class="btn btn-warning">
+            <div class="modal-footer text-center">
+                <a href="#" id="edit-product-url" class="btn btn-warning">
                     <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Editar
-                </button>
+                </a>
                 <button type="reset" class="btn btn-default" data-dismiss="modal">Cerrar</button>
             </div>
         </div>
@@ -149,7 +149,7 @@
     @Styles.Render("~/Content/jquery-confirm")
     @Scripts.Render("~/bundles/jquery-confirm")
 
-    <script>
+<script>
 
         // Confirm product deletion.
         $(".delete-product-button").on('submit', function (e) {
@@ -177,5 +177,45 @@
             })
         });
 
-    </script>
+        // Add product details in modal
+        function addProductDetails(id) {
+            var url = "@Url.Action("GetProductById", "Data")";
+            var defaultPhotoUrl = "@Url.Content("~/Content/images/image-not-found.png")";
+
+            $.ajax({
+                url,
+                data: { id},
+                type: 'GET',
+                dataType: 'json',
+
+                success: function (data) {
+                    $("#product-id").text(data.Id)
+                    $('#product-name').text(data.Name);
+                    $('#product-photo').attr('src', data.PhotoUrl);
+
+                    if (!data.PhotoUrl) {
+                        $('#product-photo').attr('src', defaultPhotoUrl);
+                    }
+
+                    $('#product-description').text(data.Description);
+                    $('#product-unit-type').text(data.UnitTypeName);
+                    $('#product-category').text(data.CategoryName);
+
+                    var date = new Date(data.Created)
+                    $('#product-created').text(data.Created);
+
+                    $('#product-stock').text(data.Stock);
+                    $('#product-price').text('$' + data.Price);
+                    $('#product-total').text('$' + data.Total);
+
+                    $('#edit-product-url').attr('href', "@Url.Action("EditProduct", "Products")/" + id)
+                },
+
+                error: function (xhr, status) {
+                    alert("Error");
+                }
+            })
+        }
+
+</script>
 }
