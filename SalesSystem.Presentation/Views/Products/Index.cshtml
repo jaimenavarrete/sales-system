@@ -74,13 +74,23 @@
 
 <nav class="pagination-container">
     <ul class="pagination">
-        <li class="disabled"><a href="#">&laquo;</a></li>
-        <li class="active"><a href="#">1</a></li>
-        <li><a href="#">2</a></li>
-        <li><a href="#">3</a></li>
-        <li><a href="#">4</a></li>
-        <li><a href="#">5</a></li>
-        <li><a href="#">&raquo;</a></li>
+        <li class="@(Model.CurrentPage == 1 ? "disabled" : "")">
+            <a href="@Url.Action("Index", "Products", new { page = 1 })">&laquo;</a>
+        </li>
+
+        @for (int position = Model.CurrentPage - 2; position <= Model.CurrentPage + 2; position++)
+        {
+            if (position > 0 && position <= Model.TotalPages)
+            {
+                <li class="@(Model.CurrentPage == position ? "active" : "")">
+                    <a href="@Url.Action("Index", "Products", new { page = position })">@position</a>
+                </li>
+            }
+        }
+
+        <li class="@(Model.IsLastPage == true ? "disabled" : "")">
+            <a href="@Url.Action("Index", "Products", new { page = Model.TotalPages })">&raquo;</a>
+        </li>
     </ul>
 </nav>
 

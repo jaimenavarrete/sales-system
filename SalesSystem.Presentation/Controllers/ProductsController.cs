@@ -21,7 +21,7 @@ namespace SalesSystem.Presentation.Controllers
 
         // GET: Products
         [HttpGet]
-        public ActionResult Index()
+        public ActionResult Index(int page = 1)
         {
             var products = _productsService.GetProducts();
 
@@ -43,6 +43,7 @@ namespace SalesSystem.Presentation.Controllers
                 .ToList();
 
             var paginatedList = new PaginatedList<ProductViewModel>(productsViewModel);
+            paginatedList.CurrentPage = page;
 
             return View(paginatedList);
         }
