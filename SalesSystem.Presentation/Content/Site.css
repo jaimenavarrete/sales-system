@@ -94,6 +94,12 @@
     padding: 7px 10px;
 }
 
+/***** PAGINATION *****/
+.pagination-container {
+    text-align: center;
+}
+
+
 /***** FOOTER *****/
 
 .footer {

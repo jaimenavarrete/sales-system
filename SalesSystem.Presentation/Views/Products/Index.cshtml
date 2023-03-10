@@ -1,4 +1,4 @@
-﻿@model List<ProductViewModel>
+﻿@model PaginatedList<ProductViewModel>
 @{
     ViewBag.Title = "Productos";
 }
@@ -36,7 +36,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var product in Model)
+                @foreach (var product in Model.PageItems)
                 {
                     <tr>
                         <td>@product.Id</td>
@@ -58,7 +58,7 @@
                             <button form="DeleteProduct-@(product.Id)" class="btn btn-danger">
                                 <span class="glyphicon glyphicon-trash"></span>
                             </button>
-                            @using (Html.BeginForm("DeleteProduct", "Products", FormMethod.Post, 
+                            @using (Html.BeginForm("DeleteProduct", "Products", FormMethod.Post,
                                 new { id = "DeleteProduct-" + product.Id, @class = "delete-product-button" }))
                             {
                                 @Html.AntiForgeryToken()
@@ -71,6 +71,18 @@
         </table>
     </div>
 </div>
+
+<nav class="pagination-container">
+    <ul class="pagination">
+        <li class="disabled"><a href="#">&laquo;</a></li>
+        <li class="active"><a href="#">1</a></li>
+        <li><a href="#">2</a></li>
+        <li><a href="#">3</a></li>
+        <li><a href="#">4</a></li>
+        <li><a href="#">5</a></li>
+        <li><a href="#">&raquo;</a></li>
+    </ul>
+</nav>
 
 @section scripts {
     @Styles.Render("~/Content/jquery-confirm")

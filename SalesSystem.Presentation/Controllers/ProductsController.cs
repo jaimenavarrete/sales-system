@@ -1,5 +1,6 @@
 ﻿using SalesSystem.Business.Services;
 using SalesSystem.DataAccess.Data;
+using SalesSystem.Presentation.Models.CustomModels;
 using SalesSystem.Presentation.Models.ViewModels.Products;
 using System;
 using System.Collections.Generic;
@@ -41,7 +42,9 @@ namespace SalesSystem.Presentation.Controllers
                 })
                 .ToList();
 
-            return View(productsViewModel);
+            var paginatedList = new PaginatedList<ProductViewModel>(productsViewModel);
+
+            return View(paginatedList);
         }
 
         [HttpGet]
