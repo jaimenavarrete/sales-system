@@ -30,6 +30,29 @@
     }
 }
 
+/***** VIEW DETAILS *****/
+
+.view-details-modal .dl-horizontal {
+    font-size: 16px;
+}
+
+.view-details-modal .dl-horizontal dd {
+    margin-bottom: 15px;
+}
+
+/* View details photo */
+
+.view-details-photo-container {
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+.view-details-photo-container img {
+    max-height: 300px;
+    max-width: 350px;
+    width: 100%;
+}
+
 /***** INPUT FILE - PHOTO *****/
 
 .input-photo-container input[type='file'] {

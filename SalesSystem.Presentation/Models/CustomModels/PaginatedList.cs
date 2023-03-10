@@ -18,6 +18,11 @@ namespace SalesSystem.Presentation.Models.CustomModels
         {
             get
             {
+                if(Items.Count == 0)
+                {
+                    return Items;
+                }
+
                 var currentPageItemsCount = IsLastPage ? TotalItems - StartPosition + 1 : ItemsPerPage;
                 var paginatedItems = Items.GetRange(StartPosition - 1, currentPageItemsCount);
 
