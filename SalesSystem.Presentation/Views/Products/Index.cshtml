@@ -98,7 +98,7 @@
 <div class="modal fade" id="viewDetailsModal">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header bg-primary text-white">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title">
                     <span class="glyphicon glyphicon-list-alt"></span> Detalles del producto
@@ -201,8 +201,10 @@
                     $('#product-unit-type').text(data.UnitTypeName);
                     $('#product-category').text(data.CategoryName);
 
-                    var date = new Date(data.Created)
-                    $('#product-created').text(data.Created);
+                    // Transform date to ISO Format
+                    var dateMilliseconds = data.Created.match(/\d+/);
+                    var date = new Date(parseInt(dateMilliseconds));
+                    $('#product-created').text(date.toISOString());
 
                     $('#product-stock').text(data.Stock);
                     $('#product-price').text('$' + data.Price);
