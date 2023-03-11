@@ -1,9 +1,6 @@
 ﻿using SalesSystem.Business.Services;
 using SalesSystem.Presentation.Models.ViewModels.Products;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+using SalesSystem.Presentation.Utilities;
 using System.Web.Mvc;
 
 namespace SalesSystem.Presentation.Controllers
@@ -21,6 +18,8 @@ namespace SalesSystem.Presentation.Controllers
                 return null;
             }
 
+            var productPhotoBytes = _productsService.GetProductPhotoBytesByFileName(product.PhotoUrl);
+
             var productViewModel = new ProductViewModel()
             {
                 Id = product.Id,
@@ -30,7 +29,8 @@ namespace SalesSystem.Presentation.Controllers
                 Price = product.Price,
                 UnitTypeName = product.UnitTypes.Name,
                 CategoryName = product.Categories.Name,
-                Created = product.Created,
+                PhotoBase64 = PhotoUtilities.ConvertBytesToBase64(productPhotoBytes),
+                Created = product.Created
             };
 
             return Json(productViewModel, JsonRequestBehavior.AllowGet);

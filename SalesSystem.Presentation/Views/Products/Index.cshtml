@@ -193,9 +193,9 @@
                 success: function (data) {
                     $("#product-id").text(data.Id)
                     $('#product-name').text(data.Name);
-                    $('#product-photo').attr('src', data.PhotoUrl);
+                    $('#product-photo').attr('src', data.PhotoBase64);
 
-                    if (!data.PhotoUrl) {
+                    if (!data.PhotoBase64) {
                         $('#product-photo').attr('src', defaultPhotoUrl);
                     }
 

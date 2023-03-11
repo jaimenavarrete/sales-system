@@ -2,13 +2,9 @@
 using SalesSystem.DataAccess.Data;
 using SalesSystem.Presentation.Models.CustomModels;
 using SalesSystem.Presentation.Models.ViewModels.Products;
-using System;
+using SalesSystem.Presentation.Utilities;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.IO;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace SalesSystem.Presentation.Controllers
@@ -50,7 +46,7 @@ namespace SalesSystem.Presentation.Controllers
             foreach(var product in paginatedList.PageItems)
             {
                 var productPhotoBytes = _productsService.GetProductPhotoBytesByFileName(product.PhotoUrl);
-                product.PhotoBase64 = ConvertBytesToBase64(productPhotoBytes);
+                product.PhotoBase64 = PhotoUtilities.ConvertBytesToBase64(productPhotoBytes);
             }
 
             return View(paginatedList);
@@ -92,7 +88,7 @@ namespace SalesSystem.Presentation.Controllers
                 CategoryId = viewModel.CategoryId
             };
 
-            var productPhotoBytes = ConvertPhotoToJpegBytes(viewModel.Photo);
+            var productPhotoBytes = PhotoUtilities.ConvertPhotoToJpegBytes(viewModel.Photo);
 
             _productsService.CreateProduct(product, productPhotoBytes);
 
@@ -123,7 +119,7 @@ namespace SalesSystem.Presentation.Controllers
                 Price = product.Price,
                 UnitTypeId = product.UnitTypeId,
                 CategoryId = product.CategoryId,
-                PhotoBase64 = ConvertBytesToBase64(productPhotoBytes),
+                PhotoBase64 = PhotoUtilities.ConvertBytesToBase64(productPhotoBytes),
 
                 CategoriesList = GetCategories(),
                 UnitTypesList = GetUnitTypes()
@@ -157,7 +153,7 @@ namespace SalesSystem.Presentation.Controllers
                 CategoryId = viewModel.CategoryId,
             };
 
-            var productPhotoBytes = ConvertPhotoToJpegBytes(viewModel.Photo);
+            var productPhotoBytes = PhotoUtilities.ConvertPhotoToJpegBytes(viewModel.Photo);
 
             _productsService.EditProduct(product, productPhotoBytes);
 
@@ -215,50 +211,6 @@ namespace SalesSystem.Presentation.Controllers
                 .ToList();
 
             return unitTypesSelectList;
-        }
-
-        private byte[] ConvertPhotoToJpegBytes(HttpPostedFileBase photo)
-        {
-            if (photo is null)
-            {
-                return null;
-            }
-
-            var oldPhoto = new MemoryStream();
-            photo.InputStream.CopyTo(oldPhoto);
-
-            var newPhoto = new MemoryStream();
-
-            var imageStream = Image.FromStream(oldPhoto);
-            imageStream.Save(newPhoto, ImageFormat.Jpeg);
-
-            return newPhoto.ToArray();
-        }
-
-        private byte[] ConvertPhotoToBytes(HttpPostedFileBase photo)
-        {
-            if(photo is null)
-            {
-                return null;
-            }
-
-            BinaryReader reader = new BinaryReader(photo.InputStream);
-            byte[] photoBytes = reader.ReadBytes((int)photo.ContentLength);
-
-            return photoBytes;
-        }
-
-        private string ConvertBytesToBase64(byte[] photoBytes)
-        {
-            if (photoBytes is null)
-            {
-                return null;
-            }
-
-            var base64String = Convert.ToBase64String(photoBytes);
-            var photoBase64 = "data:image/jpeg;base64," + base64String;
-
-            return photoBase64;
         }
     }
 }
