@@ -25,6 +25,7 @@
             <thead>
                 <tr>
                     <th>#</th>
+                    <th>Foto</th>
                     <th>Nombre</th>
                     <th>Unidad de medida</th>
                     <th>Existencias</th>
@@ -40,6 +41,7 @@
                 {
                     <tr>
                         <td>@product.Id</td>
+                        <td><img src="@(product.PhotoBase64 ?? Url.Content("~/Content/images/image-not-found.png"))" style="width: 64px; height: 64px;" /></td>
                         <td>@product.Name</td>
                         <td>@product.UnitTypeName</td>
                         <td>@product.Stock</td>

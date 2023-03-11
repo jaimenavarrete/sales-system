@@ -22,6 +22,8 @@ namespace SalesSystem.Presentation.Models.ViewModels.Products
 
         public string PhotoUrl { get; set; }
 
+        public string PhotoBase64 { get; set; }
+
         public DateTime Created { get; set; }
 
         public string CreatedBy { get; set; }

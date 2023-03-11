@@ -26,7 +26,8 @@ namespace SalesSystem.Presentation.Controllers
             var products = _productsService.GetProducts();
 
             var productsViewModel = products
-                .Select(product => new ProductViewModel() { 
+                .Select(product => new ProductViewModel()
+                {
                     Id = product.Id,
                     Name = product.Name,
                     Description = product.Description,
@@ -44,6 +45,13 @@ namespace SalesSystem.Presentation.Controllers
 
             var paginatedList = new PaginatedList<ProductViewModel>(productsViewModel);
             paginatedList.CurrentPage = page;
+
+            // Get the photos of the current page products
+            foreach(var product in paginatedList.PageItems)
+            {
+                var productPhotoBytes = _productsService.GetProductPhotoBytesByFileName(product.PhotoUrl);
+                product.PhotoBase64 = ConvertBytesToBase64(productPhotoBytes);
+            }
 
             return View(paginatedList);
         }
