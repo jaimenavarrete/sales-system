@@ -26,7 +26,12 @@ namespace SalesSystem.DataAccess.Data
         }
     
         public virtual DbSet<Categories> Categories { get; set; }
+        public virtual DbSet<Clients> Clients { get; set; }
+        public virtual DbSet<DeliveryTypes> DeliveryTypes { get; set; }
         public virtual DbSet<Products> Products { get; set; }
+        public virtual DbSet<SaleDetails> SaleDetails { get; set; }
+        public virtual DbSet<Sales> Sales { get; set; }
+        public virtual DbSet<SaleStates> SaleStates { get; set; }
         public virtual DbSet<UnitTypes> UnitTypes { get; set; }
     }
 }

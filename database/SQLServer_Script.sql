@@ -55,3 +55,76 @@ CREATE TABLE Products (
 	FOREIGN KEY (UnitTypeId) REFERENCES UnitTypes(Id)
 );
 GO
+
+-- Clients Table
+CREATE TABLE Clients (
+	Id INT IDENTITY(1,1),
+	FirstName VARCHAR(25) NOT NULL,
+	LastName VARCHAR(25) NOT NULL,
+	Dui CHAR(10) NOT NULL,
+	Email VARCHAR(50),
+	Phone CHAR(8) NOT NULL,
+	Address VARCHAR(200) NOT NULL,
+	Debt DECIMAL(7,2) DEFAULT 0.0,
+	Created DATETIME NOT NULL,
+	CreatedBy NVARCHAR(36) NOT NULL,
+	Modified DATETIME,
+	ModifiedBy NVARCHAR(36),
+
+	PRIMARY KEY (Id)
+);
+GO
+
+-- Delivery Types Table
+CREATE TABLE DeliveryTypes (
+	Id INT IDENTITY(1,1),
+	Name NVARCHAR(50) NOT NULL,
+
+	PRIMARY KEY (Id)
+);
+GO
+
+-- Sale States Table
+CREATE TABLE SaleStates (
+	Id INT IDENTITY(1,1),
+	Name NVARCHAR(50) NOT NULL,
+
+	PRIMARY KEY (Id)
+);
+GO
+
+-- Sales Table
+CREATE TABLE Sales (
+	Id INT IDENTITY(1,1),
+	ClientId INT NOT NULL,
+	DeliveryTypeId INT NOT NULL,
+	Observation VARCHAR(1000),
+	SaleStateId INT NOT NULL,
+	SaleDate DATETIME,
+	DeliveryDate DATETIME,
+	Created DATETIME NOT NULL,
+	CreatedBy NVARCHAR(36) NOT NULL,
+	Modified DATETIME,
+	ModifiedBy NVARCHAR(36),
+
+	PRIMARY KEY (Id),
+	FOREIGN KEY (ClientId) REFERENCES Clients(Id),
+	FOREIGN KEY (DeliveryTypeId) REFERENCES DeliveryTypes(Id),
+	FOREIGN KEY (SaleStateId) REFERENCES SaleStates(Id)
+);
+GO
+
+-- Sale Details Table
+CREATE TABLE SaleDetails (
+	Id INT IDENTITY(1,1),
+	SaleId INT NOT NULL,
+	ProductId INT NOT NULL,
+	CurrentPrice DECIMAL(7,2),
+	Quantity DECIMAL(7,2),
+	Discount DECIMAL(7,2)
+
+	PRIMARY KEY (Id),
+	FOREIGN KEY (SaleId) REFERENCES Sales(Id),
+	FOREIGN KEY (ProductId) REFERENCES Products(Id)
+);
+GO

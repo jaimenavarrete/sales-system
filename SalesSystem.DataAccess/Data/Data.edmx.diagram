@@ -5,11 +5,21 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="7a5a1a78cd9c4c75877aa22a4971b9eb" Name="Diagram1">
-        <EntityTypeShape EntityType="SalesSystemModel.Categories" Width="1.5" PointX="7.5" PointY="2.5" />
-        <EntityTypeShape EntityType="SalesSystemModel.Products" Width="1.5" PointX="10.25" PointY="1.875" />
-        <EntityTypeShape EntityType="SalesSystemModel.UnitTypes" Width="1.5" PointX="13" PointY="2.375" />
-        <AssociationConnector Association="SalesSystemModel.FK_Categories_Products" />
+        <EntityTypeShape EntityType="SalesSystemModel.Categories" Width="1.5" PointX="12.25" PointY="8.125" />
+        <EntityTypeShape EntityType="SalesSystemModel.Clients" Width="1.5" PointX="0.75" PointY="7.625" />
+        <EntityTypeShape EntityType="SalesSystemModel.DeliveryTypes" Width="1.5" PointX="0.75" PointY="5.375" />
+        <EntityTypeShape EntityType="SalesSystemModel.Products" Width="1.5" PointX="9.5" PointY="3.25" />
+        <EntityTypeShape EntityType="SalesSystemModel.SaleDetails" Width="1.5" PointX="6.625" PointY="3.875" />
+        <EntityTypeShape EntityType="SalesSystemModel.Sales" Width="1.5" PointX="4" PointY="3.25" />
+        <EntityTypeShape EntityType="SalesSystemModel.SaleStates" Width="1.5" PointX="0.75" PointY="2.125" />
+        <EntityTypeShape EntityType="SalesSystemModel.UnitTypes" Width="1.5" PointX="12.375" PointY="1.5" />
+        <AssociationConnector Association="SalesSystemModel.FK_Categories_Products" ></AssociationConnector>
+        <AssociationConnector Association="SalesSystemModel.FK__Sales__ClientId__628FA481" />
+        <AssociationConnector Association="SalesSystemModel.FK__Sales__DeliveryT__4F7CD00D" />
+        <AssociationConnector Association="SalesSystemModel.FK__SaleDetai__Produ__5441852A" />
         <AssociationConnector Association="SalesSystemModel.FK_UnitTypes_Products" />
+        <AssociationConnector Association="SalesSystemModel.FK__SaleDetai__SaleI__534D60F1" />
+        <AssociationConnector Association="SalesSystemModel.FK__Sales__SaleState__5070F446" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
