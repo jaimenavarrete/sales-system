@@ -1,0 +1,68 @@
+﻿@model List<SaleViewModel>
+@{
+    ViewBag.Title = "Ventas";
+}
+
+<div class="page-title">
+    <h2><span class="glyphicon glyphicon-shopping-cart"></span> @ViewBag.Title</h2>
+    <a href="#" class="btn btn-success">
+        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Agregar venta
+    </a>
+</div>
+<ol class="breadcrumb">
+    <li>@Html.ActionLink("Inicio", "Index", "Home")</li>
+    <li class="active">@ViewBag.Title</li>
+</ol>
+
+@{ Html.RenderPartial("_ResultMessage"); }
+
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h3 class="panel-title">Ventas realizadas</h3>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Nombres</th>
+                    <th>Apellidos</th>
+                    <th>Tipo de entrega</th>
+                    <th>Estado</th>
+                    <th>Fecha de venta</th>
+                    <th>Fecha de entrega</th>
+                    <th>Cantidad de productos</th>
+                    <th>Total</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var sale in Model)
+                {
+                    <tr>
+                        <td>@sale.Id</td>
+                        <td>@sale.ClientFirstName</td>
+                        <td>@sale.ClientLastName</td>
+                        <td>@sale.DeliveryTypeName</td>
+                        <td>@sale.StateName</td>
+                        <td>@sale.SaleDate</td>
+                        <td>@sale.DeliveryDate</td>
+                        <td>@sale.ProductsQuantity</td>
+                        <td>$@sale.Total</td>
+                        <td class="btn-group action-buttons" role="group" aria-label="Action buttons">
+                            <a href="#" class="btn btn-primary">
+                                <span class="glyphicon glyphicon-eye-open"></span>
+                            </a>
+                            <a href="#" class="btn btn-warning">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                            </a>
+                            <button class="btn btn-danger">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

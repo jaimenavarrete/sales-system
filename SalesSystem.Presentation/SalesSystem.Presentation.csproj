@@ -130,6 +130,7 @@
     <Compile Include="Controllers\CategoriesController.cs" />
     <Compile Include="Controllers\DataController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\SalesController.cs" />
     <Compile Include="Controllers\UnitTypesController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Global.asax.cs">
@@ -139,6 +140,7 @@
     <Compile Include="Models\ViewModels\Categories\CategoryViewModel.cs" />
     <Compile Include="Models\ViewModels\Categories\CreateCategoryViewModel.cs" />
     <Compile Include="Models\ViewModels\Categories\EditCategoryViewModel.cs" />
+    <Compile Include="Models\ViewModels\Sales\SaleViewModel.cs" />
     <Compile Include="Models\ViewModels\UnitTypes\CreateUnitTypeViewModel.cs" />
     <Compile Include="Models\ViewModels\UnitTypes\EditUnitTypeViewModel.cs" />
     <Compile Include="Models\ViewModels\UnitTypes\UnitTypeViewModel.cs" />
@@ -195,6 +197,7 @@
     <Content Include="Views\UnitTypes\Index.cshtml" />
     <Content Include="Views\UnitTypes\CreateUnitType.cshtml" />
     <Content Include="Views\UnitTypes\EditUnitType.cshtml" />
+    <Content Include="Views\Sales\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
