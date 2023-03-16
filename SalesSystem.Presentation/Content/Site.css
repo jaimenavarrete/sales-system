@@ -29,6 +29,27 @@ span.glyphicon {
     margin-right: 5px;
 }
 
+/***** LOGO *****/
+.navbar-brand {
+    font-size: 25px;
+    padding: 0 30px 0 25px;
+    display: flex;
+    align-items: center;
+}
+
+.navbar-brand span {
+    color: #39BC9D;
+}
+
+.navbar-brand .glyphicon {
+    margin-right: 10px;
+}
+
+.navbar-brand .main-word-logo {
+    font-family: 'Archivo', sans-serif;
+    font-weight: bold;
+}
+
 /***** VIEW DETAILS *****/
 .view-details-modal .product-name {
     color: #39BC9D;
@@ -137,6 +158,16 @@ span.glyphicon {
 
 .table {
     font-size: 16px;
+}
+
+.table tr {
+    border-bottom: 1px solid #F7F7F7;
+}
+
+.table tbody tr td,
+.table thead tr th {
+    vertical-align: middle;
+    text-align: center;
 }
 
 /* Action buttons */

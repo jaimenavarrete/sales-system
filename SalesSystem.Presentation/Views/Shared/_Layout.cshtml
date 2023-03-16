@@ -23,7 +23,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Sistema de Ventas", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                <a href="@Url.Action("Index", "Home")" class="navbar-brand"><span class="glyphicon glyphicon-stats"></span><span class="main-word-logo">Sales</span>System</a>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">

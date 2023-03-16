@@ -27,12 +27,12 @@
                     <th>#</th>
                     <th>Nombres</th>
                     <th>Apellidos</th>
+                    <th>Cantidad de productos</th>
+                    <th>Total</th>
                     <th>Tipo de entrega</th>
                     <th>Estado</th>
                     <th>Fecha de venta</th>
                     <th>Fecha de entrega</th>
-                    <th>Cantidad de productos</th>
-                    <th>Total</th>
                     <th></th>
                 </tr>
             </thead>
@@ -43,12 +43,12 @@
                         <td>@sale.Id</td>
                         <td>@sale.ClientFirstName</td>
                         <td>@sale.ClientLastName</td>
+                        <td>@sale.ProductsQuantity</td>
+                        <td>$@sale.Total</td>
                         <td>@sale.DeliveryTypeName</td>
                         <td>@sale.StateName</td>
                         <td>@sale.SaleDate</td>
                         <td>@sale.DeliveryDate</td>
-                        <td>@sale.ProductsQuantity</td>
-                        <td>$@sale.Total</td>
                         <td class="btn-group action-buttons" role="group" aria-label="Action buttons">
                             <a href="#" class="btn btn-primary">
                                 <span class="glyphicon glyphicon-eye-open"></span>
