@@ -3,12 +3,14 @@
     padding-top: 75px;
     padding-bottom: 20px;
     position: relative;
+
+    font-family: 'Roboto', sans-serif;
 }
 
 /* Set padding to keep content from hitting the edges */
 .body-content {
-    padding-left: 15px;
-    padding-right: 15px;
+    padding-left: 25px;
+    padding-right: 25px;
 }
 
 /* Override the default bootstrap behavior where horizontal description lists 
@@ -22,16 +24,12 @@
     font-weight: bold;
 }
 
-/***** CONTAINER *****/
-
-@media (min-width: 1500px) {
-    .container {
-        width: 1450px !important;
-    }
+/* Change icons margin */
+span.glyphicon {
+    margin-right: 5px;
 }
 
 /***** VIEW DETAILS *****/
-
 .view-details-modal .product-name {
     color: #39BC9D;
     font-weight: bold;
@@ -120,13 +118,26 @@
 }
 
 /***** PAGE TITLES *****/
-.container .page-title {
+.page-title {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
+.page-title h2 {
+    font-family: 'Archivo', sans-serif;
+    font-weight: bold;
+}
+
+.page-title h2 span {
+    margin-right: 10px;
+}
+
 /***** TABLES *****/
+
+.table {
+    font-size: 16px;
+}
 
 /* Action buttons */
 
