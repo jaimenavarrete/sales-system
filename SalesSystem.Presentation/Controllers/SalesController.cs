@@ -33,5 +33,21 @@ namespace SalesSystem.Presentation.Controllers
 
             return View(salesViewModel);
         }
+
+        public ActionResult CreateSale()
+        {
+            var clients = new List<SelectListItem>()
+            {
+                new SelectListItem() { Value = "Valor 1", Text = "Cliente 1"},
+                new SelectListItem() { Value = "Valor 2", Text = "Cliente 2"},
+            };
+
+            var viewModel = new CreateSaleViewModel()
+            {
+                ClientsList = clients
+            };
+
+            return View(viewModel);
+        }
     }
 }

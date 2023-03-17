@@ -1,0 +1,62 @@
+﻿@model CreateSaleViewModel
+@{
+    ViewBag.Title = "Realizar venta";
+}
+
+<div class="page-title">
+    <a href="@Url.Action("Index", "Sales")" class="btn btn-link">
+        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Regresar
+    </a>
+    <h2> <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> @ViewBag.Title</h2>
+</div>
+<ol class="breadcrumb">
+    <li>@Html.ActionLink("Inicio", "Index", "Home")</li>
+    <li>@Html.ActionLink("Ventas", "Index", "Sales")</li>
+    <li class="active">@ViewBag.Title</li>
+</ol>
+
+@{ Html.RenderPartial("_ResultMessage"); }
+
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h3 class="panel-title">Información de venta</h3>
+    </div>
+    <div class="panel-body">
+        @using (Html.BeginForm("CreateSale", "Sales", FormMethod.Post, new { id = "CreateSaleForm" }))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.ClientId)
+                @Html.DropDownListFor(m => m.ClientId, Model.ClientsList, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.ClientId, null, new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.Observation)
+                @Html.TextAreaFor(m => m.Observation, new { @class = "form-control", rows = "3" })
+                @Html.ValidationMessageFor(m => m.Observation, null, new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.IsHomeDelivery)
+                @Html.CheckBoxFor(m => m.IsHomeDelivery, new { @class = "checkbox" })
+                @Html.ValidationMessageFor(m => m.IsHomeDelivery, null, new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.IsPaymentCompleted)
+                @Html.CheckBoxFor(m => m.IsPaymentCompleted, new { @class = "checkbox" })
+                @Html.ValidationMessageFor(m => m.IsPaymentCompleted, null, new { @class = "text-danger" })
+            </div>
+        }
+    </div>
+    <div class="panel-footer text-center">
+        <button class="btn btn-success" form="CreateSaleForm">
+            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Crear
+        </button>
+        <button type="reset" class="btn btn-default" form="CreateSaleForm">
+            <span class="glyphicon glyphicon-erase" aria-hidden="true"></span> Limpiar
+        </button>
+    </div>
+</div>
