@@ -186,6 +186,32 @@ span.glyphicon {
     margin-right: 0;
 }
 
+/***** SALE PRODUCTS LIST *****/
+
+.add-sale-product h4 {
+    margin-bottom: 20px;
+}
+
+.add-sale-product .sale-product {
+    background-color: #ECF0F1;
+}
+
+.sale-products-list .sale-product,
+.add-sale-product .sale-product {
+    margin: 0;
+    padding: 5px 10px;
+}
+
+.sale-products-list .sale-product {
+    border: 1px solid #ECF0F1;
+}
+
+.sale-products-list .sale-product .action-buttons,
+.add-sale-product .sale-product .action-buttons {
+    margin-top: 27px;
+    margin-bottom: 10px;
+}
+
 /***** PAGINATION *****/
 .pagination-container {
     text-align: center;
