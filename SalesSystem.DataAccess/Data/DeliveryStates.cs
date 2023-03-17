@@ -12,10 +12,10 @@ namespace SalesSystem.DataAccess.Data
     using System;
     using System.Collections.Generic;
     
-    public partial class DeliveryTypes
+    public partial class DeliveryStates
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public DeliveryTypes()
+        public DeliveryStates()
         {
             this.Sales = new HashSet<Sales>();
         }

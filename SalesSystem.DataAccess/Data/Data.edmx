@@ -34,7 +34,7 @@
           <Property Name="Modified" Type="datetime" />
           <Property Name="ModifiedBy" Type="nvarchar" MaxLength="36" />
         </EntityType>
-        <EntityType Name="DeliveryTypes">
+        <EntityType Name="DeliveryStates">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
@@ -75,22 +75,17 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ClientId" Type="int" Nullable="false" />
-          <Property Name="DeliveryTypeId" Type="int" Nullable="false" />
+          <Property Name="HomeDelivery" Type="bit" Nullable="false" />
+          <Property Name="DeliveryStateId" Type="int" />
           <Property Name="Observation" Type="varchar" MaxLength="1000" />
-          <Property Name="SaleStateId" Type="int" Nullable="false" />
           <Property Name="SaleDate" Type="datetime" />
           <Property Name="DeliveryDate" Type="datetime" />
+          <Property Name="Completed" Type="bit" Nullable="false" />
+          <Property Name="PaymentCompleted" Type="bit" Nullable="false" />
           <Property Name="Created" Type="datetime" Nullable="false" />
           <Property Name="CreatedBy" Type="nvarchar" MaxLength="36" Nullable="false" />
           <Property Name="Modified" Type="datetime" />
           <Property Name="ModifiedBy" Type="nvarchar" MaxLength="36" />
-        </EntityType>
-        <EntityType Name="SaleStates">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="UnitTypes">
           <Key>
@@ -116,7 +111,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__SaleDetai__SaleI__534D60F1">
+        <Association Name="FK__SaleDetai__SaleI__02084FDA">
           <End Role="Sales" Type="Self.Sales" Multiplicity="1" />
           <End Role="SaleDetails" Type="Self.SaleDetails" Multiplicity="*" />
           <ReferentialConstraint>
@@ -128,7 +123,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Sales__ClientId__628FA481">
+        <Association Name="FK__Sales__ClientId__00200768">
           <End Role="Clients" Type="Self.Clients" Multiplicity="1" />
           <End Role="Sales" Type="Self.Sales" Multiplicity="*" />
           <ReferentialConstraint>
@@ -140,27 +135,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Sales__DeliveryT__4F7CD00D">
-          <End Role="DeliveryTypes" Type="Self.DeliveryTypes" Multiplicity="1" />
+        <Association Name="FK__Sales__DeliveryS__01142BA1">
+          <End Role="DeliveryStates" Type="Self.DeliveryStates" Multiplicity="0..1" />
           <End Role="Sales" Type="Self.Sales" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="DeliveryTypes">
+            <Principal Role="DeliveryStates">
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Sales">
-              <PropertyRef Name="DeliveryTypeId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Sales__SaleState__5070F446">
-          <End Role="SaleStates" Type="Self.SaleStates" Multiplicity="1" />
-          <End Role="Sales" Type="Self.Sales" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SaleStates">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Sales">
-              <PropertyRef Name="SaleStateId" />
+              <PropertyRef Name="DeliveryStateId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -191,30 +174,25 @@
         <EntityContainer Name="SalesSystemModelStoreContainer">
           <EntitySet Name="Categories" EntityType="Self.Categories" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Clients" EntityType="Self.Clients" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="DeliveryTypes" EntityType="Self.DeliveryTypes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DeliveryStates" EntityType="Self.DeliveryStates" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Products" EntityType="Self.Products" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SaleDetails" EntityType="Self.SaleDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Sales" EntityType="Self.Sales" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="SaleStates" EntityType="Self.SaleStates" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UnitTypes" EntityType="Self.UnitTypes" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK__SaleDetai__Produ__5441852A" Association="Self.FK__SaleDetai__Produ__5441852A">
             <End Role="Products" EntitySet="Products" />
             <End Role="SaleDetails" EntitySet="SaleDetails" />
           </AssociationSet>
-          <AssociationSet Name="FK__SaleDetai__SaleI__534D60F1" Association="Self.FK__SaleDetai__SaleI__534D60F1">
+          <AssociationSet Name="FK__SaleDetai__SaleI__02084FDA" Association="Self.FK__SaleDetai__SaleI__02084FDA">
             <End Role="Sales" EntitySet="Sales" />
             <End Role="SaleDetails" EntitySet="SaleDetails" />
           </AssociationSet>
-          <AssociationSet Name="FK__Sales__ClientId__628FA481" Association="Self.FK__Sales__ClientId__628FA481">
+          <AssociationSet Name="FK__Sales__ClientId__00200768" Association="Self.FK__Sales__ClientId__00200768">
             <End Role="Clients" EntitySet="Clients" />
             <End Role="Sales" EntitySet="Sales" />
           </AssociationSet>
-          <AssociationSet Name="FK__Sales__DeliveryT__4F7CD00D" Association="Self.FK__Sales__DeliveryT__4F7CD00D">
-            <End Role="DeliveryTypes" EntitySet="DeliveryTypes" />
-            <End Role="Sales" EntitySet="Sales" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Sales__SaleState__5070F446" Association="Self.FK__Sales__SaleState__5070F446">
-            <End Role="SaleStates" EntitySet="SaleStates" />
+          <AssociationSet Name="FK__Sales__DeliveryS__01142BA1" Association="Self.FK__Sales__DeliveryS__01142BA1">
+            <End Role="DeliveryStates" EntitySet="DeliveryStates" />
             <End Role="Sales" EntitySet="Sales" />
           </AssociationSet>
           <AssociationSet Name="FK_Categories_Products" Association="Self.FK_Categories_Products">
@@ -233,22 +211,21 @@
         <EntityContainer Name="SalesSystemEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Categories" EntityType="SalesSystemModel.Categories" />
           <EntitySet Name="Clients" EntityType="SalesSystemModel.Clients" />
-          <EntitySet Name="DeliveryTypes" EntityType="SalesSystemModel.DeliveryTypes" />
+          <EntitySet Name="DeliveryStates" EntityType="SalesSystemModel.DeliveryStates" />
           <EntitySet Name="Products" EntityType="SalesSystemModel.Products" />
           <EntitySet Name="SaleDetails" EntityType="SalesSystemModel.SaleDetails" />
           <EntitySet Name="Sales" EntityType="SalesSystemModel.Sales" />
-          <EntitySet Name="SaleStates" EntityType="SalesSystemModel.SaleStates" />
           <EntitySet Name="UnitTypes" EntityType="SalesSystemModel.UnitTypes" />
           <AssociationSet Name="FK_Categories_Products" Association="SalesSystemModel.FK_Categories_Products">
             <End Role="Categories" EntitySet="Categories" />
             <End Role="Products" EntitySet="Products" />
           </AssociationSet>
-          <AssociationSet Name="FK__Sales__ClientId__628FA481" Association="SalesSystemModel.FK__Sales__ClientId__628FA481">
+          <AssociationSet Name="FK__Sales__ClientId__00200768" Association="SalesSystemModel.FK__Sales__ClientId__00200768">
             <End Role="Clients" EntitySet="Clients" />
             <End Role="Sales" EntitySet="Sales" />
           </AssociationSet>
-          <AssociationSet Name="FK__Sales__DeliveryT__4F7CD00D" Association="SalesSystemModel.FK__Sales__DeliveryT__4F7CD00D">
-            <End Role="DeliveryTypes" EntitySet="DeliveryTypes" />
+          <AssociationSet Name="FK__Sales__DeliveryS__01142BA1" Association="SalesSystemModel.FK__Sales__DeliveryS__01142BA1">
+            <End Role="DeliveryStates" EntitySet="DeliveryStates" />
             <End Role="Sales" EntitySet="Sales" />
           </AssociationSet>
           <AssociationSet Name="FK__SaleDetai__Produ__5441852A" Association="SalesSystemModel.FK__SaleDetai__Produ__5441852A">
@@ -259,13 +236,9 @@
             <End Role="UnitTypes" EntitySet="UnitTypes" />
             <End Role="Products" EntitySet="Products" />
           </AssociationSet>
-          <AssociationSet Name="FK__SaleDetai__SaleI__534D60F1" Association="SalesSystemModel.FK__SaleDetai__SaleI__534D60F1">
+          <AssociationSet Name="FK__SaleDetai__SaleI__02084FDA" Association="SalesSystemModel.FK__SaleDetai__SaleI__02084FDA">
             <End Role="Sales" EntitySet="Sales" />
             <End Role="SaleDetails" EntitySet="SaleDetails" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Sales__SaleState__5070F446" Association="SalesSystemModel.FK__Sales__SaleState__5070F446">
-            <End Role="SaleStates" EntitySet="SaleStates" />
-            <End Role="Sales" EntitySet="Sales" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Categories">
@@ -297,15 +270,15 @@
           <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="36" FixedLength="false" Unicode="true" />
           <Property Name="Modified" Type="DateTime" Precision="3" />
           <Property Name="ModifiedBy" Type="String" MaxLength="36" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Sales" Relationship="SalesSystemModel.FK__Sales__ClientId__628FA481" FromRole="Clients" ToRole="Sales" />
+          <NavigationProperty Name="Sales" Relationship="SalesSystemModel.FK__Sales__ClientId__00200768" FromRole="Clients" ToRole="Sales" />
         </EntityType>
-        <EntityType Name="DeliveryTypes">
+        <EntityType Name="DeliveryStates">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Sales" Relationship="SalesSystemModel.FK__Sales__DeliveryT__4F7CD00D" FromRole="DeliveryTypes" ToRole="Sales" />
+          <NavigationProperty Name="Sales" Relationship="SalesSystemModel.FK__Sales__DeliveryS__01142BA1" FromRole="DeliveryStates" ToRole="Sales" />
         </EntityType>
         <EntityType Name="Products">
           <Key>
@@ -338,7 +311,7 @@
           <Property Name="Quantity" Type="Decimal" Precision="7" Scale="2" />
           <Property Name="Discount" Type="Decimal" Precision="7" Scale="2" />
           <NavigationProperty Name="Products" Relationship="SalesSystemModel.FK__SaleDetai__Produ__5441852A" FromRole="SaleDetails" ToRole="Products" />
-          <NavigationProperty Name="Sales" Relationship="SalesSystemModel.FK__SaleDetai__SaleI__534D60F1" FromRole="SaleDetails" ToRole="Sales" />
+          <NavigationProperty Name="Sales" Relationship="SalesSystemModel.FK__SaleDetai__SaleI__02084FDA" FromRole="SaleDetails" ToRole="Sales" />
         </EntityType>
         <EntityType Name="Sales">
           <Key>
@@ -346,27 +319,20 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ClientId" Type="Int32" Nullable="false" />
-          <Property Name="DeliveryTypeId" Type="Int32" Nullable="false" />
+          <Property Name="HomeDelivery" Type="Boolean" Nullable="false" />
+          <Property Name="DeliveryStateId" Type="Int32" />
           <Property Name="Observation" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
-          <Property Name="SaleStateId" Type="Int32" Nullable="false" />
           <Property Name="SaleDate" Type="DateTime" Precision="3" />
           <Property Name="DeliveryDate" Type="DateTime" Precision="3" />
+          <Property Name="Completed" Type="Boolean" Nullable="false" />
+          <Property Name="PaymentCompleted" Type="Boolean" Nullable="false" />
           <Property Name="Created" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="36" FixedLength="false" Unicode="true" />
           <Property Name="Modified" Type="DateTime" Precision="3" />
           <Property Name="ModifiedBy" Type="String" MaxLength="36" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Clients" Relationship="SalesSystemModel.FK__Sales__ClientId__628FA481" FromRole="Sales" ToRole="Clients" />
-          <NavigationProperty Name="DeliveryTypes" Relationship="SalesSystemModel.FK__Sales__DeliveryT__4F7CD00D" FromRole="Sales" ToRole="DeliveryTypes" />
-          <NavigationProperty Name="SaleDetails" Relationship="SalesSystemModel.FK__SaleDetai__SaleI__534D60F1" FromRole="Sales" ToRole="SaleDetails" />
-          <NavigationProperty Name="SaleStates" Relationship="SalesSystemModel.FK__Sales__SaleState__5070F446" FromRole="Sales" ToRole="SaleStates" />
-        </EntityType>
-        <EntityType Name="SaleStates">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Sales" Relationship="SalesSystemModel.FK__Sales__SaleState__5070F446" FromRole="SaleStates" ToRole="Sales" />
+          <NavigationProperty Name="Clients" Relationship="SalesSystemModel.FK__Sales__ClientId__00200768" FromRole="Sales" ToRole="Clients" />
+          <NavigationProperty Name="DeliveryStates" Relationship="SalesSystemModel.FK__Sales__DeliveryS__01142BA1" FromRole="Sales" ToRole="DeliveryStates" />
+          <NavigationProperty Name="SaleDetails" Relationship="SalesSystemModel.FK__SaleDetai__SaleI__02084FDA" FromRole="Sales" ToRole="SaleDetails" />
         </EntityType>
         <EntityType Name="UnitTypes">
           <Key>
@@ -393,7 +359,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Sales__ClientId__628FA481">
+        <Association Name="FK__Sales__ClientId__00200768">
           <End Type="SalesSystemModel.Clients" Role="Clients" Multiplicity="1" />
           <End Type="SalesSystemModel.Sales" Role="Sales" Multiplicity="*" />
           <ReferentialConstraint>
@@ -405,15 +371,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Sales__DeliveryT__4F7CD00D">
-          <End Type="SalesSystemModel.DeliveryTypes" Role="DeliveryTypes" Multiplicity="1" />
+        <Association Name="FK__Sales__DeliveryS__01142BA1">
+          <End Type="SalesSystemModel.DeliveryStates" Role="DeliveryStates" Multiplicity="0..1" />
           <End Type="SalesSystemModel.Sales" Role="Sales" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="DeliveryTypes">
+            <Principal Role="DeliveryStates">
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Sales">
-              <PropertyRef Name="DeliveryTypeId" />
+              <PropertyRef Name="DeliveryStateId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -441,7 +407,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__SaleDetai__SaleI__534D60F1">
+        <Association Name="FK__SaleDetai__SaleI__02084FDA">
           <End Type="SalesSystemModel.Sales" Role="Sales" Multiplicity="1" />
           <End Type="SalesSystemModel.SaleDetails" Role="SaleDetails" Multiplicity="*" />
           <ReferentialConstraint>
@@ -450,18 +416,6 @@
             </Principal>
             <Dependent Role="SaleDetails">
               <PropertyRef Name="SaleId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Sales__SaleState__5070F446">
-          <End Type="SalesSystemModel.SaleStates" Role="SaleStates" Multiplicity="1" />
-          <End Type="SalesSystemModel.Sales" Role="Sales" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SaleStates">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Sales">
-              <PropertyRef Name="SaleStateId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -502,9 +456,9 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="DeliveryTypes">
-            <EntityTypeMapping TypeName="SalesSystemModel.DeliveryTypes">
-              <MappingFragment StoreEntitySet="DeliveryTypes">
+          <EntitySetMapping Name="DeliveryStates">
+            <EntityTypeMapping TypeName="SalesSystemModel.DeliveryStates">
+              <MappingFragment StoreEntitySet="DeliveryStates">
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
@@ -547,20 +501,14 @@
                 <ScalarProperty Name="Modified" ColumnName="Modified" />
                 <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
                 <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="PaymentCompleted" ColumnName="PaymentCompleted" />
+                <ScalarProperty Name="Completed" ColumnName="Completed" />
                 <ScalarProperty Name="DeliveryDate" ColumnName="DeliveryDate" />
                 <ScalarProperty Name="SaleDate" ColumnName="SaleDate" />
-                <ScalarProperty Name="SaleStateId" ColumnName="SaleStateId" />
                 <ScalarProperty Name="Observation" ColumnName="Observation" />
-                <ScalarProperty Name="DeliveryTypeId" ColumnName="DeliveryTypeId" />
+                <ScalarProperty Name="DeliveryStateId" ColumnName="DeliveryStateId" />
+                <ScalarProperty Name="HomeDelivery" ColumnName="HomeDelivery" />
                 <ScalarProperty Name="ClientId" ColumnName="ClientId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="SaleStates">
-            <EntityTypeMapping TypeName="SalesSystemModel.SaleStates">
-              <MappingFragment StoreEntitySet="SaleStates">
-                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

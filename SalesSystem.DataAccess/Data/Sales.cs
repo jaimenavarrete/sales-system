@@ -22,20 +22,21 @@ namespace SalesSystem.DataAccess.Data
     
         public int Id { get; set; }
         public int ClientId { get; set; }
-        public int DeliveryTypeId { get; set; }
+        public bool HomeDelivery { get; set; }
+        public Nullable<int> DeliveryStateId { get; set; }
         public string Observation { get; set; }
-        public int SaleStateId { get; set; }
         public Nullable<System.DateTime> SaleDate { get; set; }
         public Nullable<System.DateTime> DeliveryDate { get; set; }
+        public bool Completed { get; set; }
+        public bool PaymentCompleted { get; set; }
         public System.DateTime Created { get; set; }
         public string CreatedBy { get; set; }
         public Nullable<System.DateTime> Modified { get; set; }
         public string ModifiedBy { get; set; }
     
         public virtual Clients Clients { get; set; }
-        public virtual DeliveryTypes DeliveryTypes { get; set; }
+        public virtual DeliveryStates DeliveryStates { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SaleDetails> SaleDetails { get; set; }
-        public virtual SaleStates SaleStates { get; set; }
     }
 }

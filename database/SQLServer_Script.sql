@@ -75,17 +75,8 @@ CREATE TABLE Clients (
 );
 GO
 
--- Delivery Types Table
-CREATE TABLE DeliveryTypes (
-	Id INT IDENTITY(1,1),
-	Name NVARCHAR(50) NOT NULL,
-
-	PRIMARY KEY (Id)
-);
-GO
-
 -- Sale States Table
-CREATE TABLE SaleStates (
+CREATE TABLE DeliveryStates (
 	Id INT IDENTITY(1,1),
 	Name NVARCHAR(50) NOT NULL,
 
@@ -97,11 +88,13 @@ GO
 CREATE TABLE Sales (
 	Id INT IDENTITY(1,1),
 	ClientId INT NOT NULL,
-	DeliveryTypeId INT NOT NULL,
+	HomeDelivery BIT NOT NULL,
+	DeliveryStateId INT,
 	Observation VARCHAR(1000),
-	SaleStateId INT NOT NULL,
 	SaleDate DATETIME,
 	DeliveryDate DATETIME,
+	PaymentCompleted BIT NOT NULL,
+	Completed BIT NOT NULL,
 	Created DATETIME NOT NULL,
 	CreatedBy NVARCHAR(36) NOT NULL,
 	Modified DATETIME,
@@ -109,8 +102,7 @@ CREATE TABLE Sales (
 
 	PRIMARY KEY (Id),
 	FOREIGN KEY (ClientId) REFERENCES Clients(Id),
-	FOREIGN KEY (DeliveryTypeId) REFERENCES DeliveryTypes(Id),
-	FOREIGN KEY (SaleStateId) REFERENCES SaleStates(Id)
+	FOREIGN KEY (DeliveryStateId) REFERENCES DeliveryStates(Id)
 );
 GO
 

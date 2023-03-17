@@ -71,7 +71,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Data.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Data\DeliveryTypes.cs">
+    <Compile Include="Data\DeliveryStates.cs">
       <DependentUpon>Data.tt</DependentUpon>
     </Compile>
     <Compile Include="Data\Products.cs">
@@ -81,9 +81,6 @@
       <DependentUpon>Data.tt</DependentUpon>
     </Compile>
     <Compile Include="Data\Sales.cs">
-      <DependentUpon>Data.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Data\SaleStates.cs">
       <DependentUpon>Data.tt</DependentUpon>
     </Compile>
     <Compile Include="Data\UnitTypes.cs">

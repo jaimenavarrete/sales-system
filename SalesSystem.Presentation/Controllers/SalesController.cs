@@ -23,10 +23,11 @@ namespace SalesSystem.Presentation.Controllers
                     Id = sale.Id,
                     ClientFirstName = sale.Clients.FirstName,
                     ClientLastName = sale.Clients.LastName,
-                    DeliveryTypeName = sale.DeliveryTypes.Name,
-                    StateName = sale.SaleStates.Name,
+                    IsHomeDelivery = sale.HomeDelivery,
                     SaleDate = sale.SaleDate,
-                    DeliveryDate = sale.DeliveryDate
+                    DeliveryDate = sale.DeliveryDate,
+                    IsCompleted = sale.Completed,
+                    IsPaymentCompleted = sale.PaymentCompleted
                 })
                 .ToList();
 

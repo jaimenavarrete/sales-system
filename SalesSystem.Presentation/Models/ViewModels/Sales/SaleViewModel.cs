@@ -10,16 +10,18 @@ namespace SalesSystem.Presentation.Models.ViewModels.Sales
 
         public string ClientLastName { get; set; }
 
-        public string DeliveryTypeName { get; set; }
+        public int ProductsQuantity { get; set; }
 
-        public string StateName { get; set; }
+        public decimal Total { get; set; }
+
+        public bool IsHomeDelivery { get; set; }
 
         public DateTime? SaleDate { get; set; }
 
         public DateTime? DeliveryDate { get; set; }
 
-        public int ProductsQuantity { get; set; }
+        public bool IsCompleted { get; set; }
 
-        public decimal Total { get; set; }
+        public bool IsPaymentCompleted { get; set; }
     }
 }
