@@ -21,7 +21,7 @@
         <h3 class="panel-title">Listado de categorías</h3>
     </div>
     <div class="table-responsive">
-        <table class="table table-striped">
+        <table class="table table-hover">
             <thead>
                 <tr>
                     <th>#</th>
@@ -41,20 +41,22 @@
                             @(category.Description ?? "[Sin descripción]")
                         </td>
                         <td>@category.Created</td>
-                        <td class="btn-group action-buttons" role="group" aria-label="Action buttons">
-                            <a href="@Url.Action("EditCategory","Categories", new { id = category.Id })" class="btn btn-warning">
-                                <span class="glyphicon glyphicon-pencil"></span>
-                            </a>
+                        <td>
+                            <div class="btn-group action-buttons" role="group" aria-label="Action buttons">
+                                <a href="@Url.Action("EditCategory","Categories", new { id = category.Id })" class="btn btn-warning">
+                                    <span class="glyphicon glyphicon-pencil"></span>
+                                </a>
 
-                            <button form="DeleteCategory-@(category.Id)" class="btn btn-danger">
-                                <span class="glyphicon glyphicon-trash"></span>
-                            </button>
-                            @using (Html.BeginForm("DeleteCategory", "Categories", FormMethod.Post,
-                                new { id = "DeleteCategory-" + category.Id, @class = "delete-category-button" }))
-                            {
-                                @Html.AntiForgeryToken()
-                                @Html.Hidden("Id", category.Id)
-                            }
+                                <button form="DeleteCategory-@(category.Id)" class="btn btn-danger">
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                </button>
+                                @using (Html.BeginForm("DeleteCategory", "Categories", FormMethod.Post,
+                                    new { id = "DeleteCategory-" + category.Id, @class = "delete-category-button" }))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    @Html.Hidden("Id", category.Id)
+                                }
+                            </div>
                         </td>
                     </tr>
                 }

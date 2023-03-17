@@ -170,6 +170,11 @@ span.glyphicon {
     text-align: center;
 }
 
+/* Labels */
+.label {
+    font-size: 15px;
+}
+
 /* Action buttons */
 
 .action-buttons button,
