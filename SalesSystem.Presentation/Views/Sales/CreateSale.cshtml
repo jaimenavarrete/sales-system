@@ -63,56 +63,29 @@
                 <div class="row sale-product">
                     <div class="form-group col-lg-5">
                         @Html.Label("Producto")
-                        @Html.TextBox("ProductId", null, new { @class = "form-control" })
+                        @Html.DropDownList("ProductInput", Model.ProductsList, null, new { @class = "form-control" })
                     </div>
                     <div class="form-group col-lg-2">
                         @Html.Label("Cantidad")
-                        @Html.TextBox("Quantity", null, new { @class = "form-control", type = "number" })
+                        @Html.TextBox("QuantityInput", null, new { @class = "form-control", type = "number" })
                     </div>
                     <div class="form-group col-lg-2">
-                        @Html.Label("Descuento")
-                        @Html.TextBox("Discount", null, new { @class = "form-control", type = "number" })
+                        @Html.Label("Discount")
+                        @Html.TextBox("DiscountInput", null, new { @class = "form-control", type = "number" })
                     </div>
                     <div class="action-buttons col-lg-3">
-                        <button class="btn btn-success">
+                        <button id="AddSaleProduct" type="button" class="btn btn-success">
                             <span class="glyphicon glyphicon-plus"></span>
                         </button>
                     </div>
                 </div>
             </div>
 
-            <div class="sale-products-list">
+            <div id="SaleProductsList" class="sale-products-list">
                 <div class="row sale-product">
                     <div class="form-group col-lg-5">
                         @Html.Label("Producto")
-                        @Html.TextBox("ProductId", null, new { @class = "form-control" })
-                    </div>
-                    <div class="form-group col-lg-2">
-                        @Html.Label("Cantidad")
-                        @Html.TextBox("Quantity", null, new { @class = "form-control", type = "number" })
-                    </div>
-                    <div class="form-group col-lg-2">
-                        @Html.Label("Descuento")
-                        @Html.TextBox("Discount", null, new { @class = "form-control", type = "number" })
-                    </div>
-                    <div class="form-group col-lg-1">
-                        @Html.Label("Precio")
-                        @Html.TextBox("Discount", "$5.5", new { @class = "form-control", disabled = "true" })
-                    </div>
-                    <div class="form-group col-lg-1">
-                        @Html.Label("Total")
-                        @Html.TextBox("Discount", "$5.5", new { @class = "form-control", disabled = "true" })
-                    </div>
-                    <div class="action-buttons col-lg-1">
-                        <button class="btn btn-danger">
-                            <span class="glyphicon glyphicon-trash"></span>
-                        </button>
-                    </div>
-                </div>
-                <div class="row sale-product">
-                    <div class="form-group col-lg-5">
-                        @Html.Label("Producto")
-                        @Html.TextBox("ProductId", null, new { @class = "form-control" })
+                        @Html.TextBox("ProductId", null, new { @class = "form-control", disabled = "true" })
                     </div>
                     <div class="form-group col-lg-2">
                         @Html.Label("Cantidad")
@@ -148,3 +121,55 @@
         </button>
     </div>
 </div>
+
+@section scripts
+{
+    <script>
+        var addSaleProductButton = $("#AddSaleProduct");
+        var saleProductsList = $("#SaleProductsList");
+        var createSaleForm = $("#CreateSaleForm");
+
+        addSaleProductButton.on('click', function () {
+            var productId = createSaleForm.find('[name = "ProductInput"]').val();
+            var quantity = createSaleForm.find('[name = "QuantityInput"]').val();
+            var discount = createSaleForm.find('[name = "DiscountInput"]').val();
+
+            var saleProductElement = createSaleProductElement(productId, quantity, discount);
+            saleProductsList.append(saleProductElement);
+        });
+
+        function createSaleProductElement(productId, quantity, discount) {
+            var saleProductElement = $(`
+                <div class="row sale-product">
+                    <div class="form-group col-lg-5">
+			            <label>Producto</label>
+                        <input name="ProductId" type="text" class="form-control" disabled="true" value="${productId}" />
+                    </div>
+                    <div class="form-group col-lg-2">
+                        <label>Cantidad</label>
+                        <input name="Quantity" type="number" class="form-control" value="${quantity}" />
+                    </div>
+                    <div class="form-group col-lg-2">
+                        <label>Descuento</label>
+                        <input name="Discount" type="number" class="form-control" value="${discount}" />
+                    </div>
+                    <div class="form-group col-lg-1">
+                        <label>Precio</label>
+                        <input type="number" class="form-control" disabled="true" />
+                    </div>
+                    <div class="form-group col-lg-1">
+                        <label>Total</label>
+                        <input type="number" class="form-control" disabled="true" />
+                    </div>
+                    <div class="action-buttons col-lg-1">
+                        <button class="btn btn-danger">
+                            <span class="glyphicon glyphicon-trash"></span>
+                        </button>
+                    </div>
+                </div>
+            `);
+
+            return saleProductElement;
+        }
+    </script>
+}

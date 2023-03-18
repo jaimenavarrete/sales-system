@@ -21,5 +21,7 @@ namespace SalesSystem.Presentation.Models.ViewModels.Sales
         public bool IsPaymentCompleted { get; set; }
 
         public IEnumerable<SelectListItem> ClientsList { get; set; }
+
+        public IEnumerable<SelectListItem> ProductsList { get; set; }
     }
 }

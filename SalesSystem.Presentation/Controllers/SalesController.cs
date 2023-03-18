@@ -11,6 +11,7 @@ namespace SalesSystem.Presentation.Controllers
     public class SalesController : Controller
     {
         private readonly SalesService _salesService = new SalesService();
+        private readonly ProductsService _productsService = new ProductsService();
 
         // GET: Sales
         public ActionResult Index()
@@ -44,10 +45,31 @@ namespace SalesSystem.Presentation.Controllers
 
             var viewModel = new CreateSaleViewModel()
             {
-                ClientsList = clients
+                ClientsList = clients,
+                ProductsList = GetProducts()
             };
 
             return View(viewModel);
+        }
+
+        private List<SelectListItem> GetProducts()
+        {
+            var products = _productsService.GetProducts();
+
+            var productsSelectList = products
+                .Select(product => new SelectListItem
+                {
+                    Value = product.Id.ToString(),
+                    Text = $"{product.Id}. {product.UnitTypes.Name} - {product.Name}"
+                })
+                .Prepend(new SelectListItem
+                {
+                    Value = "",
+                    Text = "Seleccionar producto"
+                })
+                .ToList();
+
+            return productsSelectList;
         }
     }
 }
