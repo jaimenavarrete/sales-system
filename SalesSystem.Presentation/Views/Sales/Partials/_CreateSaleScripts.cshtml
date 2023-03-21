@@ -1,0 +1,129 @@
+﻿<script>
+
+    var addSaleProductButton = $("#AddSaleProduct");
+    var saleProductsList = $("#SaleProductsList");
+    var createSaleForm = $("#CreateSaleForm");
+
+    addSaleProductButton.on('click', addProductSale);
+
+    function addProductSale() {
+        var productId = createSaleForm.find('[name = "ProductInput"]').val();
+        var quantity = createSaleForm.find('[name = "QuantityInput"]').val();
+        var discount = createSaleForm.find('[name = "DiscountInput"]').val();
+
+        if (!isValidData(productId, quantity, discount)) {
+            return;
+        }
+
+        getProductData(productId, function (productData) {
+            if (discount > productData.Price) {
+                showErrorMessage("El descuento no puede ser mayor al precio del producto. Precio actual: $" + productData.Price);
+                return;
+            }
+
+            var saleProductElement = createSaleProductElement(productData, quantity, discount);
+            saleProductsList.append(saleProductElement);
+        });
+    }
+
+    function isValidData(productId, quantity, discount) {
+        // Validate existence
+        if (!productId) {
+            showErrorMessage("Debe seleccionar un producto.")
+            return false;
+        }
+
+        if (!quantity) {
+            showErrorMessage("Debe colocar la cantidad a vender.")
+            return false;
+        }
+
+        var searchSaleProductById = $("#ProductSale-" + productId);
+
+        if (searchSaleProductById.length > 0) {
+            showErrorMessage("El producto que ha seleccionado ya existe en la lista.")
+            return false;
+        }
+
+        // Reject negative values
+        if (quantity < 0) {
+            showErrorMessage("La cantidad no puede ser negativa.")
+            return false;
+        }
+
+        if (discount < 0) {
+            showErrorMessage("El descuento no puede ser negativo.")
+            return false;
+        }
+
+        return true;
+    }
+
+    function getProductData(productId, callback) {
+        var url = "@Url.Action("GetProductById", "Data")";
+
+        $.ajax({
+            url,
+            data: { id: productId },
+            type: 'GET',
+            dataType: 'json',
+            error: function (error) {
+                showErrorMessage("El producto que ha seleccionado no existe.")
+            },
+            success: callback
+        })
+    }
+
+    function createSaleProductElement(productData, quantity, discount) {
+        var total = (productData.Price - discount) * quantity;
+
+        if (saleProductsList.children(".sale-product") == 0) {
+
+        }
+
+        var saleProductElement = $(`
+            <div id="ProductSale-${productData.Id}" class="row sale-product">
+                <div class="form-group col-lg-5">
+			        <label>Producto</label>
+                    <select name="ProductId" class="form-control" disabled="true">
+                        <option value="${productData.Id}">${productData.Id}. ${productData.Name} - ${productData.UnitTypeName}<option>
+                    <select>
+                </div>
+                <div class="form-group col-lg-2">
+                    <label>Cantidad</label>
+                    <input name="Quantity" type="number" class="form-control" value="${quantity}" />
+                </div>
+                <div class="form-group col-lg-2">
+                    <label>Descuento</label>
+                    <input name="Discount" type="number" class="form-control" value="${discount ? discount : 0}" />
+                </div>
+                <div class="form-group col-lg-1">
+                    <label>Precio</label>
+                    <input type="text" class="form-control" disabled="true" value="$${productData.Price}" />
+                </div>
+                <div class="form-group col-lg-1">
+                    <label>Total</label>
+                    <input type="text" class="form-control" disabled="true" value="$${total}" />
+                </div>
+                <div class="action-buttons col-lg-1">
+                    <button type="button" class="btn btn-danger">
+                        <span class="glyphicon glyphicon-trash"></span>
+                    </button>
+                </div>
+            </div>
+        `);
+
+        return saleProductElement;
+    }
+
+    function showErrorMessage(message) {
+        $.alert({
+            icon: 'glyphicon glyphicon-exclamation-sign',
+            title: 'Error!',
+            content: message,
+            type: 'red',
+            backgroundDismiss: true
+        });
+    }
+
+</script>

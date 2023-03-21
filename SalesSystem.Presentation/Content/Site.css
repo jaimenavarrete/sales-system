@@ -202,7 +202,8 @@ span.glyphicon {
     padding: 5px 10px;
 }
 
-.sale-products-list .sale-product {
+.sale-products-list .sale-product,
+.sale-products-list .empty-list {
     border: 1px solid #ECF0F1;
 }
 
@@ -212,8 +213,9 @@ span.glyphicon {
     margin-bottom: 10px;
 }
 
-.sale-products-list .sale-product p {
-    margin: 10px 0 10px 0;
+.sale-products-list .empty-list {
+    margin: 0;
+    padding: 20px 0 20px 0;
 }
 
 /***** PAGINATION *****/
