@@ -212,6 +212,10 @@ span.glyphicon {
     margin-bottom: 10px;
 }
 
+.sale-products-list .sale-product p {
+    margin: 10px 0 10px 0;
+}
+
 /***** PAGINATION *****/
 .pagination-container {
     text-align: center;

@@ -81,34 +81,9 @@
                 </div>
             </div>
 
+            @* Sale Products List *@
             <div id="SaleProductsList" class="sale-products-list">
-                <div class="row sale-product">
-                    <div class="form-group col-lg-5">
-                        @Html.Label("Producto")
-                        @Html.TextBox("ProductId", null, new { @class = "form-control", disabled = "true" })
-                    </div>
-                    <div class="form-group col-lg-2">
-                        @Html.Label("Cantidad")
-                        @Html.TextBox("Quantity", null, new { @class = "form-control", type = "number" })
-                    </div>
-                    <div class="form-group col-lg-2">
-                        @Html.Label("Descuento")
-                        @Html.TextBox("Discount", null, new { @class = "form-control", type = "number" })
-                    </div>
-                    <div class="form-group col-lg-1">
-                        @Html.Label("Precio")
-                        @Html.TextBox("Discount", "$5.5", new { @class = "form-control", disabled = "true" })
-                    </div>
-                    <div class="form-group col-lg-1">
-                        @Html.Label("Total")
-                        @Html.TextBox("Discount", "$5.5", new { @class = "form-control", disabled = "true" })
-                    </div>
-                    <div class="action-buttons col-lg-1">
-                        <button class="btn btn-danger">
-                            <span class="glyphicon glyphicon-trash"></span>
-                        </button>
-                    </div>
-                </div>
+
             </div>
         }
     </div>
@@ -127,7 +102,7 @@
     @Styles.Render("~/Content/jquery-confirm")
     @Scripts.Render("~/bundles/jquery-confirm")
 
-    <script>
+<script>
 
         var addSaleProductButton = $("#AddSaleProduct");
         var saleProductsList = $("#SaleProductsList");
@@ -136,37 +111,27 @@
         addSaleProductButton.on('click', addProductSale);
 
         function addProductSale() {
-            var url = "@Url.Action("GetProductById", "Data")";
-
             var productId = createSaleForm.find('[name = "ProductInput"]').val();
             var quantity = createSaleForm.find('[name = "QuantityInput"]').val();
             var discount = createSaleForm.find('[name = "DiscountInput"]').val();
 
-            if (!isValidData(productId, quantity)) {
+            if (!isValidData(productId, quantity, discount)) {
                 return;
             }
 
-            $.ajax({
-                url,
-                data: { id: productId },
-                type: 'GET',
-                dataType: 'json',
-                error: function (error) {
-                    showErrorMessage("El producto que ha seleccionado no existe.")
-                },
-                success: function (productData) {
-                    if (discount > productData.Price) {
-                        showErrorMessage("El descuento no puede ser mayor al precio del producto. Precio actual: $" + productData.Price);
-                        return;
-                    }
-
-                    var saleProductElement = createSaleProductElement(productData, quantity, discount);
-                    saleProductsList.append(saleProductElement);
+            getProductData(productId, function (productData) {
+                if (discount > productData.Price) {
+                    showErrorMessage("El descuento no puede ser mayor al precio del producto. Precio actual: $" + productData.Price);
+                    return;
                 }
-            })
+
+                var saleProductElement = createSaleProductElement(productData, quantity, discount);
+                saleProductsList.append(saleProductElement);
+            });
         }
 
-        function isValidData(productId, quantity) {
+        function isValidData(productId, quantity, discount) {
+            // Validate existence
             if (!productId) {
                 showErrorMessage("Debe seleccionar un producto.")
                 return false;
@@ -184,7 +149,33 @@
                 return false;
             }
 
+            // Reject negative values
+            if (quantity < 0) {
+                showErrorMessage("La cantidad no puede ser negativa.")
+                return false;
+            }
+
+            if (discount < 0) {
+                showErrorMessage("El descuento no puede ser negativo.")
+                return false;
+            }
+
             return true;
+        }
+
+        function getProductData(productId, callback) {
+            var url = "@Url.Action("GetProductById", "Data")";
+
+            $.ajax({
+                url,
+                data: { id: productId },
+                type: 'GET',
+                dataType: 'json',
+                error: function (error) {
+                    showErrorMessage("El producto que ha seleccionado no existe.")
+                },
+                success: callback
+            })
         }
 
         function createSaleProductElement(productData, quantity, discount) {
@@ -215,7 +206,7 @@
                         <input type="text" class="form-control" disabled="true" value="$${total}" />
                     </div>
                     <div class="action-buttons col-lg-1">
-                        <button class="btn btn-danger">
+                        <button type="button" class="btn btn-danger">
                             <span class="glyphicon glyphicon-trash"></span>
                         </button>
                     </div>
@@ -235,5 +226,5 @@
             });
         }
 
-    </script>
+</script>
 }
