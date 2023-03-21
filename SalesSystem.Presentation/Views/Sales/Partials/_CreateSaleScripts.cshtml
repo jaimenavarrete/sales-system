@@ -77,8 +77,8 @@
     function createSaleProductElement(productData, quantity, discount) {
         var total = (productData.Price - discount) * quantity;
 
-        if (saleProductsList.children(".sale-product") == 0) {
-
+        if (saleProductsList.children(".sale-product").length == 0) {
+            saleProductsList.empty();
         }
 
         var saleProductElement = $(`
@@ -106,7 +106,7 @@
                     <input type="text" class="form-control" disabled="true" value="$${total}" />
                 </div>
                 <div class="action-buttons col-lg-1">
-                    <button type="button" class="btn btn-danger">
+                    <button type="button" class="btn btn-danger" onclick="confirmSaleProductDeletion(${productData.Id})">
                         <span class="glyphicon glyphicon-trash"></span>
                     </button>
                 </div>
@@ -114,6 +114,46 @@
         `);
 
         return saleProductElement;
+    }
+
+    function confirmSaleProductDeletion(productId) {
+        $.confirm({
+            icon: 'glyphicon glyphicon-trash',
+            title: '¿Está seguro?',
+            content: 'Se removerá del listado de productos de la venta.',
+            type: 'red',
+            backgroundDismiss: true,
+            buttons: {
+                confirm: {
+                    text: 'Si, remover',
+                    btnClass: 'btn btn-danger',
+                    action: function () {
+                        removeSaleProductById(productId);
+                    }
+                },
+                cancel: {
+                    text: 'Cancelar',
+                    btnClass: 'btn btn-default',
+                }
+            },
+            closeIcon: true,
+        })
+    }
+
+    function removeSaleProductById(productId) {
+        var saleProductElement = $("#ProductSale-" + productId);
+
+        if (saleProductElement.length == 0) {
+            showErrorMessage("El producto que desea borrar no existe.");
+        }
+
+        if (saleProductsList.children(".sale-product").length == 1) {
+            var emptyListElement = $('<p class="empty-list text-muted text-center">Sin productos agregados</p>');
+
+            saleProductsList.append(emptyListElement);
+        }
+
+        saleProductElement.remove();
     }
 
     function showErrorMessage(message) {
