@@ -37,19 +37,31 @@ namespace SalesSystem.Presentation.Controllers
 
         public ActionResult CreateSale()
         {
-            var clients = new List<SelectListItem>()
-            {
-                new SelectListItem() { Value = "Valor 1", Text = "Cliente 1"},
-                new SelectListItem() { Value = "Valor 2", Text = "Cliente 2"},
-            };
-
             var viewModel = new CreateSaleViewModel()
             {
-                ClientsList = clients,
+                ClientsList = GetClients(),
                 ProductsList = GetProducts()
             };
 
             return View(viewModel);
+        }
+
+        [HttpPost]
+        public ActionResult CreateSale(CreateSaleViewModel viewModel)
+        {
+            if(!ModelState.IsValid)
+            {
+                viewModel.ClientsList = GetClients();
+                viewModel.ProductsList = GetProducts();
+
+                TempData["error"] = "Error. Por favor, revise que todos los campos sean válidos.";
+
+                return View(viewModel);
+            }
+
+            TempData["success"] = "La venta fue realizada con éxito";
+
+            return RedirectToAction("Index");
         }
 
         private List<SelectListItem> GetProducts()
@@ -70,6 +82,17 @@ namespace SalesSystem.Presentation.Controllers
                 .ToList();
 
             return productsSelectList;
+        }
+
+        private List<SelectListItem> GetClients()
+        {
+            var clients = new List<SelectListItem>()
+            {
+                new SelectListItem() { Value = "1", Text = "Cliente 1"},
+                new SelectListItem() { Value = "2", Text = "Cliente 2"},
+            };
+
+            return clients;
         }
     }
 }

@@ -141,6 +141,7 @@
     <Compile Include="Models\ViewModels\Categories\CreateCategoryViewModel.cs" />
     <Compile Include="Models\ViewModels\Categories\EditCategoryViewModel.cs" />
     <Compile Include="Models\ViewModels\Sales\CreateSaleViewModel.cs" />
+    <Compile Include="Models\ViewModels\Sales\SaleProductsListViewModel.cs" />
     <Compile Include="Models\ViewModels\Sales\SaleViewModel.cs" />
     <Compile Include="Models\ViewModels\UnitTypes\CreateUnitTypeViewModel.cs" />
     <Compile Include="Models\ViewModels\UnitTypes\EditUnitTypeViewModel.cs" />

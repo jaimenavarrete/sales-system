@@ -85,17 +85,16 @@
             <div id="ProductSale-${productData.Id}" class="row sale-product">
                 <div class="form-group col-lg-5">
 			        <label>Producto</label>
-                    <select name="ProductId" class="form-control" disabled="true">
-                        <option value="${productData.Id}">${productData.Id}. ${productData.Name} - ${productData.UnitTypeName}<option>
-                    <select>
+                    <input type="hidden" name="SaleProductsList.ProductId[]" value="${productData.Id}" />
+                    <input type="text" value="${productData.Id}. ${productData.Name} - ${productData.UnitTypeName}" class="form-control" disabled />
                 </div>
                 <div class="form-group col-lg-2">
                     <label>Cantidad</label>
-                    <input name="Quantity" type="number" class="form-control" value="${quantity}" />
+                    <input type="number" name="SaleProductsList.Quantity[]" class="form-control" value="${quantity}" />
                 </div>
                 <div class="form-group col-lg-2">
                     <label>Descuento</label>
-                    <input name="Discount" type="number" class="form-control" value="${discount ? discount : 0}" />
+                    <input type="number" name="SaleProductsList.Discount[]" class="form-control" value="${discount ? discount : 0}" />
                 </div>
                 <div class="form-group col-lg-1">
                     <label>Precio</label>
