@@ -1,4 +1,5 @@
 ﻿using SalesSystem.Business.Services;
+using SalesSystem.DataAccess.Data;
 using SalesSystem.Presentation.Models.ViewModels.Sales;
 using System;
 using System.Collections.Generic;
@@ -59,9 +60,46 @@ namespace SalesSystem.Presentation.Controllers
                 return View(viewModel);
             }
 
+            var saleDetails = ConvertToSaleDetails(viewModel.SaleProductsList);
+
+            var sale = new Sales()
+            {
+                ClientId = viewModel.ClientId,
+                HomeDelivery = viewModel.IsHomeDelivery,
+                PaymentCompleted = viewModel.IsPaymentCompleted,
+                Observation = viewModel.Observation,
+                SaleDetails = saleDetails
+            };
+
+            _salesService.CreateSale(sale);
+
             TempData["success"] = "La venta fue realizada con éxito";
 
             return RedirectToAction("Index");
+        }
+
+        private List<SaleDetails> ConvertToSaleDetails(SaleProductsListViewModel saleProductsList)
+        {
+            var saleDetails = new List<SaleDetails>();
+
+            for (int index = 0; index < saleProductsList.ProductId.Length; index++)
+            {
+                if(saleProductsList.ProductId[index] == 0 || saleProductsList.Quantity[index] == 0)
+                {
+                    continue;
+                }
+
+                var saleDetail = new SaleDetails()
+                {
+                    ProductId = saleProductsList.ProductId[index],
+                    Discount = saleProductsList.Discount[index],
+                    Quantity = saleProductsList.Quantity[index]
+                };
+
+                saleDetails.Add(saleDetail);
+            }
+
+            return saleDetails;
         }
 
         private List<SelectListItem> GetProducts()
@@ -89,7 +127,7 @@ namespace SalesSystem.Presentation.Controllers
             var clients = new List<SelectListItem>()
             {
                 new SelectListItem() { Value = "1", Text = "Cliente 1"},
-                new SelectListItem() { Value = "2", Text = "Cliente 2"},
+                new SelectListItem() { Value = "3", Text = "Cliente 2"},
             };
 
             return clients;

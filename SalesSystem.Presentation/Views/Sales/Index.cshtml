@@ -53,7 +53,9 @@
                             </span>
                         </td>
                         <td>@sale.SaleDate</td>
-                        <td>@sale.DeliveryDate</td>
+                        <td class="@(sale.DeliveryDate is null ? "text-bold" : "")">
+                            @(sale.DeliveryDate is null ? "[Sin fecha]" : sale.DeliveryDate.ToString())
+                        </td>
                         <td>
                             <span class="label @(sale.IsCompleted ? "label-success" : "label-default")">
                                 @(sale.IsCompleted ? "Completado" : "Pendiente")
