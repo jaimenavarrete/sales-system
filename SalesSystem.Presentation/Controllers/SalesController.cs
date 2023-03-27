@@ -13,6 +13,7 @@ namespace SalesSystem.Presentation.Controllers
     {
         private readonly SalesService _salesService = new SalesService();
         private readonly ProductsService _productsService = new ProductsService();
+        private readonly ClientsService _clientsService = new ClientsService();
 
         // GET: Sales
         public ActionResult Index()
@@ -124,13 +125,22 @@ namespace SalesSystem.Presentation.Controllers
 
         private List<SelectListItem> GetClients()
         {
-            var clients = new List<SelectListItem>()
-            {
-                new SelectListItem() { Value = "1", Text = "Cliente 1"},
-                new SelectListItem() { Value = "3", Text = "Cliente 2"},
-            };
+            var clients = _clientsService.GetClients();
 
-            return clients;
+            var clientsSelectList = clients
+                .Select(client => new SelectListItem
+                {
+                    Value = client.Id.ToString(),
+                    Text = $"{client.Id}. {client.FirstName} {client.LastName} ({client.Dui})"
+                })
+                .Prepend(new SelectListItem
+                {
+                    Value = "",
+                    Text = "Seleccionar cliente"
+                })
+                .ToList();
+
+            return clientsSelectList;
         }
     }
 }
