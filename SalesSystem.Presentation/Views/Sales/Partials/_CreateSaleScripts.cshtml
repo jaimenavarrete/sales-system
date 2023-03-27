@@ -16,6 +16,11 @@
         }
 
         getProductData(productId, function (productData) {
+            if (quantity > productData.Stock) {
+                showErrorMessage("La cantidad no puede ser mayor a las existencias del producto. Existencias: " + productData.Stock);
+                return;
+            }
+
             if (discount > productData.Price) {
                 showErrorMessage("El descuento no puede ser mayor al precio del producto. Precio actual: $" + productData.Price);
                 return;
@@ -84,24 +89,22 @@
         var saleProductElement = $(`
             <div id="ProductSale-${productData.Id}" class="row sale-product">
                 <div class="form-group col-lg-5">
-			        <label>Producto</label>
                     <input type="hidden" name="SaleProductsList.ProductId[]" value="${productData.Id}" />
                     <input type="text" value="${productData.Id}. ${productData.Name} - ${productData.UnitTypeName}" class="form-control" disabled />
                 </div>
                 <div class="form-group col-lg-2">
-                    <label>Cantidad</label>
                     <input type="number" name="SaleProductsList.Quantity[]" class="form-control" value="${quantity}" />
                 </div>
-                <div class="form-group col-lg-2">
-                    <label>Descuento</label>
-                    <input type="number" name="SaleProductsList.Discount[]" class="form-control" value="${discount ? discount : 0}" />
-                </div>
                 <div class="form-group col-lg-1">
-                    <label>Precio</label>
                     <input type="text" class="form-control" disabled="true" value="$${productData.Price}" />
                 </div>
                 <div class="form-group col-lg-1">
-                    <label>Total</label>
+                    <input type="number" name="SaleProductsList.Discount[]" class="form-control" value="${discount ? discount : 0}" />
+                </div>
+                <div class="form-group col-lg-1">
+                    <input type="text" class="form-control" disabled="true" value="$${productData.Price - discount}" />
+                </div>
+                <div class="form-group col-lg-1">
                     <input type="text" class="form-control" disabled="true" value="$${total}" />
                 </div>
                 <div class="action-buttons col-lg-1">

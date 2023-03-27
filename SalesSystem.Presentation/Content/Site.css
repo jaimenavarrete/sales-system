@@ -192,6 +192,25 @@ span.glyphicon {
     margin-bottom: 20px;
 }
 
+.sale-products-list .form-group,
+.add-sale-product .form-group {
+    margin-bottom: 0;
+    padding: 0 10px;
+}
+
+.sale-products-list .form-control,
+.add-sale-product .form-control {
+    padding: 10px;
+}
+
+.sale-products-list label {
+    margin-bottom: 0;
+}
+
+.sale-products-list input {
+    height: 40px;
+}
+
 .add-sale-product .sale-product {
     background-color: #ECF0F1;
 }
@@ -199,18 +218,17 @@ span.glyphicon {
 .sale-products-list .sale-product,
 .add-sale-product .sale-product {
     margin: 0;
-    padding: 5px 10px;
+    padding: 10px;
 }
 
 .sale-products-list .sale-product,
 .sale-products-list .empty-list {
     border: 1px solid #ECF0F1;
+    border-top: 0;
 }
 
-.sale-products-list .sale-product .action-buttons,
 .add-sale-product .sale-product .action-buttons {
     margin-top: 27px;
-    margin-bottom: 10px;
 }
 
 .sale-products-list .empty-list {

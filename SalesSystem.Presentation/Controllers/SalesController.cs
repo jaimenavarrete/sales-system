@@ -111,7 +111,7 @@ namespace SalesSystem.Presentation.Controllers
                 .Select(product => new SelectListItem
                 {
                     Value = product.Id.ToString(),
-                    Text = $"{product.Id}. {product.UnitTypes.Name} - {product.Name}"
+                    Text = $"{product.Id}. {product.Name} - {product.UnitTypes.Name} ({product.Stock}) - ${product.Price}"
                 })
                 .Prepend(new SelectListItem
                 {
