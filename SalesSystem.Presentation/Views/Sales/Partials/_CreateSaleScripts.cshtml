@@ -90,22 +90,24 @@
             <div id="ProductSale-${productData.Id}" class="row sale-product">
                 <div class="form-group col-lg-5">
                     <input type="hidden" name="SaleProductsList.ProductId[]" value="${productData.Id}" />
-                    <input type="text" value="${productData.Id}. ${productData.Name} - ${productData.UnitTypeName}" class="form-control" disabled />
+                    <input type="text" class="form-control" value="${productData.Id}. ${productData.Name} - ${productData.UnitTypeName}" disabled />
                 </div>
                 <div class="form-group col-lg-2">
-                    <input type="number" name="SaleProductsList.Quantity[]" class="form-control" value="${quantity}" />
+                    <input type="hidden" name="SaleProductsList.Quantity[]" value="${quantity}" />
+                    <input type="text" class="form-control" value="${parseFloat(quantity).toFixed(2)}" disabled />
                 </div>
                 <div class="form-group col-lg-1">
-                    <input type="text" class="form-control" disabled="true" value="$${productData.Price}" />
+                    <input type="text" class="form-control" disabled="true" value="$${parseFloat(productData.Price).toFixed(2)}" />
                 </div>
                 <div class="form-group col-lg-1">
-                    <input type="number" name="SaleProductsList.Discount[]" class="form-control" value="${discount ? discount : 0}" />
+                    <input type="hidden" name="SaleProductsList.Discount[]" value="${discount ? discount : 0}" />
+                    <input type="text" class="form-control" value="$${discount ? parseFloat(discount).toFixed(2) : 0}" disabled />
                 </div>
                 <div class="form-group col-lg-1">
-                    <input type="text" class="form-control" disabled="true" value="$${productData.Price - discount}" />
+                    <input type="text" class="form-control" disabled="true" value="$${parseFloat(productData.Price - discount).toFixed(2)}" />
                 </div>
                 <div class="form-group col-lg-1">
-                    <input type="text" class="form-control" disabled="true" value="$${total}" />
+                    <input type="text" class="form-control" disabled="true" value="$${parseFloat(total).toFixed(2)}" />
                 </div>
                 <div class="action-buttons col-lg-1">
                     <button type="button" class="btn btn-danger" onclick="confirmSaleProductDeletion(${productData.Id})">
