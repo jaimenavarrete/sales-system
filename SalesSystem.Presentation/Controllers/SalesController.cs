@@ -1,6 +1,7 @@
 ﻿using SalesSystem.Business.Services;
 using SalesSystem.DataAccess.Data;
 using SalesSystem.Presentation.Models.ViewModels.Sales;
+using SalesSystem.Presentation.Views.Sales.Reports;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -77,6 +78,33 @@ namespace SalesSystem.Presentation.Controllers
             TempData["success"] = "La venta fue realizada con éxito";
 
             return RedirectToAction("Index");
+        }
+
+        public ActionResult CreateInvoice()
+        {
+            var sales = _salesService.GetSales();
+
+            var salesViewModel = sales
+                .Select(sale => new InvoiceViewModel()
+                {
+                    Id = sale.Id,
+                    ClientFirstName = sale.Clients.FirstName,
+                    ClientLastName = sale.Clients.LastName,
+                    IsHomeDelivery = sale.HomeDelivery,
+                    SaleDate = sale.SaleDate ?? DateTime.UtcNow,
+                    DeliveryDate = sale.DeliveryDate ?? DateTime.UtcNow,
+                    IsCompleted = sale.Completed,
+                    IsPaymentCompleted = sale.PaymentCompleted
+                })
+                .ToList();
+
+            var report = new Invoice();
+            report.Load();
+            report.SetDataSource(salesViewModel);
+
+            var stream = report.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+
+            return File(stream, "application/pdf");
         }
 
         private List<SaleDetails> ConvertToSaleDetails(SaleProductsListViewModel saleProductsList)
