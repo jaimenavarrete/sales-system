@@ -1,5 +1,6 @@
 ﻿using SalesSystem.Business.Services;
 using SalesSystem.DataAccess.Data;
+using SalesSystem.Presentation.Models.ViewModels.Clients;
 using SalesSystem.Presentation.Models.ViewModels.Sales;
 using SalesSystem.Presentation.Views.Sales.Reports;
 using System;
@@ -17,6 +18,7 @@ namespace SalesSystem.Presentation.Controllers
         private readonly ClientsService _clientsService = new ClientsService();
 
         // GET: Sales
+        [HttpGet]
         public ActionResult Index()
         {
             var sales = _salesService.GetSales();
@@ -38,6 +40,7 @@ namespace SalesSystem.Presentation.Controllers
             return View(salesViewModel);
         }
 
+        [HttpGet]
         public ActionResult CreateSale()
         {
             var viewModel = new CreateSaleViewModel()
@@ -80,27 +83,41 @@ namespace SalesSystem.Presentation.Controllers
             return RedirectToAction("Index");
         }
 
-        public ActionResult CreateInvoice()
+        [HttpGet]
+        public ActionResult CreateInvoice(int id = 0)
         {
-            var sales = _salesService.GetSales();
+            var sale = _salesService.GetSaleById(id);
 
-            var salesViewModel = sales
-                .Select(sale => new InvoiceViewModel()
+            if(sale is null)
+            {
+                TempData["error"] = "Error. La venta que ha seleccionado para la factura, no existe.";
+
+                return RedirectToAction("Index");
+            }
+
+            var invoiceViewModel = new InvoiceViewModel()
+            {
+                Id = sale.Id,
+                Client = new ClientViewModel()
                 {
-                    Id = sale.Id,
-                    ClientFirstName = sale.Clients.FirstName,
-                    ClientLastName = sale.Clients.LastName,
-                    IsHomeDelivery = sale.HomeDelivery,
-                    SaleDate = sale.SaleDate ?? DateTime.UtcNow,
-                    DeliveryDate = sale.DeliveryDate ?? DateTime.UtcNow,
-                    IsCompleted = sale.Completed,
-                    IsPaymentCompleted = sale.PaymentCompleted
-                })
-                .ToList();
+                    FirstName = sale.Clients.FirstName,
+                    LastName = sale.Clients.LastName,
+                    Dui = sale.Clients.Dui,
+                    Email = sale.Clients.Email,
+                    Phone = sale.Clients.Phone,
+                    Address = sale.Clients.Address,
+                },
+                IsHomeDelivery = sale.HomeDelivery,
+                SaleDate = sale.SaleDate ?? DateTime.UtcNow,
+                DeliveryDate = sale.DeliveryDate ?? DateTime.UtcNow,
+                IsCompleted = sale.Completed,
+                IsPaymentCompleted = sale.PaymentCompleted,
+            };
 
             var report = new Invoice();
             report.Load();
-            report.SetDataSource(salesViewModel);
+            report.Database.Tables["InvoiceViewModel"].SetDataSource(new List<InvoiceViewModel>() { invoiceViewModel });
+            report.Database.Tables["ClientViewModel"].SetDataSource(new List<ClientViewModel>() { invoiceViewModel.Client });
 
             var stream = report.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
 

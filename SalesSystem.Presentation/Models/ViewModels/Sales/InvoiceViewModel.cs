@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SalesSystem.Presentation.Models.ViewModels.Clients;
+using System;
 
 namespace SalesSystem.Presentation.Models.ViewModels.Sales
 {
@@ -6,11 +7,7 @@ namespace SalesSystem.Presentation.Models.ViewModels.Sales
     {
         public int Id { get; set; }
 
-        public string ClientFirstName { get; set; }
-
-        public string ClientLastName { get; set; }
-
-        public string ClientDui { get; set; }
+        public ClientViewModel Client { get; set; }
 
         public int ProductsQuantity { get; set; }
 

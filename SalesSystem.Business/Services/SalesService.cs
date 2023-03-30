@@ -3,6 +3,7 @@ using SalesSystem.DataAccess.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Data.Entity;
 
 namespace SalesSystem.Business.Services
 {
@@ -18,6 +19,17 @@ namespace SalesSystem.Business.Services
                 .ToList();
 
             return sales;
+        }
+
+        public Sales GetSaleById(int id)
+        {
+            var sale = _context.Sales
+                .Include("Clients")
+                .Include("SaleDetails")
+                .Include(s => s.SaleDetails.Select(sd => sd.Products))
+                .FirstOrDefault(s => s.Id == id);
+
+            return sale;
         }
 
         public void CreateSale(Sales sale)
