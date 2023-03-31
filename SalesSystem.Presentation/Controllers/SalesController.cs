@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using CrystalDecisions.Shared;
 
 namespace SalesSystem.Presentation.Controllers
 {
@@ -98,30 +99,29 @@ namespace SalesSystem.Presentation.Controllers
             var invoiceViewModel = new InvoiceViewModel()
             {
                 Id = sale.Id,
-                Client = new ClientViewModel()
-                {
-                    FirstName = sale.Clients.FirstName,
-                    LastName = sale.Clients.LastName,
-                    Dui = sale.Clients.Dui,
-                    Email = sale.Clients.Email,
-                    Phone = sale.Clients.Phone,
-                    Address = sale.Clients.Address,
-                },
+                Client = MapClientToViewModel(sale.Clients),
                 IsHomeDelivery = sale.HomeDelivery,
                 SaleDate = sale.SaleDate ?? DateTime.UtcNow,
                 DeliveryDate = sale.DeliveryDate ?? DateTime.UtcNow,
                 IsCompleted = sale.Completed,
                 IsPaymentCompleted = sale.PaymentCompleted,
+                SaleDetails = MapSaleDetailsToViewModel(sale.SaleDetails),
             };
 
             var report = new Invoice();
             report.Load();
-            report.Database.Tables["InvoiceViewModel"].SetDataSource(new List<InvoiceViewModel>() { invoiceViewModel });
-            report.Database.Tables["ClientViewModel"].SetDataSource(new List<ClientViewModel>() { invoiceViewModel.Client });
 
-            var stream = report.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+            report.Database.Tables["InvoiceViewModel"]
+                .SetDataSource(new List<InvoiceViewModel>() { invoiceViewModel });
+            report.Database.Tables["ClientViewModel"]
+                .SetDataSource(new List<ClientViewModel>() { invoiceViewModel.Client });
+            report.Subreports["SaleDetailsSubReport"].Database.Tables["SaleDetailsViewModel"]
+                .SetDataSource(invoiceViewModel.SaleDetails);
 
-            return File(stream, "application/pdf");
+            var documentStream = report.ExportToStream(ExportFormatType.PortableDocFormat);
+
+            var filename = $"Factura #{id} ({sale.SaleDate?.ToString("dd/MM/yyyy")}).pdf";
+            return File(documentStream, "application/pdf", filename);
         }
 
         private List<SaleDetails> ConvertToSaleDetails(SaleProductsListViewModel saleProductsList)
@@ -146,6 +146,38 @@ namespace SalesSystem.Presentation.Controllers
             }
 
             return saleDetails;
+        }
+
+        private ClientViewModel MapClientToViewModel(Clients client)
+        {
+            var clientViewModel = new ClientViewModel()
+            {
+                FirstName = client.FirstName,
+                LastName = client.LastName,
+                Dui = client.Dui,
+                Email = client.Email,
+                Phone = client.Phone,
+                Address = client.Address,
+            };
+
+            return clientViewModel;
+        }
+
+        private List<SaleDetailViewModel> MapSaleDetailsToViewModel(ICollection<SaleDetails> saleDetails)
+        {
+            var saleDetailsViewModel = saleDetails
+                .Select(saleDetail => new SaleDetailViewModel()
+                {
+                    Id = saleDetail.Id,
+                    SaleId = saleDetail.SaleId,
+                    ProductName = saleDetail.Products.Name,
+                    CurrentPrice = saleDetail.CurrentPrice ?? 0,
+                    Quantity = saleDetail.Quantity ?? 0,
+                    Discount = saleDetail.Discount ?? 0
+                })
+                .ToList();
+
+            return saleDetailsViewModel;
         }
 
         private List<SelectListItem> GetProducts()

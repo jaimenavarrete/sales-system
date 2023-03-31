@@ -1,5 +1,6 @@
 ﻿using SalesSystem.Presentation.Models.ViewModels.Clients;
 using System;
+using System.Collections.Generic;
 
 namespace SalesSystem.Presentation.Models.ViewModels.Sales
 {
@@ -22,5 +23,7 @@ namespace SalesSystem.Presentation.Models.ViewModels.Sales
         public bool IsCompleted { get; set; }
 
         public bool IsPaymentCompleted { get; set; }
+
+        public List<SaleDetailViewModel> SaleDetails { get; set; }
     }
 }
