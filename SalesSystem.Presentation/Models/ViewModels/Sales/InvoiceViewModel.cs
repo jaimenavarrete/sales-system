@@ -12,9 +12,9 @@ namespace SalesSystem.Presentation.Models.ViewModels.Sales
 
         public int ProductsQuantity { get; set; }
 
-        public decimal Total { get; set; }
-
         public bool IsHomeDelivery { get; set; }
+
+        public string Observation { get; set; }
 
         public DateTime SaleDate { get; set; }
 

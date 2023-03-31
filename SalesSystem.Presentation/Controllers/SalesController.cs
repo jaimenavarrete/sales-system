@@ -101,6 +101,7 @@ namespace SalesSystem.Presentation.Controllers
                 Id = sale.Id,
                 Client = MapClientToViewModel(sale.Clients),
                 IsHomeDelivery = sale.HomeDelivery,
+                Observation = sale.Observation,
                 SaleDate = sale.SaleDate ?? DateTime.UtcNow,
                 DeliveryDate = sale.DeliveryDate ?? DateTime.UtcNow,
                 IsCompleted = sale.Completed,
@@ -121,7 +122,7 @@ namespace SalesSystem.Presentation.Controllers
             var documentStream = report.ExportToStream(ExportFormatType.PortableDocFormat);
 
             var filename = $"Factura #{id} ({sale.SaleDate?.ToString("dd/MM/yyyy")}).pdf";
-            return File(documentStream, "application/pdf", filename);
+            return File(documentStream, "application/pdf");
         }
 
         private List<SaleDetails> ConvertToSaleDetails(SaleProductsListViewModel saleProductsList)
