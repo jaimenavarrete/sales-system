@@ -9,6 +9,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using CrystalDecisions.Shared;
+using SalesSystem.Business.Constants;
 
 namespace SalesSystem.Presentation.Controllers
 {
@@ -30,6 +31,8 @@ namespace SalesSystem.Presentation.Controllers
                     Id = sale.Id,
                     ClientFirstName = sale.Clients.FirstName,
                     ClientLastName = sale.Clients.LastName,
+                    ProductsQuantity = sale.SaleDetails.Count,
+                    Total = GetSaleTotal(sale.SaleDetails),
                     IsHomeDelivery = sale.HomeDelivery,
                     SaleDate = sale.SaleDate,
                     DeliveryDate = sale.DeliveryDate,
@@ -135,6 +138,15 @@ namespace SalesSystem.Presentation.Controllers
 
             var filename = $"Factura #{id} ({sale.SaleDate?.ToString("dd/MM/yyyy")}).pdf";
             return File(documentStream, "application/pdf");
+        }
+
+        private decimal GetSaleTotal(ICollection<SaleDetails> saleDetails)
+        {
+            var saleSubtotal = (decimal)saleDetails.Sum(sd => (sd.CurrentPrice - sd.Discount) * sd.Quantity);
+
+            var saleTotal = Math.Round(saleSubtotal * (1 + SaleConstants.Taxes), 2);
+
+            return saleTotal;
         }
 
         private List<SaleDetails> ConvertToSaleDetails(SaleProductsListViewModel saleProductsList)

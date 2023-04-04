@@ -16,6 +16,7 @@ namespace SalesSystem.Business.Services
             var sales = _context.Sales
                 .Include("Clients")
                 .Include("DeliveryStates")
+                .Include("SaleDetails")
                 .ToList();
 
             return sales;
