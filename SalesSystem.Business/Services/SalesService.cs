@@ -53,5 +53,21 @@ namespace SalesSystem.Business.Services
             _context.Sales.Add(sale);
             _context.SaveChanges();
         }
+
+        public void DeleteSale(int id)
+        {
+            var sale = _context.Sales
+                .Include(s => s.SaleDetails)
+                .FirstOrDefault(s => s.Id == id);
+
+            if (sale is null)
+            {
+                throw new BusinessException("La venta que intenta borrar, no existe.");
+            }
+
+            _context.SaleDetails.RemoveRange(sale.SaleDetails);
+            _context.Sales.Remove(sale);
+            _context.SaveChanges();
+        }
     }
 }

@@ -53,6 +53,7 @@ namespace SalesSystem.Presentation.Controllers
             return View(viewModel);
         }
 
+        [ValidateAntiForgeryToken]
         [HttpPost]
         public ActionResult CreateSale(CreateSaleViewModel viewModel)
         {
@@ -79,7 +80,18 @@ namespace SalesSystem.Presentation.Controllers
 
             _salesService.CreateSale(sale);
 
-            TempData["success"] = "La venta fue realizada con éxito";
+            TempData["success"] = "La venta fue realizada con éxito.";
+
+            return RedirectToAction("Index");
+        }
+
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public ActionResult DeleteSale(int id = 0)
+        {
+            _salesService.DeleteSale(id);
+
+            TempData["success"] = "La venta fue borrada con éxito.";
 
             return RedirectToAction("Index");
         }

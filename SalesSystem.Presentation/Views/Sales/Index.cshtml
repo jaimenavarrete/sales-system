@@ -72,9 +72,15 @@
                                 <a href="#" class="btn btn-warning">
                                     <span class="glyphicon glyphicon-pencil"></span>
                                 </a>
-                                <button class="btn btn-danger">
+                                <button form="DeleteSale-@(sale.Id)" class="btn btn-danger">
                                     <span class="glyphicon glyphicon-trash"></span>
                                 </button>
+                                @using (Html.BeginForm("DeleteSale", "Sales", FormMethod.Post,
+                                    new { id = "DeleteSale-" + sale.Id, @class = "delete-sale-button" }))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    @Html.Hidden("Id", sale.Id)
+                                }
                             </div>
                         </td>
                     </tr>
@@ -83,3 +89,36 @@
         </table>
     </div>
 </div>
+
+@section scripts {
+    @Styles.Render("~/Content/jquery-confirm")
+    @Scripts.Render("~/bundles/jquery-confirm")
+
+    <script>
+        // Confirm sale deletion.
+        $(".delete-sale-button").on('submit', function (e) {
+            e.preventDefault();
+
+            $.confirm({
+                icon: 'glyphicon glyphicon-trash',
+                title: '¿Está seguro?',
+                content: 'Una vez borrada la venta, no podrá recuperarla.',
+                type: 'red',
+                buttons: {
+                    confirm: {
+                        text: 'Si, borrar',
+                        btnClass: 'btn btn-danger',
+                        action: function () {
+                            e.currentTarget.submit();
+                        }
+                    },
+                    cancel: {
+                        text: 'Cancelar',
+                        btnClass: 'btn btn-default',
+                    }
+                },
+                closeIcon: true,
+            })
+        });
+    </script>
+}
