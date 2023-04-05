@@ -26,6 +26,7 @@ namespace SalesSystem.Business.Services
         {
             var sale = _context.Sales
                 .Include("Clients")
+                .Include("DeliveryStates")
                 .Include("SaleDetails")
                 .Include(s => s.SaleDetails.Select(sd => sd.Products))
                 .FirstOrDefault(s => s.Id == id);

@@ -149,6 +149,7 @@
     <Compile Include="Models\ViewModels\Sales\SaleDetailViewModel.cs" />
     <Compile Include="Models\ViewModels\Sales\SaleProductsListViewModel.cs" />
     <Compile Include="Models\ViewModels\Sales\SaleViewModel.cs" />
+    <Compile Include="Models\ViewModels\Sales\ViewSaleViewModel.cs" />
     <Compile Include="Models\ViewModels\UnitTypes\CreateUnitTypeViewModel.cs" />
     <Compile Include="Models\ViewModels\UnitTypes\EditUnitTypeViewModel.cs" />
     <Compile Include="Models\ViewModels\UnitTypes\UnitTypeViewModel.cs" />
@@ -216,6 +217,7 @@
     <Content Include="Views\Sales\Index.cshtml" />
     <Content Include="Views\Sales\CreateSale.cshtml" />
     <Content Include="Views\Sales\Partials\_CreateSaleScripts.cshtml" />
+    <Content Include="Views\Sales\ViewSale.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

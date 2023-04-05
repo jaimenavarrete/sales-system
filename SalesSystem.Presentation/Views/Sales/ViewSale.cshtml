@@ -1,0 +1,18 @@
+﻿@model ViewSaleViewModel
+@{
+    ViewBag.Title = "Detalles de la venta";
+}
+
+<div class="page-title">
+    <a href="@Url.Action("Index", "Sales")" class="btn btn-link">
+        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Regresar
+    </a>
+    <h2> <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> @ViewBag.Title</h2>
+</div>
+<ol class="breadcrumb">
+    <li>@Html.ActionLink("Inicio", "Index", "Home")</li>
+    <li>@Html.ActionLink("Ventas", "Index", "Sales")</li>
+    <li class="active">@ViewBag.Title</li>
+</ol>
+
+@{ Html.RenderPartial("_ResultMessage"); }

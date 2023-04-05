@@ -45,6 +45,23 @@ namespace SalesSystem.Presentation.Controllers
         }
 
         [HttpGet]
+        public ActionResult ViewSale(int id)
+        {
+            var sale = _salesService.GetSaleById(id);
+
+            if (sale is null)
+            {
+                TempData["error"] = "Error. La venta que ha seleccionado, no existe.";
+
+                return RedirectToAction("Index");
+            }
+
+            var viewModel = new ViewSaleViewModel() { };
+
+            return View(viewModel);
+        }
+
+        [HttpGet]
         public ActionResult CreateSale()
         {
             var viewModel = new CreateSaleViewModel()
