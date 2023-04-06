@@ -21,6 +21,8 @@ namespace SalesSystem.Presentation.Models.ViewModels.Sales
 
         public bool IsPaymentCompleted { get; set; }
 
+        public string Observation { get; set; }
+
         public List<SaleDetailViewModel> SaleDetails { get; set; }
 
         public decimal Taxes { get; set; }

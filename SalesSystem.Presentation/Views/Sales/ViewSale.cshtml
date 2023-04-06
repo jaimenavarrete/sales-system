@@ -7,7 +7,26 @@
     <a href="@Url.Action("Index", "Sales")" class="btn btn-link">
         <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Regresar
     </a>
+</div>
+<div class="page-title">
     <h2> <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> @ViewBag.Title</h2>
+    <div class="btn-group action-buttons" role="group" aria-label="Action buttons">
+        <a href="@Url.Action("CreateInvoice", "Sales", new { id = Model.Id })" target="_blank" class="btn btn-success">
+            <span class="glyphicon glyphicon-save-file"></span> Descargar factura
+        </a>
+        <a href="#" class="btn btn-warning">
+            <span class="glyphicon glyphicon-pencil"></span> Editar
+        </a>
+        <button form="DeleteSale-@(Model.Id)" class="btn btn-danger">
+            <span class="glyphicon glyphicon-trash"></span> Borrar
+        </button>
+        @using (Html.BeginForm("DeleteSale", "Sales", FormMethod.Post,
+            new { id = "DeleteSale-" + Model.Id, @class = "delete-sale-button" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.Hidden("Id", Model.Id)
+        }
+    </div>
 </div>
 <ol class="breadcrumb">
     <li>@Html.ActionLink("Inicio", "Index", "Home")</li>
@@ -37,6 +56,39 @@
                 <h3 class="panel-title">Información de la venta</h3>
             </div>
             <div class="panel-body row">
+                <dl class="col-sm-6">
+                    <dt>Número de venta:</dt>
+                    <dd>@Model.Id</dd>
+
+                    <dt>Estado de venta:</dt>
+                    <dd>
+                        <span class="label @(Model.IsCompleted ? "label-success" : "label-default")">
+                            @(Model.IsCompleted ? "Completado" : "Pendiente")
+                        </span>
+                    </dd>
+
+                    <dt>Tipo de entrega:</dt>
+                    <dd>@(Model.IsHomeDelivery ? "A domicilio" : "En local")</dd>
+
+                    <dt>Estado de pago:</dt>
+                    <dd>
+                        <span class="label @(Model.IsPaymentCompleted ? "label-success" : "label-danger")">
+                            @(Model.IsPaymentCompleted ? "Pagado" : "No pagado")
+                        </span>
+                    </dd>
+
+                    <dt>Fecha de venta:</dt>
+                    <dd>@Model.SaleDate</dd>
+
+                    <dt>Fecha de entrega:</dt>
+                    <dd>
+                        @(Model.DeliveryDate is null ? "[Sin fecha]" : Model.DeliveryDate.ToString())
+                    </dd>
+
+                    <dt>Observaciones:</dt>
+                    <dd>@Model.Observation</dd>
+                </dl>
+
                 <dl class="col-sm-6">
                     <dt>DUI del cliente:</dt>
                     <dd>@Model.Client.Dui</dd>
@@ -105,3 +157,7 @@
         </table>
     </div>
 </div>
+
+@section scripts {
+    @{ Html.RenderPartial("Partials/_DeleteSaleScripts"); }
+}

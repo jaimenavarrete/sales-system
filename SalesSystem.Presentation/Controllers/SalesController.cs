@@ -57,6 +57,13 @@ namespace SalesSystem.Presentation.Controllers
             }
 
             var viewModel = new ViewSaleViewModel() {
+                Id = sale.Id,
+                IsCompleted = sale.Completed,
+                IsHomeDelivery = sale.HomeDelivery,
+                IsPaymentCompleted = sale.PaymentCompleted,
+                SaleDate = sale.SaleDate,
+                DeliveryDate = sale.DeliveryDate,
+                Observation = sale.Observation,
                 SaleDetails = MapSaleDetailsToSaleViewModel(sale.SaleDetails),
                 Client = MapClientToViewModel(sale.Clients),
                 Taxes = SaleConstants.Taxes

@@ -219,6 +219,7 @@
     <Content Include="Views\Sales\CreateSale.cshtml" />
     <Content Include="Views\Sales\Partials\_CreateSaleScripts.cshtml" />
     <Content Include="Views\Sales\ViewSale.cshtml" />
+    <Content Include="Views\Sales\Partials\_DeleteSaleScripts.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

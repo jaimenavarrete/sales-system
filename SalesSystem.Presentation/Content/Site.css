@@ -162,6 +162,7 @@ dl dd {
 .page-title h2 {
     font-family: 'Archivo', sans-serif;
     font-weight: bold;
+    margin: 15px 0;
 }
 
 .page-title h2 span {

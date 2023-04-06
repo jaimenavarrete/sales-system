@@ -1,0 +1,30 @@
+﻿@Styles.Render("~/Content/jquery-confirm")
+@Scripts.Render("~/bundles/jquery-confirm")
+
+<script>
+        // Confirm sale deletion.
+        $(".delete-sale-button").on('submit', function (e) {
+            e.preventDefault();
+
+            $.confirm({
+                icon: 'glyphicon glyphicon-trash',
+                title: '¿Está seguro?',
+                content: 'Una vez borrada la venta, no podrá recuperarla.',
+                type: 'red',
+                buttons: {
+                    confirm: {
+                        text: 'Si, borrar',
+                        btnClass: 'btn btn-danger',
+                        action: function () {
+                            e.currentTarget.submit();
+                        }
+                    },
+                    cancel: {
+                        text: 'Cancelar',
+                        btnClass: 'btn btn-default',
+                    }
+                },
+                closeIcon: true,
+            })
+        });
+</script>
