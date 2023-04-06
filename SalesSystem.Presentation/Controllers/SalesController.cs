@@ -1,16 +1,15 @@
-﻿using SalesSystem.Business.Services;
+﻿using CrystalDecisions.Shared;
+using SalesSystem.Business.Constants;
+using SalesSystem.Business.Services;
 using SalesSystem.DataAccess.Data;
 using SalesSystem.Presentation.Models.ViewModels.Clients;
 using SalesSystem.Presentation.Models.ViewModels.Sales;
+using SalesSystem.Presentation.Utilities;
 using SalesSystem.Presentation.Views.Sales.Reports;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using CrystalDecisions.Shared;
-using SalesSystem.Business.Constants;
-using SalesSystem.Presentation.Utilities;
 
 namespace SalesSystem.Presentation.Controllers
 {
@@ -58,7 +57,9 @@ namespace SalesSystem.Presentation.Controllers
             }
 
             var viewModel = new ViewSaleViewModel() {
-                SaleDetails = MapSaleDetailsToSaleViewModel(sale.SaleDetails)
+                SaleDetails = MapSaleDetailsToSaleViewModel(sale.SaleDetails),
+                Client = MapClientToViewModel(sale.Clients),
+                Taxes = SaleConstants.Taxes
             };
 
             return View(viewModel);

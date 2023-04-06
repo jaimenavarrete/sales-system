@@ -36,8 +36,26 @@
             <div class="panel-heading">
                 <h3 class="panel-title">Información de la venta</h3>
             </div>
-            <div class="panel-body">
+            <div class="panel-body row">
+                <dl class="col-sm-6">
+                    <dt>DUI del cliente:</dt>
+                    <dd>@Model.Client.Dui</dd>
 
+                    <dt>Nombres:</dt>
+                    <dd>@Model.Client.FirstName</dd>
+
+                    <dt>Apellidos:</dt>
+                    <dd>@Model.Client.LastName</dd>
+
+                    <dt>Email:</dt>
+                    <dd>@Model.Client.Email</dd>
+
+                    <dt>Teléfono:</dt>
+                    <dd>@Model.Client.Phone</dd>
+
+                    <dt>Dirección:</dt>
+                    <dd>@Model.Client.Address</dd>
+                </dl>
             </div>
         </div>
     </div>
@@ -47,6 +65,13 @@
 <div class="panel panel-primary">
     <div class="panel-heading">
         <h3 class="panel-title">Detalles de la venta</h3>
+    </div>
+    <div class="panel-footer text-right">
+        <h4><span class="">Total elementos: </span> @Model.SaleDetailsQuantity</h4>
+        <h4><span class="">Subtotal: </span> $@Model.SaleDetailsSubtotal</h4>
+        <h4>IVA (@(Model.Taxes * 100)%): $@Model.SaleDetailsTaxes</h4>
+
+        <h3 class="text-success text-bold">TOTAL: $@Model.SaleDetailsTotal</h3>
     </div>
     <div class="table-responsive">
         <table class="table table-hover">

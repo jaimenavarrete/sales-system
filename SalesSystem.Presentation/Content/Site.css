@@ -29,6 +29,20 @@ span.glyphicon {
     margin-right: 5px;
 }
 
+/* Set font-family Archivo for titles */
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Archivo', sans-serif;
+}
+
+/* Set description list styles */
+dl dt {
+    margin-bottom: 5px;
+}
+
+dl dd {
+    margin-bottom: 15px;
+}
+
 /***** LOGO *****/
 .navbar-brand {
     font-size: 25px;
