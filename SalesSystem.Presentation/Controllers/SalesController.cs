@@ -10,6 +10,7 @@ using System.Web;
 using System.Web.Mvc;
 using CrystalDecisions.Shared;
 using SalesSystem.Business.Constants;
+using SalesSystem.Presentation.Utilities;
 
 namespace SalesSystem.Presentation.Controllers
 {
@@ -56,7 +57,9 @@ namespace SalesSystem.Presentation.Controllers
                 return RedirectToAction("Index");
             }
 
-            var viewModel = new ViewSaleViewModel() { };
+            var viewModel = new ViewSaleViewModel() {
+                SaleDetails = MapSaleDetailsToSaleViewModel(sale.SaleDetails)
+            };
 
             return View(viewModel);
         }
@@ -203,6 +206,31 @@ namespace SalesSystem.Presentation.Controllers
             };
 
             return clientViewModel;
+        }
+
+        private List<SaleDetailViewModel> MapSaleDetailsToSaleViewModel(ICollection<SaleDetails> saleDetails)
+        {
+            var saleDetailsViewModel = saleDetails
+                .Select(saleDetail => {
+                    var productPhotoBytes = _productsService.GetProductPhotoBytesByFileName(saleDetail.Products.PhotoUrl);
+                    var photoBase64 = PhotoUtilities.ConvertBytesToBase64(productPhotoBytes);
+
+                    var saleDetailViewModel = new SaleDetailViewModel()
+                    {
+                        Id = saleDetail.Id,
+                        SaleId = saleDetail.SaleId,
+                        ProductName = saleDetail.Products.Name,
+                        CurrentPrice = saleDetail.CurrentPrice ?? 0,
+                        Quantity = saleDetail.Quantity ?? 0,
+                        Discount = saleDetail.Discount ?? 0,
+                        PhotoBase64 = photoBase64
+                    };
+
+                    return saleDetailViewModel;
+                })
+                .ToList();
+
+            return saleDetailsViewModel;
         }
 
         private List<InvoiceSaleDetailViewModel> MapSaleDetailsToInvoiceViewModel(ICollection<SaleDetails> saleDetails)

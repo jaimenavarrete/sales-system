@@ -16,3 +16,67 @@
 </ol>
 
 @{ Html.RenderPartial("_ResultMessage"); }
+
+<div class="row">
+    @* Delivery state *@
+    <div class="col-md-6">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">Estado de envío</h3>
+            </div>
+            <div class="panel-body">
+
+            </div>
+        </div>
+    </div>
+
+    @* Sale and client info *@
+    <div class="col-md-6">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">Información de la venta</h3>
+            </div>
+            <div class="panel-body">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@* Sale details *@
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h3 class="panel-title">Detalles de la venta</h3>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Código</th>
+                    <th>Foto</th>
+                    <th>Nombre</th>
+                    <th>Cantidad</th>
+                    <th>Precio actual</th>
+                    <th>Descuento</th>
+                    <th>Nuevo precio</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var saleDetail in Model.SaleDetails)
+                {
+                    <tr>
+                        <td>@saleDetail.Id</td>
+                        <td><img src="@(saleDetail.PhotoBase64 ?? Url.Content("~/Content/images/image-not-found.png"))" style="width: 64px; height: 64px;" /></td>
+                        <td>@saleDetail.ProductName</td>
+                        <td>@saleDetail.Quantity</td>
+                        <td>$@saleDetail.CurrentPrice</td>
+                        <td>$@saleDetail.Discount</td>
+                        <td>$@saleDetail.NewPrice</td>
+                        <td class="text-bold">$@saleDetail.Total</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

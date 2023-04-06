@@ -1,17 +1,13 @@
-﻿namespace SalesSystem.Presentation.Models.ViewModels.Sales
+﻿using System;
+
+namespace SalesSystem.Presentation.Models.ViewModels.Sales
 {
-    public class SaleDetailViewModel
+    public class SaleDetailViewModel : InvoiceSaleDetailViewModel
     {
-        public int Id { get; set; }
+        public string PhotoBase64 { get; set; }
 
-        public int SaleId { get; set; }
+        public decimal NewPrice => CurrentPrice - Discount;
 
-        public string ProductName { get; set; }
-
-        public decimal CurrentPrice { get; set; }
-
-        public decimal Quantity { get; set; }
-
-        public decimal Discount { get; set; }
+        public decimal Total => Math.Round(NewPrice * Quantity, 2);
     }
 }
