@@ -31,13 +31,13 @@ namespace SalesSystem.Presentation.Controllers
                     Id = sale.Id,
                     ClientFirstName = sale.Clients.FirstName,
                     ClientLastName = sale.Clients.LastName,
-                    ProductsQuantity = sale.SaleDetails.Count,
-                    Total = GetSaleTotal(sale.SaleDetails),
                     IsHomeDelivery = sale.HomeDelivery,
                     SaleDate = sale.SaleDate,
                     DeliveryDate = sale.DeliveryDate,
                     IsCompleted = sale.Completed,
-                    IsPaymentCompleted = sale.PaymentCompleted
+                    IsPaymentCompleted = sale.PaymentCompleted,
+                    SaleDetails = MapSaleDetailsToSaleViewModel(sale.SaleDetails),
+                    Taxes = SaleConstants.Taxes
                 })
                 .ToList();
 
@@ -64,7 +64,7 @@ namespace SalesSystem.Presentation.Controllers
                 SaleDate = sale.SaleDate,
                 DeliveryDate = sale.DeliveryDate,
                 Observation = sale.Observation,
-                SaleDetails = MapSaleDetailsToSaleViewModel(sale.SaleDetails),
+                SaleDetails = MapSaleDetailsToSaleViewModelWithPhotos(sale.SaleDetails),
                 Client = MapClientToViewModel(sale.Clients),
                 Taxes = SaleConstants.Taxes
             };
@@ -168,15 +168,6 @@ namespace SalesSystem.Presentation.Controllers
             return File(documentStream, "application/pdf");
         }
 
-        private decimal GetSaleTotal(ICollection<SaleDetails> saleDetails)
-        {
-            var saleSubtotal = (decimal)saleDetails.Sum(sd => (sd.CurrentPrice - sd.Discount) * sd.Quantity);
-
-            var saleTotal = Math.Round(saleSubtotal * (1 + SaleConstants.Taxes), 2);
-
-            return saleTotal;
-        }
-
         private List<SaleDetails> ConvertToSaleDetails(SaleProductsListViewModel saleProductsList)
         {
             var saleDetails = new List<SaleDetails>();
@@ -216,13 +207,25 @@ namespace SalesSystem.Presentation.Controllers
             return clientViewModel;
         }
 
+        private List<SaleDetailViewModel> MapSaleDetailsToSaleViewModelWithPhotos(ICollection<SaleDetails> saleDetails)
+        {
+            var saleDetailsViewModel = MapSaleDetailsToSaleViewModel(saleDetails);
+
+            foreach(var saleDetail in saleDetailsViewModel)
+            {
+                var productPhotoBytes = _productsService.GetProductPhotoBytesByFileName(saleDetail.PhotoBase64);
+                var photoBase64 = PhotoUtilities.ConvertBytesToBase64(productPhotoBytes);
+
+                saleDetail.PhotoBase64 = photoBase64;
+            }
+
+            return saleDetailsViewModel;
+        }
+
         private List<SaleDetailViewModel> MapSaleDetailsToSaleViewModel(ICollection<SaleDetails> saleDetails)
         {
             var saleDetailsViewModel = saleDetails
                 .Select(saleDetail => {
-                    var productPhotoBytes = _productsService.GetProductPhotoBytesByFileName(saleDetail.Products.PhotoUrl);
-                    var photoBase64 = PhotoUtilities.ConvertBytesToBase64(productPhotoBytes);
-
                     var saleDetailViewModel = new SaleDetailViewModel()
                     {
                         Id = saleDetail.Id,
@@ -231,7 +234,8 @@ namespace SalesSystem.Presentation.Controllers
                         CurrentPrice = saleDetail.CurrentPrice ?? 0,
                         Quantity = saleDetail.Quantity ?? 0,
                         Discount = saleDetail.Discount ?? 0,
-                        PhotoBase64 = photoBase64
+                        // Save the photo filename in this property to get photo base 64 in another method and avoid creating a new property
+                        PhotoBase64 = saleDetail.Products.PhotoUrl
                     };
 
                     return saleDetailViewModel;
