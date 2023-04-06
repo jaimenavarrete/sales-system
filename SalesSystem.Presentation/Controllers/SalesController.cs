@@ -138,7 +138,7 @@ namespace SalesSystem.Presentation.Controllers
                 DeliveryDate = sale.DeliveryDate ?? DateTime.UtcNow,
                 IsCompleted = sale.Completed,
                 IsPaymentCompleted = sale.PaymentCompleted,
-                SaleDetails = MapSaleDetailsToViewModel(sale.SaleDetails),
+                SaleDetails = MapSaleDetailsToInvoiceViewModel(sale.SaleDetails),
             };
 
             var report = new Invoice();
@@ -205,10 +205,10 @@ namespace SalesSystem.Presentation.Controllers
             return clientViewModel;
         }
 
-        private List<SaleDetailViewModel> MapSaleDetailsToViewModel(ICollection<SaleDetails> saleDetails)
+        private List<InvoiceSaleDetailViewModel> MapSaleDetailsToInvoiceViewModel(ICollection<SaleDetails> saleDetails)
         {
             var saleDetailsViewModel = saleDetails
-                .Select(saleDetail => new SaleDetailViewModel()
+                .Select(saleDetail => new InvoiceSaleDetailViewModel()
                 {
                     Id = saleDetail.Id,
                     SaleId = saleDetail.SaleId,
