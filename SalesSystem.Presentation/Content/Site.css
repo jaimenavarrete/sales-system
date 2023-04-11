@@ -251,6 +251,90 @@ dl dd {
     padding: 20px 0 20px 0;
 }
 
+/***** TRACKING ICONS *****/
+
+/* Tracking progress bar */
+.tracking-progress-bar ul {
+    display: flex;
+    font-weight: bold;
+    margin: 75px 0 50px 0;
+    overflow: hidden;
+    padding: 0;
+}
+
+.tracking-progress-bar li {
+    list-style-type: none;
+    position: relative;
+    text-align: center;
+    width: 25%;
+    z-index: 0;
+}
+
+.tracking-progress-bar li::before {
+    content: "";
+    background: #96A5A6;
+    border-radius: 50%;
+    display: block;
+    font-size: 18px;
+    height: 40px;
+    line-height: 40px;
+    margin: auto;
+    width: 40px;
+    z-index: 1;
+}
+
+.tracking-progress-bar li::after {
+    content: "";
+    background: #96A5A6;
+    height: 12px;
+    left: -50%;
+    position: absolute;
+    top: 16px;
+    width: 100%;
+    z-index: -1;
+}
+
+.tracking-progress-bar li:first-child::after {
+    display: none;
+}
+
+.tracking-progress-bar .step0::before {
+    content: "\e165";
+    color: #FFF;
+    font-family: 'Glyphicons Halflings';
+}
+
+/* Tracking progress bar when active */
+.tracking-progress-bar .active::before,
+.tracking-progress-bar .active::after {
+    background: #39BC9D;
+}
+
+.tracking-progress-bar .active::before {
+    content: "\e013";
+}
+
+/* Icons */
+.tracking-progress-icons {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    text-align: center;
+}
+
+.tracking-progress-icons .icon {
+    display: flex;
+    align-items: center;
+}
+
+.tracking-progress-icons img {
+    width: 75px;
+}
+
+.tracking-progress-icons h4 {
+    padding: 10px;
+}
+
 /***** PAGINATION *****/
 .pagination-container {
     text-align: center;

@@ -171,9 +171,13 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\images\delivered.png" />
     <Content Include="Content\images\favicon.ico" />
     <Content Include="Content\images\image-not-found.png" />
+    <Content Include="Content\images\loaded.png" />
     <Content Include="Content\images\logo.png" />
+    <Content Include="Content\images\ordered.png" />
+    <Content Include="Content\images\shipped.png" />
     <Content Include="Content\jquery-confirm\jquery-confirm.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
