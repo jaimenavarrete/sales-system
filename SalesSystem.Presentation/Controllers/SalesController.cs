@@ -1,5 +1,6 @@
 ﻿using CrystalDecisions.Shared;
 using SalesSystem.Business.Constants;
+using SalesSystem.Business.Enums;
 using SalesSystem.Business.Services;
 using SalesSystem.DataAccess.Data;
 using SalesSystem.Presentation.Models.ViewModels.Clients;
@@ -60,6 +61,7 @@ namespace SalesSystem.Presentation.Controllers
                 Id = sale.Id,
                 IsCompleted = sale.Completed,
                 IsHomeDelivery = sale.HomeDelivery,
+                DeliveryStateId = (DeliveryState?)sale.DeliveryStateId,
                 IsPaymentCompleted = sale.PaymentCompleted,
                 SaleDate = sale.SaleDate,
                 DeliveryDate = sale.DeliveryDate,

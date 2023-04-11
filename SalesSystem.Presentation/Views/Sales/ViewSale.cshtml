@@ -38,41 +38,10 @@
 
 <div class="row">
     @* Delivery state *@
-    <div class="col-md-6">
-        <div class="panel panel-primary">
-            <div class="panel-heading">
-                <h3 class="panel-title">Estado de envío</h3>
-            </div>
-            <div class="panel-body">
-                <div class="tracking-progress-bar">
-                    <ul>
-                        <li class="active step0"></li>
-                        <li class="active step0"></li>
-                        <li class="active step0"></li>
-                        <li class="step0"></li>
-                    </ul>
-                </div>
-                <div class="tracking-progress-icons">
-                    <div class="icon">
-                        <img src="@Url.Content("~/Content/images/ordered.png")" alt="Ordenado" />
-                        <h4>Ordenado</h4>
-                    </div>
-                    <div class="icon">
-                        <img src="@Url.Content("~/Content/images/loaded.png")" alt="Cargado" />
-                        <h4>Cargado</h4>
-                    </div>
-                    <div class="icon">
-                        <img src="@Url.Content("~/Content/images/shipped.png")" alt="Enviado" />
-                        <h4>Enviado</h4>
-                    </div>
-                    <div class="icon">
-                        <img src="@Url.Content("~/Content/images/delivered.png")" alt="Entregado" />
-                        <h4>Entregado</h4>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    @if(Model.IsHomeDelivery)
+    {
+        Html.RenderPartial("Partials/_DeliveryStateProgressBar", Model.DeliveryStateId);
+    }
 
     @* Sale and client info *@
     <div class="col-md-6">

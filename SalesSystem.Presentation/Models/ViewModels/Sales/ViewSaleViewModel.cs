@@ -1,4 +1,5 @@
-﻿using SalesSystem.Presentation.Models.ViewModels.Clients;
+﻿using SalesSystem.Business.Enums;
+using SalesSystem.Presentation.Models.ViewModels.Clients;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,8 @@ namespace SalesSystem.Presentation.Models.ViewModels.Sales
         public ClientViewModel Client { get; set; }
 
         public bool IsHomeDelivery { get; set; }
+
+        public DeliveryState? DeliveryStateId { get; set; }
 
         public DateTime? SaleDate { get; set; }
 

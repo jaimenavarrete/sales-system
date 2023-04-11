@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Data.Entity;
+using SalesSystem.Business.Enums;
 
 namespace SalesSystem.Business.Services
 {
@@ -39,6 +40,11 @@ namespace SalesSystem.Business.Services
             sale.SaleDate = DateTime.UtcNow;
             sale.Created = DateTime.UtcNow;
             sale.CreatedBy = Guid.NewGuid().ToString();
+
+            if(sale.HomeDelivery)
+            {
+                sale.DeliveryStateId = (int)DeliveryState.Ordered;
+            }
 
             foreach (var saleDetail in sale.SaleDetails)
             {
