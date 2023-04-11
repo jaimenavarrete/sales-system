@@ -259,7 +259,9 @@ dl dd {
     font-weight: bold;
     margin: 75px 0 50px 0;
     overflow: hidden;
+    position: relative;
     padding: 0;
+    z-index: 0;
 }
 
 .tracking-progress-bar li {
@@ -267,12 +269,11 @@ dl dd {
     position: relative;
     text-align: center;
     width: 25%;
-    z-index: 0;
 }
 
 .tracking-progress-bar li::before {
     content: "";
-    background: #96A5A6;
+    background: #BAC4C4;
     border-radius: 50%;
     display: block;
     font-size: 18px;
@@ -285,7 +286,7 @@ dl dd {
 
 .tracking-progress-bar li::after {
     content: "";
-    background: #96A5A6;
+    background: #BAC4C4;
     height: 12px;
     left: -50%;
     position: absolute;
@@ -320,6 +321,7 @@ dl dd {
     justify-content: space-between;
     flex-wrap: wrap;
     text-align: center;
+    margin-bottom: 50px;
 }
 
 .tracking-progress-icons .icon {
@@ -328,7 +330,7 @@ dl dd {
 }
 
 .tracking-progress-icons img {
-    width: 75px;
+    width: 65px;
 }
 
 .tracking-progress-icons h4 {
