@@ -68,7 +68,8 @@ namespace SalesSystem.Presentation.Controllers
                 Observation = sale.Observation,
                 SaleDetails = MapSaleDetailsToSaleViewModelWithPhotos(sale.SaleDetails),
                 Client = MapClientToViewModel(sale.Clients),
-                Taxes = SaleConstants.Taxes
+                Taxes = SaleConstants.Taxes,
+                DeliveryStatesList = GetDeliveryStates()
             };
 
             return View(viewModel);
@@ -302,6 +303,21 @@ namespace SalesSystem.Presentation.Controllers
                 .ToList();
 
             return clientsSelectList;
+        }
+
+        private List<SelectListItem> GetDeliveryStates()
+        {
+            var deliveryStates = _salesService.GetDeliveryStates();
+
+            var deliveryStatesSelectList = deliveryStates
+                .Select(deliveryState => new SelectListItem
+                {
+                    Value = deliveryState.Id.ToString(),
+                    Text = deliveryState.Name
+                })
+                .ToList();
+
+            return deliveryStatesSelectList;
         }
     }
 }

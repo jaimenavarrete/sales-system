@@ -16,18 +16,23 @@ namespace SalesSystem.Business.Services
         {
             var sales = _context.Sales
                 .Include("Clients")
-                .Include("DeliveryStates")
                 .Include("SaleDetails")
                 .ToList();
 
             return sales;
         }
 
+        public List<DeliveryStates> GetDeliveryStates()
+        {
+            var deliveryStates = _context.DeliveryStates.ToList();
+
+            return deliveryStates;
+        }
+
         public Sales GetSaleById(int id)
         {
             var sale = _context.Sales
                 .Include("Clients")
-                .Include("DeliveryStates")
                 .Include("SaleDetails")
                 .Include(s => s.SaleDetails.Select(sd => sd.Products))
                 .FirstOrDefault(s => s.Id == id);

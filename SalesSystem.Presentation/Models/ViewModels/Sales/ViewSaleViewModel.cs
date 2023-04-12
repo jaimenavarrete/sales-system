@@ -3,6 +3,7 @@ using SalesSystem.Presentation.Models.ViewModels.Clients;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web.Mvc;
 
 namespace SalesSystem.Presentation.Models.ViewModels.Sales
 {
@@ -37,5 +38,7 @@ namespace SalesSystem.Presentation.Models.ViewModels.Sales
         public decimal SaleDetailsTaxes => Math.Round(SaleDetailsSubtotal * Taxes, 2);
 
         public decimal SaleDetailsTotal => SaleDetailsSubtotal + SaleDetailsTaxes;
+
+        public IEnumerable<SelectListItem> DeliveryStatesList { get; set; }
     }
 }

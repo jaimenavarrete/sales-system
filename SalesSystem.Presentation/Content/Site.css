@@ -43,6 +43,19 @@ dl dd {
     margin-bottom: 15px;
 }
 
+/* Set panel heading styles to add buttons */
+.panel-header-with-buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.panel-header-with-buttons button {
+
+}
+
 /***** LOGO *****/
 .navbar-brand {
     font-size: 25px;

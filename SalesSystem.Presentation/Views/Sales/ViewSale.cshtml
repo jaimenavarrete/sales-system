@@ -40,7 +40,7 @@
     @* Delivery state *@
     @if(Model.IsHomeDelivery)
     {
-        Html.RenderPartial("Partials/_DeliveryStateProgressBar", Model.DeliveryStateId);
+        Html.RenderPartial("Partials/_DeliveryStateProgressBar", Model);
     }
 
     @* Sale and client info *@
