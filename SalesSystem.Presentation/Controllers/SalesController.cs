@@ -130,6 +130,17 @@ namespace SalesSystem.Presentation.Controllers
             return RedirectToAction("Index");
         }
 
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public ActionResult SetDeliveryState(SetDeliveryStateViewModel viewModel)
+        {
+            _salesService.SetDeliveryState(viewModel.Id, viewModel.NewDeliveryState);
+
+            TempData["success"] = "El estado de envío de la venta se ha cambiado con éxito.";
+
+            return RedirectToAction("ViewSale", new { id = viewModel.Id });
+        }
+
         [HttpGet]
         public ActionResult CreateInvoice(int id = 0)
         {

@@ -79,5 +79,36 @@ namespace SalesSystem.Business.Services
             _context.Sales.Remove(sale);
             _context.SaveChanges();
         }
+
+        public void SetDeliveryState(int id, DeliveryState newDeliveryState)
+        {
+            var sale = _context.Sales.Find(id);
+
+            if (sale is null)
+            {
+                throw new BusinessException("La venta que ha seleccionado, no existe.");
+            }
+
+            var existDeliveryState = Enum.IsDefined(typeof(DeliveryState), newDeliveryState);
+
+            if (!existDeliveryState)
+            {
+                throw new BusinessException("El estado de envío que ha seleccionado, no existe.");
+            }
+
+            sale.Completed = newDeliveryState == DeliveryState.Delivered;
+
+            if (sale.Completed)
+            {
+                sale.DeliveryDate = DateTime.UtcNow;
+            }
+            else
+            {
+                sale.DeliveryDate = null;
+            }
+
+            sale.DeliveryStateId = (int)newDeliveryState;
+            _context.SaveChanges();
+        }
     }
 }
