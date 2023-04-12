@@ -110,5 +110,32 @@ namespace SalesSystem.Business.Services
             sale.DeliveryStateId = (int)newDeliveryState;
             _context.SaveChanges();
         }
+
+        public void ChangeSaleState(int id)
+        {
+            var sale = _context.Sales.Find(id);
+
+            if (sale is null)
+            {
+                throw new BusinessException("La venta que ha seleccionado, no existe.");
+            }
+
+            if(sale.HomeDelivery)
+            {
+                throw new BusinessException("La venta que ha seleccionado, es a domicilio, por lo que no se puede cambiar el estado directamente.");
+            }
+
+            sale.Completed = !sale.Completed;
+
+            if(sale.Completed)
+            {
+                sale.DeliveryDate = DateTime.UtcNow;
+                _context.SaveChanges();
+                return;
+            }
+
+            sale.DeliveryDate = null;
+            _context.SaveChanges();
+        }
     }
 }

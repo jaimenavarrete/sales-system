@@ -52,8 +52,9 @@ dl dd {
     padding-bottom: 5px;
 }
 
-.panel-header-with-buttons button {
-
+.panel-header-with-buttons ul {
+    left: auto;
+    right: 0;
 }
 
 /***** LOGO *****/

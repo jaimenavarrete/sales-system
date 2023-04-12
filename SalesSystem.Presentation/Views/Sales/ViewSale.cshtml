@@ -46,14 +46,44 @@
     @* Sale and client info *@
     <div class="col-md-6">
         <div class="panel panel-primary">
-            <div class="panel-heading">
+            <div class="panel-heading @(!Model.IsHomeDelivery ? "panel-header-with-buttons" : "")">
                 <h3 class="panel-title">Información de la venta</h3>
-            </div>
-            <div class="panel-body row">
-                <dl class="col-sm-6">
-                    <dt>Número de venta:</dt>
-                    <dd>@Model.Id</dd>
+                @if (!Model.IsHomeDelivery)
+                {
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="glyphicon glyphicon-option-vertical"></span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li>
+                                @using (Html.BeginForm("ChangeSaleState", "Sales", FormMethod.Post))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    @Html.Hidden("Id", Model.Id)
 
+                                    <button type="submit" class="btn btn-link text-primary">
+                                        @if (Model.IsCompleted)
+                                        {
+                                            <span class="glyphicon glyphicon-time"></span> <text> Marcar como pendiente</text>
+                                        }
+                                        else
+                                        {
+                                            <span class="glyphicon glyphicon-ok"></span> <text>Marcar como completada</text>
+                                        }
+                                    </button>
+                                }
+                            </li>
+                        </ul>
+                    </div>
+                }
+            </div>
+            <div class="panel-body">
+                <div class="col-sm-12">
+                    <h3>VENTA <span class="text-success">#@Model.Id</span></h3>
+                    <br />
+                </div>
+
+                <dl class="col-sm-6">
                     <dt>Estado de venta:</dt>
                     <dd>
                         <span class="label @(Model.IsCompleted ? "label-success" : "label-default")">

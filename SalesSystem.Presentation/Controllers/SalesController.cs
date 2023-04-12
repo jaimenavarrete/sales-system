@@ -1,6 +1,7 @@
 ﻿using CrystalDecisions.Shared;
 using SalesSystem.Business.Constants;
 using SalesSystem.Business.Enums;
+using SalesSystem.Business.Exceptions;
 using SalesSystem.Business.Services;
 using SalesSystem.DataAccess.Data;
 using SalesSystem.Presentation.Models.ViewModels.Clients;
@@ -134,11 +135,36 @@ namespace SalesSystem.Presentation.Controllers
         [HttpPost]
         public ActionResult SetDeliveryState(SetDeliveryStateViewModel viewModel)
         {
-            _salesService.SetDeliveryState(viewModel.Id, viewModel.NewDeliveryState);
+            try
+            {
+                _salesService.SetDeliveryState(viewModel.Id, viewModel.NewDeliveryState);
 
-            TempData["success"] = "El estado de envío de la venta se ha cambiado con éxito.";
+                TempData["success"] = "El estado de envío de la venta se ha cambiado con éxito.";
+            }
+            catch (BusinessException exception)
+            {
+                TempData["error"] = exception.Message;
+            }
 
             return RedirectToAction("ViewSale", new { id = viewModel.Id });
+        }
+
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public ActionResult ChangeSaleState(int id = 0)
+        {
+            try
+            {
+                _salesService.ChangeSaleState(id);
+
+                TempData["success"] = "El estado de de la venta se ha cambiado con éxito.";
+            }
+            catch (BusinessException exception)
+            {
+                TempData["error"] = exception.Message;
+            }
+
+            return RedirectToAction("ViewSale", new { id });
         }
 
         [HttpGet]
