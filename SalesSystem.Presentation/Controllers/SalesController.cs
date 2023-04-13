@@ -92,30 +92,37 @@ namespace SalesSystem.Presentation.Controllers
         [HttpPost]
         public ActionResult CreateSale(CreateSaleViewModel viewModel)
         {
-            if(!ModelState.IsValid)
+            try
             {
-                viewModel.ClientsList = GetClients();
-                viewModel.ProductsList = GetProducts();
+                if (!ModelState.IsValid)
+                {
+                    viewModel.ClientsList = GetClients();
+                    viewModel.ProductsList = GetProducts();
 
-                TempData["error"] = "Error. Por favor, revise que todos los campos sean válidos.";
+                    TempData["error"] = "Error. Por favor, revise que todos los campos sean válidos.";
 
-                return View(viewModel);
+                    return View(viewModel);
+                }
+
+                var saleDetails = ConvertToSaleDetails(viewModel.SaleProductsList);
+
+                var sale = new Sales()
+                {
+                    ClientId = viewModel.ClientId,
+                    HomeDelivery = viewModel.IsHomeDelivery,
+                    PaymentCompleted = viewModel.IsPaymentCompleted,
+                    Observation = viewModel.Observation,
+                    SaleDetails = saleDetails
+                };
+
+                _salesService.CreateSale(sale);
+
+                TempData["success"] = "La venta fue realizada con éxito.";
             }
-
-            var saleDetails = ConvertToSaleDetails(viewModel.SaleProductsList);
-
-            var sale = new Sales()
+            catch(BusinessException exception)
             {
-                ClientId = viewModel.ClientId,
-                HomeDelivery = viewModel.IsHomeDelivery,
-                PaymentCompleted = viewModel.IsPaymentCompleted,
-                Observation = viewModel.Observation,
-                SaleDetails = saleDetails
-            };
-
-            _salesService.CreateSale(sale);
-
-            TempData["success"] = "La venta fue realizada con éxito.";
+                TempData["error"] = exception.Message;
+            }
 
             return RedirectToAction("Index");
         }
@@ -124,9 +131,16 @@ namespace SalesSystem.Presentation.Controllers
         [HttpPost]
         public ActionResult DeleteSale(int id = 0)
         {
-            _salesService.DeleteSale(id);
+            try
+            {
+                _salesService.DeleteSale(id);
 
-            TempData["success"] = "La venta fue borrada con éxito.";
+                TempData["success"] = "La venta fue borrada con éxito.";
+            }
+            catch (BusinessException exception)
+            {
+                TempData["error"] = exception.Message;
+            }
 
             return RedirectToAction("Index");
         }
