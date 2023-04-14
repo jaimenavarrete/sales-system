@@ -47,7 +47,7 @@ namespace SalesSystem.Presentation.Controllers
         }
 
         [HttpGet]
-        public ActionResult ViewSale(int id)
+        public ActionResult ViewSale(int id = 0)
         {
             var sale = _salesService.GetSaleById(id);
 
