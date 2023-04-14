@@ -9,17 +9,14 @@
 
     // Sale details information
     var taxesPercentage = 0.13;
-    var saleDetailsQuantity = 0;
-    var saleDetailsSubtotal = 0.00;
-    var saleDetailsTaxes = 0.00;
-    var saleDetailsTotal = 0.00;
+    var saleDetails = [];
 
     addSaleProductButton.on('click', addProductSale);
 
     function addProductSale() {
         var productId = createSaleForm.find('[name = "ProductInput"]').val();
         var quantity = createSaleForm.find('[name = "QuantityInput"]').val();
-        var discount = createSaleForm.find('[name = "DiscountInput"]').val();
+        var discount = createSaleForm.find('[name = "DiscountInput"]').val() || 0;
 
         if (!isValidData(productId, quantity, discount)) {
             return;
@@ -36,18 +33,20 @@
                 return;
             }
 
-            var discount = discount ? parseFloat(discount).toFixed(2) : 0.00;
-            var saleProductElement = createSaleProductElement(productData, quantity, discount);
-            saleProductsList.append(saleProductElement);
+            var saleDetail = {
+                id: productData.Id,
+                productName: productData.Name,
+                unitTypeName: productData.UnitTypeName,
+                quantity: quantity,
+                price: productData.Price,
+                discount: discount,
+                newPrice: productData.Price - discount,
+                total: (productData.Price - discount) * quantity
+            };
 
-            // Update sale details information
+            saleDetails.push(saleDetail);
 
-            saleDetailsQuantity += 1;
-            saleDetailsSubtotal += parseFloat(((productData.Price - discount).toFixed(2) * parseFloat(quantity)).toFixed(2));
-            saleDetailsTaxes = (saleDetailsSubtotal * taxesPercentage).toFixed(2);
-            saleDetailsTotal = saleDetailsSubtotal + parseFloat(saleDetailsTaxes);
-
-            updateSaleDetailsInfo();
+            updateSaleDetailsElements();
         });
     }
 
@@ -99,38 +98,41 @@
         })
     }
 
-    function createSaleProductElement(productData, quantity, discount) {
-        var total = (productData.Price - discount) * quantity;
+    function updateSaleDetailsElements() {
+        saleProductsList.empty();
 
-        if (saleProductsList.children(".sale-product").length == 0) {
-            saleProductsList.empty();
-        }
+        $.each(saleDetails, function (index, saleDetail) {
+            var saleProductElement = createSaleProductElement(saleDetail);
+            saleProductsList.append(saleProductElement);
+        });
+    }
 
+    function createSaleProductElement(saleDetail) {
         var saleProductElement = $(`
-            <div id="ProductSale-${productData.Id}" class="row sale-product">
+            <div id="ProductSale-${saleDetail.id}" class="row sale-product">
                 <div class="form-group col-lg-5">
-                    <input type="hidden" name="SaleProductsList.ProductId[]" value="${productData.Id}" />
-                    <input type="text" class="form-control" value="${productData.Id}. ${productData.Name} - ${productData.UnitTypeName}" disabled />
+                    <input type="hidden" name="SaleProductsList.ProductId[]" value="${saleDetail.id}" />
+                    <input type="text" class="form-control" value="${saleDetail.id}. ${saleDetail.productName} - ${saleDetail.unitTypeName}" disabled />
                 </div>
                 <div class="form-group col-lg-2">
-                    <input type="hidden" name="SaleProductsList.Quantity[]" value="${quantity}" />
-                    <input type="text" class="form-control" value="${parseFloat(quantity).toFixed(2)}" disabled />
+                    <input type="hidden" name="SaleProductsList.Quantity[]" value="${saleDetail.quantity}" />
+                    <input type="text" class="form-control" value="${parseFloat(saleDetail.quantity).toFixed(2)}" disabled />
                 </div>
                 <div class="form-group col-lg-1">
-                    <input type="text" class="form-control" disabled="true" value="$${parseFloat(productData.Price).toFixed(2)}" />
+                    <input type="text" class="form-control" disabled="true" value="$${parseFloat(saleDetail.price).toFixed(2)}" />
                 </div>
                 <div class="form-group col-lg-1">
-                    <input type="hidden" name="SaleProductsList.Discount[]" value="${discount}" />
-                    <input type="text" class="form-control" value="$${parseFloat(discount).toFixed(2)}" disabled />
+                    <input type="hidden" name="SaleProductsList.Discount[]" value="${saleDetail.discount}" />
+                    <input type="text" class="form-control" value="$${parseFloat(saleDetail.discount).toFixed(2)}" disabled />
                 </div>
                 <div class="form-group col-lg-1">
-                    <input type="text" class="form-control" disabled="true" value="$${parseFloat(productData.Price - discount).toFixed(2)}" />
+                    <input type="text" class="form-control" disabled="true" value="$${parseFloat(saleDetail.newPrice).toFixed(2)}" />
                 </div>
                 <div class="form-group col-lg-1">
-                    <input type="text" class="form-control" disabled="true" value="$${parseFloat(total).toFixed(2)}" />
+                    <input type="text" class="form-control" disabled="true" value="$${parseFloat(saleDetail.total).toFixed(2)}" />
                 </div>
                 <div class="action-buttons col-lg-1">
-                    <button type="button" class="btn btn-danger" onclick="confirmSaleProductDeletion(${productData.Id})">
+                    <button type="button" class="btn btn-danger" onclick="confirmSaleProductDeletion(${saleDetail.id})">
                         <span class="glyphicon glyphicon-trash"></span>
                     </button>
                 </div>
@@ -178,13 +180,6 @@
         }
 
         saleProductElement.remove();
-    }
-
-    function updateSaleDetailsInfo() {
-        $("#SaleDetailsQuantity").text(saleDetailsQuantity);
-        $("#SaleDetailsSubtotal").text(saleDetailsSubtotal);
-        $("#SaleDetailsTaxes").text(saleDetailsTaxes);
-        $("#SaleDetailsTotal").text(saleDetailsTotal);
     }
 
     function showErrorMessage(message) {
