@@ -33,6 +33,10 @@
                 return;
             }
 
+            // These values are rounded now to avoid repeating the rounding later
+            quantity = round(quantity);
+            discount = round(discount);
+
             var saleDetail = {
                 id: productData.Id,
                 productName: productData.Name,
@@ -41,7 +45,7 @@
                 price: productData.Price,
                 discount: discount,
                 newPrice: productData.Price - discount,
-                total: (productData.Price - discount) * quantity
+                total: round((productData.Price - discount) * quantity)
             };
 
             saleDetails.push(saleDetail);
@@ -110,6 +114,31 @@
             var saleDetailElement = createSaleDetailElement(saleDetail);
             saleDetailElementsList.append(saleDetailElement);
         });
+
+        updateSaleDetailsInfo();
+    }
+
+    function updateSaleDetailsInfo() {
+        var saleDetailsInfo = {
+            quantity: 0,
+            subtotal: 0,
+            taxes: 0,
+            total: 0
+        }
+
+        $.each(saleDetails, function (index, saleDetail) {
+            saleDetailsInfo.quantity += 1;
+            saleDetailsInfo.subtotal += saleDetail.total;
+        });
+
+        saleDetailsInfo.subtotal = round(saleDetailsInfo.subtotal);
+        saleDetailsInfo.taxes = round(saleDetailsInfo.subtotal * taxesPercentage);
+        saleDetailsInfo.total = saleDetailsInfo.subtotal + saleDetailsInfo.taxes;
+
+        $("#SaleDetailsQuantity").text(saleDetailsInfo.quantity);
+        $("#SaleDetailsSubtotal").text(saleDetailsInfo.subtotal);
+        $("#SaleDetailsTaxes").text(saleDetailsInfo.taxes);
+        $("#SaleDetailsTotal").text(saleDetailsInfo.total);
     }
 
     function createSaleDetailElement(saleDetail) {
@@ -121,20 +150,20 @@
                 </div>
                 <div class="form-group col-lg-2">
                     <input type="hidden" name="SaleProductsList.Quantity[]" value="${saleDetail.quantity}" />
-                    <input type="text" class="form-control" value="${parseFloat(saleDetail.quantity).toFixed(2)}" disabled />
+                    <input type="text" class="form-control" value="${saleDetail.quantity}" disabled />
                 </div>
                 <div class="form-group col-lg-1">
-                    <input type="text" class="form-control" disabled="true" value="$${parseFloat(saleDetail.price).toFixed(2)}" />
+                    <input type="text" class="form-control" disabled="true" value="$${saleDetail.price}" />
                 </div>
                 <div class="form-group col-lg-1">
                     <input type="hidden" name="SaleProductsList.Discount[]" value="${saleDetail.discount}" />
-                    <input type="text" class="form-control" value="$${parseFloat(saleDetail.discount).toFixed(2)}" disabled />
+                    <input type="text" class="form-control" value="$${saleDetail.discount}" disabled />
                 </div>
                 <div class="form-group col-lg-1">
-                    <input type="text" class="form-control" disabled="true" value="$${parseFloat(saleDetail.newPrice).toFixed(2)}" />
+                    <input type="text" class="form-control" disabled="true" value="$${saleDetail.newPrice}" />
                 </div>
                 <div class="form-group col-lg-1">
-                    <input type="text" class="form-control" disabled="true" value="$${parseFloat(saleDetail.total).toFixed(2)}" />
+                    <input type="text" class="form-control" disabled="true" value="$${saleDetail.total}" />
                 </div>
                 <div class="action-buttons col-lg-1">
                     <button type="button" class="btn btn-danger" onclick="confirmSaleDetailDeletion(${saleDetail.id})">
@@ -193,6 +222,11 @@
             type: 'red',
             backgroundDismiss: true
         });
+    }
+
+    function round(number) {
+        var roundedNumber = parseFloat(number).toFixed(2);
+        return parseFloat(roundedNumber);
     }
 
 </script>
