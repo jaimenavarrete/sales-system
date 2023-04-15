@@ -3,17 +3,17 @@
 
 <script>
 
-    var addSaleProductButton = $("#AddSaleProduct");
-    var saleProductsList = $("#SaleProductsList");
+    var addSaleDetailButton = $("#AddSaleDetail");
+    var saleDetailElementsList = $("#SaleDetailElementsList");
     var createSaleForm = $("#CreateSaleForm");
 
     // Sale details information
     var taxesPercentage = 0.13;
     var saleDetails = [];
 
-    addSaleProductButton.on('click', addProductSale);
+    addSaleDetailButton.on('click', addSaleDetail);
 
-    function addProductSale() {
+    function addSaleDetail() {
         var productId = createSaleForm.find('[name = "ProductInput"]').val();
         var quantity = createSaleForm.find('[name = "QuantityInput"]').val();
         var discount = createSaleForm.find('[name = "DiscountInput"]').val() || 0;
@@ -46,7 +46,7 @@
 
             saleDetails.push(saleDetail);
 
-            updateSaleDetailsElements();
+            updateSaleDetailElements();
         });
     }
 
@@ -62,9 +62,9 @@
             return false;
         }
 
-        var searchSaleProductById = $("#ProductSale-" + productId);
+        var searchSaleDetailById = $("#ProductSale-" + productId);
 
-        if (searchSaleProductById.length > 0) {
+        if (searchSaleDetailById.length > 0) {
             showErrorMessage("El producto que ha seleccionado ya existe en la lista.")
             return false;
         }
@@ -98,17 +98,22 @@
         })
     }
 
-    function updateSaleDetailsElements() {
-        saleProductsList.empty();
+    function updateSaleDetailElements() {
+        saleDetailElementsList.empty();
+
+        if (saleDetails.length == 0) {
+            var emptyListElement = $('<p class="empty-list text-muted text-center">Sin productos agregados</p>');
+            saleDetailElementsList.append(emptyListElement);
+        }
 
         $.each(saleDetails, function (index, saleDetail) {
-            var saleProductElement = createSaleProductElement(saleDetail);
-            saleProductsList.append(saleProductElement);
+            var saleDetailElement = createSaleDetailElement(saleDetail);
+            saleDetailElementsList.append(saleDetailElement);
         });
     }
 
-    function createSaleProductElement(saleDetail) {
-        var saleProductElement = $(`
+    function createSaleDetailElement(saleDetail) {
+        var saleDetailElement = $(`
             <div id="ProductSale-${saleDetail.id}" class="row sale-product">
                 <div class="form-group col-lg-5">
                     <input type="hidden" name="SaleProductsList.ProductId[]" value="${saleDetail.id}" />
@@ -132,17 +137,17 @@
                     <input type="text" class="form-control" disabled="true" value="$${parseFloat(saleDetail.total).toFixed(2)}" />
                 </div>
                 <div class="action-buttons col-lg-1">
-                    <button type="button" class="btn btn-danger" onclick="confirmSaleProductDeletion(${saleDetail.id})">
+                    <button type="button" class="btn btn-danger" onclick="confirmSaleDetailDeletion(${saleDetail.id})">
                         <span class="glyphicon glyphicon-trash"></span>
                     </button>
                 </div>
             </div>
         `);
 
-        return saleProductElement;
+        return saleDetailElement;
     }
 
-    function confirmSaleProductDeletion(productId) {
+    function confirmSaleDetailDeletion(productId) {
         $.confirm({
             icon: 'glyphicon glyphicon-trash',
             title: '¿Está seguro?',
@@ -154,7 +159,7 @@
                     text: 'Si, remover',
                     btnClass: 'btn btn-danger',
                     action: function () {
-                        removeSaleProductById(productId);
+                        removeSaleDetailById(productId);
                     }
                 },
                 cancel: {
@@ -166,20 +171,18 @@
         })
     }
 
-    function removeSaleProductById(productId) {
-        var saleProductElement = $("#ProductSale-" + productId);
+    function removeSaleDetailById(productId) {
+        var newSaleDetails = $.grep(saleDetails, function (saleDetail) {
+            return saleDetail.id != productId
+        });
 
-        if (saleProductElement.length == 0) {
+        if (saleDetails.length == newSaleDetails.length) {
             showErrorMessage("El producto que desea borrar no existe.");
         }
 
-        if (saleProductsList.children(".sale-product").length == 1) {
-            var emptyListElement = $('<p class="empty-list text-muted text-center">Sin productos agregados</p>');
+        saleDetails = newSaleDetails;
 
-            saleProductsList.append(emptyListElement);
-        }
-
-        saleProductElement.remove();
+        updateSaleDetailElements();
     }
 
     function showErrorMessage(message) {
