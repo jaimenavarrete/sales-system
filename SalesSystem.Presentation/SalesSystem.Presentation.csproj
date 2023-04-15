@@ -144,11 +144,11 @@
     <Compile Include="Models\ViewModels\Categories\CreateCategoryViewModel.cs" />
     <Compile Include="Models\ViewModels\Categories\EditCategoryViewModel.cs" />
     <Compile Include="Models\ViewModels\Clients\ClientViewModel.cs" />
+    <Compile Include="Models\ViewModels\Sales\CreateSaleDetailViewModel.cs" />
     <Compile Include="Models\ViewModels\Sales\CreateSaleViewModel.cs" />
     <Compile Include="Models\ViewModels\Sales\InvoiceViewModel.cs" />
     <Compile Include="Models\ViewModels\Sales\InvoiceSaleDetailViewModel.cs" />
     <Compile Include="Models\ViewModels\Sales\SaleDetailViewModel.cs" />
-    <Compile Include="Models\ViewModels\Sales\SaleProductsListViewModel.cs" />
     <Compile Include="Models\ViewModels\Sales\SaleViewModel.cs" />
     <Compile Include="Models\ViewModels\Sales\SetDeliveryStateViewModel.cs" />
     <Compile Include="Models\ViewModels\Sales\ViewSaleViewModel.cs" />

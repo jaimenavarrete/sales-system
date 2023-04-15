@@ -111,7 +111,7 @@
         }
 
         $.each(saleDetails, function (index, saleDetail) {
-            var saleDetailElement = createSaleDetailElement(saleDetail);
+            var saleDetailElement = createSaleDetailElement(index, saleDetail);
             saleDetailElementsList.append(saleDetailElement);
         });
 
@@ -141,22 +141,22 @@
         $("#SaleDetailsTotal").text(saleDetailsInfo.total);
     }
 
-    function createSaleDetailElement(saleDetail) {
+    function createSaleDetailElement(index, saleDetail) {
         var saleDetailElement = $(`
             <div id="ProductSale-${saleDetail.id}" class="row sale-product">
                 <div class="form-group col-lg-5">
-                    <input type="hidden" name="SaleProductsList.ProductId[]" value="${saleDetail.id}" />
+                    <input type="hidden" name="SaleDetails[${index}].ProductId" value="${saleDetail.id}" />
                     <input type="text" class="form-control" value="${saleDetail.id}. ${saleDetail.productName} - ${saleDetail.unitTypeName}" disabled />
                 </div>
                 <div class="form-group col-lg-2">
-                    <input type="hidden" name="SaleProductsList.Quantity[]" value="${saleDetail.quantity}" />
+                    <input type="hidden" name="SaleDetails[${index}].Quantity" value="${saleDetail.quantity}" />
                     <input type="text" class="form-control" value="${saleDetail.quantity}" disabled />
                 </div>
                 <div class="form-group col-lg-1">
                     <input type="text" class="form-control" disabled="true" value="$${saleDetail.price}" />
                 </div>
                 <div class="form-group col-lg-1">
-                    <input type="hidden" name="SaleProductsList.Discount[]" value="${saleDetail.discount}" />
+                    <input type="hidden" name="SaleDetails[${index}].Discount" value="${saleDetail.discount}" />
                     <input type="text" class="form-control" value="$${saleDetail.discount}" disabled />
                 </div>
                 <div class="form-group col-lg-1">

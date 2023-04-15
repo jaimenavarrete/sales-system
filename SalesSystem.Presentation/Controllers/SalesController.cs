@@ -104,15 +104,13 @@ namespace SalesSystem.Presentation.Controllers
                     return View(viewModel);
                 }
 
-                var saleDetails = ConvertToSaleDetails(viewModel.SaleProductsList);
-
                 var sale = new Sales()
                 {
                     ClientId = viewModel.ClientId,
                     HomeDelivery = viewModel.IsHomeDelivery,
                     PaymentCompleted = viewModel.IsPaymentCompleted,
                     Observation = viewModel.Observation,
-                    SaleDetails = saleDetails
+                    SaleDetails = MapViewModelToSaleDetails(viewModel.SaleDetails)
                 };
 
                 _salesService.CreateSale(sale);
@@ -124,7 +122,7 @@ namespace SalesSystem.Presentation.Controllers
                 TempData["error"] = exception.Message;
             }
 
-            return RedirectToAction("Index");
+            return RedirectToAction("CreateSale");
         }
 
         [ValidateAntiForgeryToken]
@@ -222,26 +220,16 @@ namespace SalesSystem.Presentation.Controllers
             return File(documentStream, "application/pdf");
         }
 
-        private List<SaleDetails> ConvertToSaleDetails(SaleProductsListViewModel saleProductsList)
+        private List<SaleDetails> MapViewModelToSaleDetails(IEnumerable<CreateSaleDetailViewModel> saleDetailsViewModel)
         {
-            var saleDetails = new List<SaleDetails>();
-
-            for (int index = 0; index < saleProductsList.ProductId.Length; index++)
-            {
-                if(saleProductsList.ProductId[index] == 0 || saleProductsList.Quantity[index] == 0)
+            var saleDetails = saleDetailsViewModel
+                .Select(saleDetailViewModel => new SaleDetails()
                 {
-                    continue;
-                }
-
-                var saleDetail = new SaleDetails()
-                {
-                    ProductId = saleProductsList.ProductId[index],
-                    Discount = saleProductsList.Discount[index],
-                    Quantity = saleProductsList.Quantity[index]
-                };
-
-                saleDetails.Add(saleDetail);
-            }
+                    ProductId = saleDetailViewModel.ProductId,
+                    Discount = saleDetailViewModel.Discount,
+                    Quantity = saleDetailViewModel.Quantity
+                })
+                .ToList();
 
             return saleDetails;
         }
