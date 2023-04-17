@@ -116,13 +116,15 @@ namespace SalesSystem.Presentation.Controllers
                 _salesService.CreateSale(sale);
 
                 TempData["success"] = "La venta fue realizada con éxito.";
+
+                return RedirectToAction("Index");
             }
             catch(BusinessException exception)
             {
                 TempData["error"] = exception.Message;
-            }
 
-            return RedirectToAction("CreateSale");
+                return RedirectToAction("CreateSale");
+            }
         }
 
         [ValidateAntiForgeryToken]
@@ -220,7 +222,7 @@ namespace SalesSystem.Presentation.Controllers
             return File(documentStream, "application/pdf");
         }
 
-        private List<SaleDetails> MapViewModelToSaleDetails(IEnumerable<CreateSaleDetailViewModel> saleDetailsViewModel)
+        private List<SaleDetails> MapViewModelToSaleDetails(IEnumerable<SaleDetailViewModel> saleDetailsViewModel)
         {
             var saleDetails = saleDetailsViewModel
                 .Select(saleDetailViewModel => new SaleDetails()
@@ -270,10 +272,10 @@ namespace SalesSystem.Presentation.Controllers
                 .Select(saleDetail => {
                     var saleDetailViewModel = new SaleDetailViewModel()
                     {
-                        Id = saleDetail.Id,
+                        ProductId = saleDetail.ProductId,
                         SaleId = saleDetail.SaleId,
                         ProductName = saleDetail.Products.Name,
-                        CurrentPrice = saleDetail.CurrentPrice ?? 0,
+                        Price = saleDetail.CurrentPrice ?? 0,
                         Quantity = saleDetail.Quantity ?? 0,
                         Discount = saleDetail.Discount ?? 0,
                         // Save the photo filename in this property to get photo base 64 in another method and avoid creating a new property
@@ -292,12 +294,12 @@ namespace SalesSystem.Presentation.Controllers
             var saleDetailsViewModel = saleDetails
                 .Select(saleDetail => new InvoiceSaleDetailViewModel()
                 {
-                    Id = saleDetail.Id,
+                    Id = saleDetail.ProductId,
                     SaleId = saleDetail.SaleId,
                     ProductName = saleDetail.Products.Name,
-                    CurrentPrice = saleDetail.CurrentPrice ?? 0,
-                    Quantity = saleDetail.Quantity ?? 0,
-                    Discount = saleDetail.Discount ?? 0
+                    CurrentPrice = Math.Round(saleDetail.CurrentPrice ?? 0, 2),
+                    Quantity = Math.Round(saleDetail.Quantity ?? 0, 2),
+                    Discount = Math.Round(saleDetail.Discount ?? 0, 2)
                 })
                 .ToList();
 

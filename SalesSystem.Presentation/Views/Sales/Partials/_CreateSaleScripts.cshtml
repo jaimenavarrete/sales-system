@@ -1,15 +1,38 @@
-﻿@Styles.Render("~/Content/jquery-confirm")
+﻿@model List<SaleDetailViewModel>
+
+@Styles.Render("~/Content/jquery-confirm")
 @Scripts.Render("~/bundles/jquery-confirm")
 
 <script>
-
     var addSaleDetailButton = $("#AddSaleDetail");
     var saleDetailElementsList = $("#SaleDetailElementsList");
     var createSaleForm = $("#CreateSaleForm");
 
     // Sale details information
     var taxesPercentage = 0.13;
-    var saleDetails = [];
+    var saleDetails = [
+        @if(Model is object)
+        {
+            foreach(var saleDetail in Model)
+            {
+                <text>{
+                    id: @saleDetail.ProductId,
+                    productName: "@saleDetail.ProductName",
+                    unitTypeName: "@saleDetail.UnitTypeName",
+                    quantity: @saleDetail.Quantity,
+                    price: @saleDetail.Price,
+                    discount: @saleDetail.Discount,
+                    newPrice: @saleDetail.NewPrice,
+                    total: @saleDetail.Total
+                },</text>
+            }
+        }
+    ];
+
+    @if(Model is object)
+    {
+        <text>updateSaleDetailElements();</text>
+    }
 
     addSaleDetailButton.on('click', addSaleDetail);
 
@@ -44,7 +67,7 @@
                 quantity: quantity,
                 price: productData.Price,
                 discount: discount,
-                newPrice: productData.Price - discount,
+                newPrice: round(productData.Price - discount),
                 total: round((productData.Price - discount) * quantity)
             };
 
@@ -146,6 +169,8 @@
             <div id="ProductSale-${saleDetail.id}" class="row sale-product">
                 <div class="form-group col-lg-5">
                     <input type="hidden" name="SaleDetails[${index}].ProductId" value="${saleDetail.id}" />
+                    <input type="hidden" name="SaleDetails[${index}].ProductName" value="${saleDetail.productName}" />
+                    <input type="hidden" name="SaleDetails[${index}].UnitTypeName" value="${saleDetail.unitTypeName}" />
                     <input type="text" class="form-control" value="${saleDetail.id}. ${saleDetail.productName} - ${saleDetail.unitTypeName}" disabled />
                 </div>
                 <div class="form-group col-lg-2">
@@ -153,6 +178,7 @@
                     <input type="text" class="form-control" value="${saleDetail.quantity}" disabled />
                 </div>
                 <div class="form-group col-lg-1">
+                    <input type="hidden" name="SaleDetails[${index}].Price" value="${saleDetail.price}" />
                     <input type="text" class="form-control" disabled="true" value="$${saleDetail.price}" />
                 </div>
                 <div class="form-group col-lg-1">

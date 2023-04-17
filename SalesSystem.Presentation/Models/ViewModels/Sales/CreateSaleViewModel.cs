@@ -20,7 +20,7 @@ namespace SalesSystem.Presentation.Models.ViewModels.Sales
         [DisplayName("¿La venta ha sido pagada?")]
         public bool IsPaymentCompleted { get; set; }
 
-        public List<CreateSaleDetailViewModel> SaleDetails { get; set; }
+        public List<SaleDetailViewModel> SaleDetails { get; set; }
 
         public IEnumerable<SelectListItem> ClientsList { get; set; }
 

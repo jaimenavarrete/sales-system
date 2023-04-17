@@ -130,5 +130,6 @@
 
 @section scripts
 {
-    @{ Html.RenderPartial("Partials/_CreateSaleScripts"); }
+    @* Use ViewDataDictionary to avoid error with null sale details list *@
+    @{ Html.RenderPartial("Partials/_CreateSaleScripts", new ViewDataDictionary(Model.SaleDetails)); }
 }

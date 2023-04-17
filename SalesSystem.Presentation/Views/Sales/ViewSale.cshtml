@@ -167,11 +167,11 @@
                 @foreach (var saleDetail in Model.SaleDetails)
                 {
                     <tr>
-                        <td>@saleDetail.Id</td>
+                        <td>@saleDetail.ProductId</td>
                         <td><img src="@(saleDetail.PhotoBase64 ?? Url.Content("~/Content/images/image-not-found.png"))" style="width: 64px; height: 64px;" /></td>
                         <td>@saleDetail.ProductName</td>
                         <td>@saleDetail.Quantity</td>
-                        <td>$@saleDetail.CurrentPrice</td>
+                        <td>$@saleDetail.Price</td>
                         <td>$@saleDetail.Discount</td>
                         <td>$@saleDetail.NewPrice</td>
                         <td class="text-bold">$@saleDetail.Total</td>
