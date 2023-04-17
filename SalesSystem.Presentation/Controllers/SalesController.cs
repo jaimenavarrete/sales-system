@@ -213,7 +213,7 @@ namespace SalesSystem.Presentation.Controllers
                 .SetDataSource(new List<InvoiceViewModel>() { invoiceViewModel });
             report.Database.Tables["ClientViewModel"]
                 .SetDataSource(new List<ClientViewModel>() { invoiceViewModel.Client });
-            report.Subreports["SaleDetailsSubReport"].Database.Tables["SaleDetailsViewModel"]
+            report.Subreports["SaleDetailsSubReport"].Database.Tables["InvoiceSaleDetailViewModel"]
                 .SetDataSource(invoiceViewModel.SaleDetails);
 
             var documentStream = report.ExportToStream(ExportFormatType.PortableDocFormat);
@@ -294,10 +294,9 @@ namespace SalesSystem.Presentation.Controllers
             var saleDetailsViewModel = saleDetails
                 .Select(saleDetail => new InvoiceSaleDetailViewModel()
                 {
-                    Id = saleDetail.ProductId,
-                    SaleId = saleDetail.SaleId,
+                    ProductId = saleDetail.ProductId,
                     ProductName = saleDetail.Products.Name,
-                    CurrentPrice = Math.Round(saleDetail.CurrentPrice ?? 0, 2),
+                    Price = Math.Round(saleDetail.CurrentPrice ?? 0, 2),
                     Quantity = Math.Round(saleDetail.Quantity ?? 0, 2),
                     Discount = Math.Round(saleDetail.Discount ?? 0, 2)
                 })
