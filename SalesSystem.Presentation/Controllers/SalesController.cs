@@ -307,7 +307,7 @@ namespace SalesSystem.Presentation.Controllers
 
         private List<SelectListItem> GetProducts()
         {
-            var products = _productsService.GetProducts();
+            var products = _productsService.GetProductsWithStock();
 
             var productsSelectList = products
                 .Select(product => new SelectListItem

@@ -74,6 +74,10 @@
             saleDetails.push(saleDetail);
 
             updateSaleDetailElements();
+
+            // Clean form inputs
+            createSaleForm.find('[name = "QuantityInput"]').val("");
+            createSaleForm.find('[name = "DiscountInput"]').val("");
         });
     }
 

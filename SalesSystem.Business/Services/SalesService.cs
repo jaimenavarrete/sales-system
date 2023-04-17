@@ -57,8 +57,16 @@ namespace SalesSystem.Business.Services
 
                 if(product is null)
                 {
-                    throw new BusinessException("Uno de los productos agregados, no existe.");
+                    throw new BusinessException($"El producto con código #{product.Id}, no existe.");
                 }
+
+                if(product.Stock == 0 || saleDetail.Quantity > product.Stock)
+                {
+                    throw new BusinessException($"El producto con código #{product.Id}, no tiene las existencias suficientes para la venta.");
+                }
+
+                // Update product stock
+                product.Stock -= (decimal)saleDetail.Quantity;
 
                 saleDetail.CurrentPrice = product.Price;
             }

@@ -21,6 +21,17 @@ namespace SalesSystem.Business.Services
             return products;
         }
 
+        public List<Products> GetProductsWithStock()
+        {
+            var products = _context.Products
+                    .Include("UnitTypes")
+                    .Include("Categories")
+                    .Where(p => p.Stock > 0)
+                    .ToList();
+
+            return products;
+        }
+
         public Products GetProductById(int id)
         {
             var product = _context.Products.Find(id);
