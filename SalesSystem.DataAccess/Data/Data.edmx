@@ -65,9 +65,10 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="SaleId" Type="int" Nullable="false" />
           <Property Name="ProductId" Type="int" Nullable="false" />
-          <Property Name="CurrentPrice" Type="decimal" Precision="7" Scale="2" />
-          <Property Name="Quantity" Type="decimal" Precision="7" Scale="2" />
-          <Property Name="Discount" Type="decimal" Precision="7" Scale="2" />
+          <Property Name="CurrentPrice" Type="decimal" Precision="7" Scale="2" Nullable="false" />
+          <Property Name="Quantity" Type="decimal" Precision="7" Scale="2" Nullable="false" />
+          <Property Name="Discount" Type="decimal" Precision="7" Scale="2" Nullable="false" />
+          <Property Name="Total" Type="decimal" Precision="7" Scale="2" Nullable="false" />
         </EntityType>
         <EntityType Name="Sales">
           <Key>
@@ -82,6 +83,7 @@
           <Property Name="DeliveryDate" Type="datetime" />
           <Property Name="Completed" Type="bit" Nullable="false" />
           <Property Name="PaymentCompleted" Type="bit" Nullable="false" />
+          <Property Name="Total" Type="decimal" Precision="9" Scale="2" Nullable="false" />
           <Property Name="Created" Type="datetime" Nullable="false" />
           <Property Name="CreatedBy" Type="nvarchar" MaxLength="36" Nullable="false" />
           <Property Name="Modified" Type="datetime" />
@@ -112,7 +114,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__SaleDetai__SaleI__02084FDA">
-          <End Role="Sales" Type="Self.Sales" Multiplicity="1" />
+          <End Role="Sales" Type="Self.Sales" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="SaleDetails" Type="Self.SaleDetails" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Sales">
@@ -307,9 +311,10 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="SaleId" Type="Int32" Nullable="false" />
           <Property Name="ProductId" Type="Int32" Nullable="false" />
-          <Property Name="CurrentPrice" Type="Decimal" Precision="7" Scale="2" />
-          <Property Name="Quantity" Type="Decimal" Precision="7" Scale="2" />
-          <Property Name="Discount" Type="Decimal" Precision="7" Scale="2" />
+          <Property Name="CurrentPrice" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
+          <Property Name="Quantity" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
+          <Property Name="Discount" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
+          <Property Name="Total" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
           <NavigationProperty Name="Products" Relationship="SalesSystemModel.FK__SaleDetai__Produ__5441852A" FromRole="SaleDetails" ToRole="Products" />
           <NavigationProperty Name="Sales" Relationship="SalesSystemModel.FK__SaleDetai__SaleI__02084FDA" FromRole="SaleDetails" ToRole="Sales" />
         </EntityType>
@@ -326,6 +331,7 @@
           <Property Name="DeliveryDate" Type="DateTime" Precision="3" />
           <Property Name="Completed" Type="Boolean" Nullable="false" />
           <Property Name="PaymentCompleted" Type="Boolean" Nullable="false" />
+          <Property Name="Total" Type="Decimal" Nullable="false" Precision="9" Scale="2" />
           <Property Name="Created" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="36" FixedLength="false" Unicode="true" />
           <Property Name="Modified" Type="DateTime" Precision="3" />
@@ -408,7 +414,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__SaleDetai__SaleI__02084FDA">
-          <End Type="SalesSystemModel.Sales" Role="Sales" Multiplicity="1" />
+          <End Type="SalesSystemModel.Sales" Role="Sales" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Type="SalesSystemModel.SaleDetails" Role="SaleDetails" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Sales">
@@ -485,6 +493,7 @@
           <EntitySetMapping Name="SaleDetails">
             <EntityTypeMapping TypeName="SalesSystemModel.SaleDetails">
               <MappingFragment StoreEntitySet="SaleDetails">
+                <ScalarProperty Name="Total" ColumnName="Total" />
                 <ScalarProperty Name="Discount" ColumnName="Discount" />
                 <ScalarProperty Name="Quantity" ColumnName="Quantity" />
                 <ScalarProperty Name="CurrentPrice" ColumnName="CurrentPrice" />
@@ -501,6 +510,7 @@
                 <ScalarProperty Name="Modified" ColumnName="Modified" />
                 <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
                 <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
                 <ScalarProperty Name="PaymentCompleted" ColumnName="PaymentCompleted" />
                 <ScalarProperty Name="Completed" ColumnName="Completed" />
                 <ScalarProperty Name="DeliveryDate" ColumnName="DeliveryDate" />

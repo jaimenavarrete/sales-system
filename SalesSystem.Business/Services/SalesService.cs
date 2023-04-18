@@ -79,7 +79,7 @@ namespace SalesSystem.Business.Services
                 }
 
                 // Update product stock
-                product.Stock -= (decimal)saleDetail.Quantity;
+                product.Stock -= saleDetail.Quantity;
 
                 saleDetail.CurrentPrice = product.Price;
             }

@@ -29,6 +29,7 @@ namespace SalesSystem.DataAccess.Data
         public Nullable<System.DateTime> DeliveryDate { get; set; }
         public bool Completed { get; set; }
         public bool PaymentCompleted { get; set; }
+        public decimal Total { get; set; }
         public System.DateTime Created { get; set; }
         public string CreatedBy { get; set; }
         public Nullable<System.DateTime> Modified { get; set; }

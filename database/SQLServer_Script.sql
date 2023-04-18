@@ -95,6 +95,7 @@ CREATE TABLE Sales (
 	DeliveryDate DATETIME,
 	PaymentCompleted BIT NOT NULL,
 	Completed BIT NOT NULL,
+	Total DECIMAL(9,2) NOT NULL,
 	Created DATETIME NOT NULL,
 	CreatedBy NVARCHAR(36) NOT NULL,
 	Modified DATETIME,
@@ -111,9 +112,10 @@ CREATE TABLE SaleDetails (
 	Id INT IDENTITY(1,1),
 	SaleId INT NOT NULL,
 	ProductId INT NOT NULL,
-	CurrentPrice DECIMAL(7,2),
-	Quantity DECIMAL(7,2),
-	Discount DECIMAL(7,2)
+	CurrentPrice DECIMAL(7,2) NOT NULL,
+	Quantity DECIMAL(7,2) NOT NULL,
+	Discount DECIMAL(7,2) DEFAULT 0.0 NOT NULL,
+	Total DECIMAL(7,2) NOT NULL,
 
 	PRIMARY KEY (Id),
 	FOREIGN KEY (SaleId) REFERENCES Sales(Id) ON DELETE CASCADE,

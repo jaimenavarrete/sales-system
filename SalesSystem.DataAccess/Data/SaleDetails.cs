@@ -17,9 +17,10 @@ namespace SalesSystem.DataAccess.Data
         public int Id { get; set; }
         public int SaleId { get; set; }
         public int ProductId { get; set; }
-        public Nullable<decimal> CurrentPrice { get; set; }
-        public Nullable<decimal> Quantity { get; set; }
-        public Nullable<decimal> Discount { get; set; }
+        public decimal CurrentPrice { get; set; }
+        public decimal Quantity { get; set; }
+        public decimal Discount { get; set; }
+        public decimal Total { get; set; }
     
         public virtual Products Products { get; set; }
         public virtual Sales Sales { get; set; }

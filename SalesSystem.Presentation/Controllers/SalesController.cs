@@ -275,9 +275,9 @@ namespace SalesSystem.Presentation.Controllers
                         ProductId = saleDetail.ProductId,
                         SaleId = saleDetail.SaleId,
                         ProductName = saleDetail.Products.Name,
-                        Price = saleDetail.CurrentPrice ?? 0,
-                        Quantity = saleDetail.Quantity ?? 0,
-                        Discount = saleDetail.Discount ?? 0,
+                        Price = saleDetail.CurrentPrice,
+                        Quantity = saleDetail.Quantity,
+                        Discount = saleDetail.Discount,
                         // Save the photo filename in this property to get photo base 64 in another method and avoid creating a new property
                         PhotoBase64 = saleDetail.Products.PhotoUrl
                     };
@@ -296,9 +296,9 @@ namespace SalesSystem.Presentation.Controllers
                 {
                     ProductId = saleDetail.ProductId,
                     ProductName = saleDetail.Products.Name,
-                    Price = Math.Round(saleDetail.CurrentPrice ?? 0, 2),
-                    Quantity = Math.Round(saleDetail.Quantity ?? 0, 2),
-                    Discount = Math.Round(saleDetail.Discount ?? 0, 2)
+                    Price = Math.Round(saleDetail.CurrentPrice, 2),
+                    Quantity = Math.Round(saleDetail.Quantity, 2),
+                    Discount = Math.Round(saleDetail.Discount, 2)
                 })
                 .ToList();
 
