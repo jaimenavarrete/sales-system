@@ -16,6 +16,17 @@
 
 @{ Html.RenderPartial("_ResultMessage"); }
 
+<div class="row">
+    <div class="col-lg-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Ventas mensuales</h3>
+            </div>
+            <canvas id="MonthlySales"></canvas>
+        </div>
+    </div>
+</div>
+
 <div class="panel panel-primary">
     <div class="panel-heading">
         <h3 class="panel-title">Ventas realizadas</h3>
@@ -92,4 +103,61 @@
 
 @section scripts {
     @{ Html.RenderPartial("Partials/_DeleteSaleScripts"); }
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.2.1/dist/chart.umd.min.js"></script>
+
+    <script>
+        getSalesCountPerMonth(function (data) {
+            var labels = [];
+            var counts = [];
+
+            console.log(data);
+
+            $.each(data, function (index, monthData) {
+                labels.push(monthData.Year + "/" + monthData.Month);
+                counts.push(monthData.Count);
+            });
+
+            createChart(labels, counts);
+        });
+
+        function getSalesCountPerMonth(callback) {
+            var url = "@Url.Action("GetSalesCountPerMonth", "Data")";
+
+            $.ajax({
+                url,
+                type: 'GET',
+                dataType: 'json',
+                error: function (error) {
+                    showErrorMessage("No se pudo obtener las ventas mensuales.")
+                },
+                success: callback
+            })
+        }
+
+        function createChart(labels, counts) {
+            const monthlySalesCanvas = document.getElementById('MonthlySales');
+
+            new Chart(monthlySalesCanvas, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'N° de ventas',
+                        data: counts,
+                        //backgroundColor: 'rgba(57, 188, 157, 0.5)',
+                        borderWidth: 1,
+                        //borderColor: 'rgb(57, 188, 157)'
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+    </script>
 }

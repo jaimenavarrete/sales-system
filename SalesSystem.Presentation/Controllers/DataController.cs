@@ -1,6 +1,8 @@
 ﻿using SalesSystem.Business.Services;
 using SalesSystem.Presentation.Models.ViewModels.Products;
+using SalesSystem.Presentation.Models.ViewModels.Sales;
 using SalesSystem.Presentation.Utilities;
+using System.Linq;
 using System.Web.Mvc;
 
 namespace SalesSystem.Presentation.Controllers
@@ -8,6 +10,7 @@ namespace SalesSystem.Presentation.Controllers
     public class DataController : Controller
     {
         private readonly ProductsService _productsService = new ProductsService();
+        private readonly SalesService _salesService = new SalesService();
 
         public JsonResult GetProductById(int id)
         {
@@ -34,6 +37,25 @@ namespace SalesSystem.Presentation.Controllers
             };
 
             return Json(productViewModel, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetSalesCountPerMonth()
+        {
+            // Group sales by month and year
+            var sales = _salesService.GetSalesCreationDates()
+                .GroupBy(sale => new {
+                    sale.Created.Date.Year,
+                    sale.Created.Date.Month
+                })
+                .Select(group => new SalesCountPerMonthViewModel()
+                {
+                    Year = group.Key.Year,
+                    Month = group.Key.Month,
+                    Count = group.Count()
+                })
+                .ToList();
+
+            return Json(sales, JsonRequestBehavior.AllowGet);
         }
     }
 }

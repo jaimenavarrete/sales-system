@@ -22,6 +22,19 @@ namespace SalesSystem.Business.Services
             return sales;
         }
 
+        public List<Sales> GetSalesCreationDates()
+        {
+            var sales = _context.Sales
+                .Select(s => new { s.Created })
+                .ToList()
+                .Select(s => new Sales() {
+                    Created = s.Created
+                })
+                .ToList();
+
+            return sales;
+        }
+
         public List<DeliveryStates> GetDeliveryStates()
         {
             var deliveryStates = _context.DeliveryStates.ToList();
