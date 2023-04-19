@@ -18,11 +18,20 @@
 
 <div class="row">
     <div class="col-lg-4">
-        <div class="panel panel-default">
+        <div class="panel panel-primary">
             <div class="panel-heading">
-                <h3 class="panel-title">Ventas mensuales</h3>
+                <h3 class="panel-title">N° de ventas mensuales</h3>
             </div>
-            <canvas id="MonthlySales"></canvas>
+            <canvas id="MonthlySalesCounts"></canvas>
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">Ingresos mensuales</h3>
+            </div>
+            <canvas id="MonthlySalesIncomes"></canvas>
         </div>
     </div>
 </div>
@@ -107,22 +116,25 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.2.1/dist/chart.umd.min.js"></script>
 
     <script>
-        getSalesCountPerMonth(function (data) {
+        getSalesDataPerMonth(function (data) {
             var labels = [];
             var counts = [];
-
-            console.log(data);
+            var incomes = [];
+            var debts = [];
 
             $.each(data, function (index, monthData) {
                 labels.push(monthData.Year + "/" + monthData.Month);
                 counts.push(monthData.Count);
+                incomes.push(monthData.Income);
+                debts.push(monthData.Debt);
             });
 
-            createChart(labels, counts);
+            createSaleCountsChart(labels, counts);
+            createSaleIncomesChart(labels, incomes, debts);
         });
 
-        function getSalesCountPerMonth(callback) {
-            var url = "@Url.Action("GetSalesCountPerMonth", "Data")";
+        function getSalesDataPerMonth(callback) {
+            var url = "@Url.Action("GetSalesDataPerMonth", "Data")";
 
             $.ajax({
                 url,
@@ -135,20 +147,56 @@
             })
         }
 
-        function createChart(labels, counts) {
-            const monthlySalesCanvas = document.getElementById('MonthlySales');
+        function createSaleCountsChart(labels, counts) {
+            const monthlySalesCountsCanvas = document.getElementById('MonthlySalesCounts');
 
-            new Chart(monthlySalesCanvas, {
+            new Chart(monthlySalesCountsCanvas, {
                 type: 'bar',
                 data: {
                     labels: labels,
                     datasets: [{
                         label: 'N° de ventas',
                         data: counts,
-                        //backgroundColor: 'rgba(57, 188, 157, 0.5)',
-                        borderWidth: 1,
-                        //borderColor: 'rgb(57, 188, 157)'
+                        borderWidth: 3
                     }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+
+        function createSaleIncomesChart(labels, incomes, debts) {
+            const monthlySalesIncomesCanvas = document.getElementById('MonthlySalesIncomes');
+
+            new Chart(monthlySalesIncomesCanvas, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: 'Ingresos ($)',
+                            data: incomes,
+                            tension: 0.2,
+                            fill: true,
+                            backgroundColor: 'rgba(57, 188, 157, 0.25)',
+                            borderWidth: 3,
+                            borderColor: '#39BC9D',
+                        },
+                        {
+                            label: 'Deudas ($)',
+                            data: debts,
+                            tension: 0.2,
+                            fill: true,
+                            backgroundColor: 'rgba(225, 73, 65, 0.25)',
+                            borderWidth: 3,
+                            borderColor: '#E14941',
+                        }
+                    ]
                 },
                 options: {
                     scales: {

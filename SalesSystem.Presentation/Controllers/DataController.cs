@@ -39,19 +39,21 @@ namespace SalesSystem.Presentation.Controllers
             return Json(productViewModel, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult GetSalesCountPerMonth()
+        public JsonResult GetSalesDataPerMonth()
         {
             // Group sales by month and year
-            var sales = _salesService.GetSalesCreationDates()
+            var sales = _salesService.GetOnlySales()
                 .GroupBy(sale => new {
                     sale.Created.Date.Year,
                     sale.Created.Date.Month
                 })
-                .Select(group => new SalesCountPerMonthViewModel()
+                .Select(group => new SalesDataPerMonthViewModel()
                 {
                     Year = group.Key.Year,
                     Month = group.Key.Month,
-                    Count = group.Count()
+                    Count = group.Count(),
+                    Income = group.Where(s => s.PaymentCompleted).Sum(s => s.Total),
+                    Debt = group.Where(s => !s.PaymentCompleted).Sum(s => s.Total)
                 })
                 .ToList();
 

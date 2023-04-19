@@ -22,16 +22,9 @@ namespace SalesSystem.Business.Services
             return sales;
         }
 
-        public List<Sales> GetSalesCreationDates()
+        public List<Sales> GetOnlySales()
         {
-            var sales = _context.Sales
-                .Select(s => new { s.Created })
-                .ToList()
-                .Select(s => new Sales() {
-                    Created = s.Created
-                })
-                .ToList();
-
+            var sales = _context.Sales.ToList();
             return sales;
         }
 
