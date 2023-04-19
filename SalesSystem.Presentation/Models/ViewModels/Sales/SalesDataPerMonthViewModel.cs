@@ -6,7 +6,9 @@
 
         public int Month { get; set; }
 
-        public int Count { get; set; }
+        public int CompletedSalesCount { get; set; }
+
+        public int PendingSalesCount { get; set; }
 
         public decimal Income { get; set; }
 

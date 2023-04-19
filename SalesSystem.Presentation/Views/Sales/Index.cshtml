@@ -118,18 +118,20 @@
     <script>
         getSalesDataPerMonth(function (data) {
             var labels = [];
-            var counts = [];
+            var pendingSalesCount = [];
+            var completedSalesCount = [];
             var incomes = [];
             var debts = [];
 
             $.each(data, function (index, monthData) {
                 labels.push(monthData.Year + " / " + getMonthName(monthData.Month));
-                counts.push(monthData.Count);
+                completedSalesCount.push(monthData.CompletedSalesCount);
+                pendingSalesCount.push(monthData.PendingSalesCount);
                 incomes.push(monthData.Income);
                 debts.push(monthData.Debt);
             });
 
-            createSaleCountsChart(labels, counts);
+            createSaleCountsChart(labels, completedSalesCount, pendingSalesCount);
             createSaleIncomesChart(labels, incomes, debts);
         });
 
@@ -147,21 +149,35 @@
             })
         }
 
-        function createSaleCountsChart(labels, counts) {
+        function createSaleCountsChart(labels, completedSalesCount, pendingSalesCount) {
             const monthlySalesCountsCanvas = document.getElementById('MonthlySalesCounts');
 
             new Chart(monthlySalesCountsCanvas, {
                 type: 'bar',
                 data: {
                     labels: labels,
-                    datasets: [{
-                        label: 'N° de ventas',
-                        data: counts,
-                        borderWidth: 3
-                    }]
+                    datasets: [
+                        {
+                            label: 'N° de ventas completas',
+                            data: completedSalesCount,
+                            backgroundColor: 'rgba(57, 188, 157, 0.25)',
+                            borderColor: '#39BC9D',
+                            borderWidth: 3
+                        },
+                        {
+                            label: 'N° de ventas pendientes',
+                            data: pendingSalesCount,
+                            backgroundColor: 'rgba(150, 165, 166, 0.25)',
+                            borderColor: '#96A5A6',
+                            borderWidth: 3
+                        }
+                    ]
                 },
                 options: {
                     scales: {
+                        x: {
+                            stacked: true
+                        },
                         y: {
                             beginAtZero: true
                         }

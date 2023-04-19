@@ -51,7 +51,8 @@ namespace SalesSystem.Presentation.Controllers
                 {
                     Year = group.Key.Year,
                     Month = group.Key.Month,
-                    Count = group.Count(),
+                    CompletedSalesCount = group.Where(s => s.Completed).Count(),
+                    PendingSalesCount = group.Where(s => !s.Completed).Count(),
                     Income = group.Where(s => s.PaymentCompleted).Sum(s => s.Total),
                     Debt = group.Where(s => !s.PaymentCompleted).Sum(s => s.Total)
                 })
