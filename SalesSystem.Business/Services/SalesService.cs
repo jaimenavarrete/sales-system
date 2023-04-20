@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Data.Entity;
 using SalesSystem.Business.Enums;
+using SalesSystem.Business.Constants;
 
 namespace SalesSystem.Business.Services
 {
@@ -75,6 +76,11 @@ namespace SalesSystem.Business.Services
                 product.Stock -= saleDetail.Quantity;
 
                 saleDetail.CurrentPrice = product.Price;
+
+                var saleDetailNewPrice = saleDetail.CurrentPrice - saleDetail.Discount;
+                saleDetail.Total = Math.Round(saleDetailNewPrice * saleDetail.Quantity, 2);
+
+                sale.Total += Math.Round(saleDetail.Total * (1 + SaleConstants.Taxes), 2);
             }
 
             _context.Sales.Add(sale);

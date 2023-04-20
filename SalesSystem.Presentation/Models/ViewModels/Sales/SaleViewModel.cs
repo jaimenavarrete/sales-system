@@ -22,17 +22,8 @@ namespace SalesSystem.Presentation.Models.ViewModels.Sales
 
         public bool IsPaymentCompleted { get; set; }
 
-        public List<SaleDetailViewModel> SaleDetails { private get; set; }
+        public decimal Total { get; set; }
 
-        public decimal Taxes { get; set; }
-
-        public int SaleDetailsQuantity => SaleDetails.Count;
-
-        public decimal SaleDetailsTotal => SaleDetailsSubtotal + SaleDetailsTaxes;
-
-
-        private decimal SaleDetailsSubtotal => SaleDetails.Sum(sd => sd.Total);
-
-        private decimal SaleDetailsTaxes => Math.Round(SaleDetailsSubtotal * Taxes, 2);
+        public int SaleDetailsQuantity { get; set; }
     }
 }

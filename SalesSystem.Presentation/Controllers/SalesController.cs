@@ -38,8 +38,8 @@ namespace SalesSystem.Presentation.Controllers
                     DeliveryDate = sale.DeliveryDate,
                     IsCompleted = sale.Completed,
                     IsPaymentCompleted = sale.PaymentCompleted,
-                    SaleDetails = MapSaleDetailsToSaleViewModel(sale.SaleDetails),
-                    Taxes = SaleConstants.Taxes
+                    Total = sale.Total,
+                    SaleDetailsQuantity = sale.SaleDetails.Count
                 })
                 .ToList();
 
