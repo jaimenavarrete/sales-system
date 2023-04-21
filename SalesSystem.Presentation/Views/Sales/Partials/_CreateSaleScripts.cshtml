@@ -163,9 +163,9 @@
         saleDetailsInfo.total = saleDetailsInfo.subtotal + saleDetailsInfo.taxes;
 
         $("#SaleDetailsQuantity").text(saleDetailsInfo.quantity);
-        $("#SaleDetailsSubtotal").text(saleDetailsInfo.subtotal);
-        $("#SaleDetailsTaxes").text(saleDetailsInfo.taxes);
-        $("#SaleDetailsTotal").text(saleDetailsInfo.total);
+        $("#SaleDetailsSubtotal").text(saleDetailsInfo.subtotal.toFixed(2));
+        $("#SaleDetailsTaxes").text(saleDetailsInfo.taxes.toFixed(2));
+        $("#SaleDetailsTotal").text(saleDetailsInfo.total.toFixed(2));
     }
 
     function createSaleDetailElement(index, saleDetail) {

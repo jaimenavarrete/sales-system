@@ -253,21 +253,6 @@ namespace SalesSystem.Presentation.Controllers
 
         private List<SaleDetailViewModel> MapSaleDetailsToSaleViewModelWithPhotos(ICollection<SaleDetails> saleDetails)
         {
-            var saleDetailsViewModel = MapSaleDetailsToSaleViewModel(saleDetails);
-
-            foreach(var saleDetail in saleDetailsViewModel)
-            {
-                var productPhotoBytes = _productsService.GetProductPhotoBytesByFileName(saleDetail.PhotoBase64);
-                var photoBase64 = PhotoUtilities.ConvertBytesToBase64(productPhotoBytes);
-
-                saleDetail.PhotoBase64 = photoBase64;
-            }
-
-            return saleDetailsViewModel;
-        }
-
-        private List<SaleDetailViewModel> MapSaleDetailsToSaleViewModel(ICollection<SaleDetails> saleDetails)
-        {
             var saleDetailsViewModel = saleDetails
                 .Select(saleDetail => {
                     var saleDetailViewModel = new SaleDetailViewModel()
@@ -278,8 +263,7 @@ namespace SalesSystem.Presentation.Controllers
                         Price = saleDetail.CurrentPrice,
                         Quantity = saleDetail.Quantity,
                         Discount = saleDetail.Discount,
-                        // Save the photo filename in this property to get photo base 64 in another method and avoid creating a new property
-                        PhotoBase64 = saleDetail.Products.PhotoUrl
+                        PhotoBase64 = GetProductPhotoBase64(saleDetail.Products.PhotoUrl)
                     };
 
                     return saleDetailViewModel;
@@ -287,6 +271,14 @@ namespace SalesSystem.Presentation.Controllers
                 .ToList();
 
             return saleDetailsViewModel;
+        }
+
+        private string GetProductPhotoBase64(string photoFilename)
+        {
+            var productPhotoBytes = _productsService.GetProductPhotoBytesByFileName(photoFilename);
+            var photoBase64 = PhotoUtilities.ConvertBytesToBase64(productPhotoBytes);
+
+            return photoBase64;
         }
 
         private List<InvoiceSaleDetailViewModel> MapSaleDetailsToInvoiceViewModel(ICollection<SaleDetails> saleDetails)

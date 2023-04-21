@@ -80,8 +80,10 @@ namespace SalesSystem.Business.Services
                 var saleDetailNewPrice = saleDetail.CurrentPrice - saleDetail.Discount;
                 saleDetail.Total = Math.Round(saleDetailNewPrice * saleDetail.Quantity, 2);
 
-                sale.Total += Math.Round(saleDetail.Total * (1 + SaleConstants.Taxes), 2);
+                sale.Total += saleDetail.Total * (1 + SaleConstants.Taxes);
             }
+
+            sale.Total = Math.Round(sale.Total, 2);
 
             _context.Sales.Add(sale);
             _context.SaveChanges();
