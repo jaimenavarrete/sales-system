@@ -33,11 +33,11 @@ namespace SalesSystem.Presentation.Models.ViewModels.Sales
 
         public int SaleDetailsQuantity => SaleDetails.Count;
 
-        public decimal SaleDetailsSubtotal => SaleDetails.Sum(sd => sd.Total);
+        public decimal Subtotal => Math.Round(Total / ( 1 + Taxes), 2);
 
-        public decimal SaleDetailsTaxes => Math.Round(SaleDetailsSubtotal * Taxes, 2);
+        public decimal SaleTaxes => Total - Subtotal;
 
-        public decimal SaleDetailsTotal => SaleDetailsSubtotal + SaleDetailsTaxes;
+        public decimal Total { get; set; }
 
         public IEnumerable<SelectListItem> DeliveryStatesList { get; set; }
     }

@@ -70,6 +70,7 @@ namespace SalesSystem.Presentation.Controllers
                 SaleDetails = MapSaleDetailsToSaleViewModelWithPhotos(sale.SaleDetails),
                 Client = MapClientToViewModel(sale.Clients),
                 Taxes = SaleConstants.Taxes,
+                Total = sale.Total,
                 DeliveryStatesList = GetDeliveryStates()
             };
 

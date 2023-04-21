@@ -144,10 +144,10 @@
     </div>
     <div class="panel-footer text-center">
         <h4><span class="">Total elementos: </span> @Model.SaleDetailsQuantity</h4>
-        <h4><span class="">Subtotal: </span> $@Model.SaleDetailsSubtotal</h4>
-        <h4>IVA (@(Model.Taxes * 100)%): $@Model.SaleDetailsTaxes</h4>
+        <h4><span class="">Subtotal: </span> $@Model.Subtotal.ToString("0.00")</h4>
+        <h4>IVA (@(Model.Taxes * 100)%): $@Model.SaleTaxes.ToString("0.00")</h4>
 
-        <h3 class="text-success text-bold">TOTAL: $@Model.SaleDetailsTotal</h3>
+        <h3 class="text-success text-bold">TOTAL: $@Model.Total</h3>
     </div>
     <div class="table-responsive">
         <table class="table table-hover">
