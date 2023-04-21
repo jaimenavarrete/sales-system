@@ -128,6 +128,21 @@ namespace SalesSystem.Presentation.Controllers
             }
         }
 
+        [HttpGet]
+        public ActionResult EditSale(int id = 0)
+        {
+            var sale = _salesService.GetSaleById(id);
+
+            if (sale is null)
+            {
+                TempData["error"] = "Error. La venta que ha seleccionado, no existe.";
+
+                return RedirectToAction("Index");
+            }
+
+            return View();
+        }
+
         [ValidateAntiForgeryToken]
         [HttpPost]
         public ActionResult DeleteSale(int id = 0)

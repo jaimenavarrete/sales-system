@@ -226,6 +226,7 @@
     <Content Include="Views\Sales\ViewSale.cshtml" />
     <Content Include="Views\Sales\Partials\_DeleteSaleScripts.cshtml" />
     <Content Include="Views\Sales\Partials\_DeliveryStateProgressBar.cshtml" />
+    <Content Include="Views\Sales\EditSale.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

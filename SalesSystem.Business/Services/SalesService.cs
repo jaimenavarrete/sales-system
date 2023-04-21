@@ -91,11 +91,20 @@ namespace SalesSystem.Business.Services
 
         public void DeleteSale(int id)
         {
-            var sale = _context.Sales.Find(id);
+            var sale = _context.Sales
+                .Include("SaleDetails")
+                .FirstOrDefault(s => s.Id == id);
 
             if (sale is null)
             {
                 throw new BusinessException("La venta que intenta borrar, no existe.");
+            }
+
+            foreach(var saleDetail in sale.SaleDetails)
+            {
+                var product = _context.Products.Find(saleDetail.ProductId);
+
+                product.Stock += saleDetail.Quantity;
             }
 
             _context.Sales.Remove(sale);

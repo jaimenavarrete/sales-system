@@ -89,7 +89,7 @@
                                 <a href="@Url.Action("ViewSale", "Sales", new { id = sale.Id })" class="btn btn-primary">
                                     <span class="glyphicon glyphicon-eye-open"></span>
                                 </a>
-                                <a href="#" class="btn btn-warning">
+                                <a href="@Url.Action("EditSale", "Sales", new { id = sale.Id })" class="btn btn-warning">
                                     <span class="glyphicon glyphicon-pencil"></span>
                                 </a>
                                 <button form="DeleteSale-@(sale.Id)" class="btn btn-danger">
