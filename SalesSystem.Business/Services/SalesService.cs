@@ -89,6 +89,11 @@ namespace SalesSystem.Business.Services
             _context.SaveChanges();
         }
 
+        public void EditSale(Sales sale)
+        {
+
+        }
+
         public void DeleteSale(int id)
         {
             var sale = _context.Sales

@@ -143,11 +143,56 @@ namespace SalesSystem.Presentation.Controllers
             var viewModel = new EditSaleViewModel()
             {
                 Id = sale.Id,
+                ClientId = sale.ClientId,
+                IsHomeDelivery = sale.HomeDelivery,
+                IsPaymentCompleted = sale.PaymentCompleted,
+                Observation = sale.Observation,
+                SaleDetails = MapSaleDetailsToSaleViewModel(sale.SaleDetails),
                 ClientsList = GetClients(),
                 ProductsList = GetProducts()
             };
 
             return View(viewModel);
+        }
+
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public ActionResult EditSale(EditSaleViewModel viewModel)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    viewModel.ClientsList = GetClients();
+                    viewModel.ProductsList = GetProducts();
+
+                    TempData["error"] = "Error. Por favor, revise que todos los campos sean válidos.";
+
+                    return View(viewModel);
+                }
+
+                var sale = new Sales()
+                {
+                    Id = viewModel.Id,
+                    ClientId = viewModel.ClientId,
+                    HomeDelivery = viewModel.IsHomeDelivery,
+                    PaymentCompleted = viewModel.IsPaymentCompleted,
+                    Observation = viewModel.Observation,
+                    SaleDetails = MapViewModelToSaleDetails(viewModel.SaleDetails)
+                };
+
+                _salesService.EditSale(sale);
+
+                TempData["success"] = "La venta fue editada con éxito.";
+
+                return RedirectToAction("Index");
+            }
+            catch (BusinessException exception)
+            {
+                TempData["error"] = exception.Message;
+
+                return RedirectToAction("EditSale", new { viewModel.Id });
+            }
         }
 
         [ValidateAntiForgeryToken]
@@ -276,6 +321,21 @@ namespace SalesSystem.Presentation.Controllers
 
         private List<SaleDetailViewModel> MapSaleDetailsToSaleViewModelWithPhotos(ICollection<SaleDetails> saleDetails)
         {
+            var saleDetailsViewModel = MapSaleDetailsToSaleViewModel(saleDetails);
+
+            foreach(var saleDetail in saleDetailsViewModel)
+            {
+                var productPhotoBytes = _productsService.GetProductPhotoBytesByFileName(saleDetail.PhotoBase64);
+                var photoBase64 = PhotoUtilities.ConvertBytesToBase64(productPhotoBytes);
+
+                saleDetail.PhotoBase64 = photoBase64;
+            }
+
+            return saleDetailsViewModel;
+        }
+
+        private List<SaleDetailViewModel> MapSaleDetailsToSaleViewModel(ICollection<SaleDetails> saleDetails)
+        {
             var saleDetailsViewModel = saleDetails
                 .Select(saleDetail => {
                     var saleDetailViewModel = new SaleDetailViewModel()
@@ -286,7 +346,8 @@ namespace SalesSystem.Presentation.Controllers
                         Price = saleDetail.CurrentPrice,
                         Quantity = saleDetail.Quantity,
                         Discount = saleDetail.Discount,
-                        PhotoBase64 = GetProductPhotoBase64(saleDetail.Products.PhotoUrl)
+                        // Save the photo filename in this property to get photo base 64 in another method and avoid creating a new property
+                        PhotoBase64 = saleDetail.Products.PhotoUrl
                     };
 
                     return saleDetailViewModel;
@@ -294,14 +355,6 @@ namespace SalesSystem.Presentation.Controllers
                 .ToList();
 
             return saleDetailsViewModel;
-        }
-
-        private string GetProductPhotoBase64(string photoFilename)
-        {
-            var productPhotoBytes = _productsService.GetProductPhotoBytesByFileName(photoFilename);
-            var photoBase64 = PhotoUtilities.ConvertBytesToBase64(productPhotoBytes);
-
-            return photoBase64;
         }
 
         private List<InvoiceSaleDetailViewModel> MapSaleDetailsToInvoiceViewModel(ICollection<SaleDetails> saleDetails)
