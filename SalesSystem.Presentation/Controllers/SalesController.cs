@@ -140,7 +140,14 @@ namespace SalesSystem.Presentation.Controllers
                 return RedirectToAction("Index");
             }
 
-            return View();
+            var viewModel = new EditSaleViewModel()
+            {
+                Id = sale.Id,
+                ClientsList = GetClients(),
+                ProductsList = GetProducts()
+            };
+
+            return View(viewModel);
         }
 
         [ValidateAntiForgeryToken]

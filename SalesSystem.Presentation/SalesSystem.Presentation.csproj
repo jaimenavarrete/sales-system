@@ -145,6 +145,7 @@
     <Compile Include="Models\ViewModels\Categories\EditCategoryViewModel.cs" />
     <Compile Include="Models\ViewModels\Clients\ClientViewModel.cs" />
     <Compile Include="Models\ViewModels\Sales\CreateSaleViewModel.cs" />
+    <Compile Include="Models\ViewModels\Sales\EditSaleViewModel.cs" />
     <Compile Include="Models\ViewModels\Sales\InvoiceViewModel.cs" />
     <Compile Include="Models\ViewModels\Sales\InvoiceSaleDetailViewModel.cs" />
     <Compile Include="Models\ViewModels\Sales\SaleDetailViewModel.cs" />
