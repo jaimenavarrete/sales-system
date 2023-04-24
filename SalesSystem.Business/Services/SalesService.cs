@@ -49,10 +49,6 @@ namespace SalesSystem.Business.Services
 
         public void CreateSale(Sales sale)
         {
-            sale.SaleDate = DateTime.UtcNow;
-            sale.Created = DateTime.UtcNow;
-            sale.CreatedBy = Guid.NewGuid().ToString();
-
             if(sale.HomeDelivery)
             {
                 sale.DeliveryStateId = (int)DeliveryState.Ordered;
@@ -85,13 +81,93 @@ namespace SalesSystem.Business.Services
 
             sale.Total = Math.Round(sale.Total, 2);
 
+            sale.SaleDate = DateTime.UtcNow;
+            sale.Created = DateTime.UtcNow;
+            sale.CreatedBy = Guid.NewGuid().ToString();
+
             _context.Sales.Add(sale);
             _context.SaveChanges();
         }
 
         public void EditSale(Sales sale)
         {
+            var currentSale = _context.Sales
+                .Include("SaleDetails")
+                .FirstOrDefault(s => s.Id == sale.Id);
 
+            if (currentSale is null)
+            {
+                throw new BusinessException($"La venta con código #{sale.Id}, no existe.");
+            }
+
+            foreach (var saleDetail in sale.SaleDetails)
+            {
+                var product = _context.Products.Find(saleDetail.ProductId);
+
+                if (product is null)
+                {
+                    throw new BusinessException($"El producto con código #{product.Id}, no existe.");
+                }
+
+                // Verify if this product exists in the current sale to keep the same price and
+                // get the difference in quantities
+                var currentSaleDetail = _context.SaleDetails
+                    .FirstOrDefault(sd => sd.ProductId == product.Id && sd.SaleId == sale.Id);
+
+                if(currentSaleDetail is object)
+                {
+                    saleDetail.CurrentPrice = currentSaleDetail.CurrentPrice;
+
+                    if ((saleDetail.Quantity - currentSaleDetail.Quantity) > product.Stock)
+                    {
+                        throw new BusinessException($"El producto con código #{product.Id}, no tiene las existencias suficientes para la venta.");
+                    }
+                }
+                else
+                {
+                    saleDetail.CurrentPrice = product.Price;
+
+                    if (product.Stock == 0 || saleDetail.Quantity > product.Stock)
+                    {
+                        throw new BusinessException($"El producto con código #{product.Id}, no tiene las existencias suficientes para la venta.");
+                    }
+                }
+
+                // Update product stock
+                product.Stock -= saleDetail.Quantity;
+
+                var saleDetailNewPrice = saleDetail.CurrentPrice - saleDetail.Discount;
+                saleDetail.Total = Math.Round(saleDetailNewPrice * saleDetail.Quantity, 2);
+
+                sale.Total += saleDetail.Total * (1 + SaleConstants.Taxes);
+
+                saleDetail.SaleId = sale.Id;
+            }
+
+            foreach (var saleDetail in currentSale.SaleDetails)
+            {
+                var product = _context.Products.Find(saleDetail.ProductId);
+
+                product.Stock += saleDetail.Quantity;
+            }
+
+            if (sale.HomeDelivery && currentSale.DeliveryStateId is null)
+            {
+                currentSale.DeliveryStateId = (int)DeliveryState.Ordered;
+            }
+
+            currentSale.Total = Math.Round(sale.Total, 2);
+            currentSale.ClientId = sale.ClientId;
+            currentSale.HomeDelivery = sale.HomeDelivery;
+            currentSale.PaymentCompleted = sale.PaymentCompleted;
+            currentSale.Observation = sale.Observation;
+            currentSale.Modified = DateTime.UtcNow;
+            currentSale.ModifiedBy = Guid.NewGuid().ToString();
+
+            _context.SaleDetails.RemoveRange(currentSale.SaleDetails);
+            _context.SaleDetails.AddRange(sale.SaleDetails);
+
+            _context.SaveChanges();
         }
 
         public void DeleteSale(int id)
