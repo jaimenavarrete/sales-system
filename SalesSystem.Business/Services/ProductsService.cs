@@ -34,7 +34,10 @@ namespace SalesSystem.Business.Services
 
         public Products GetProductById(int id)
         {
-            var product = _context.Products.Find(id);
+            var product = _context.Products
+                    .Include("UnitTypes")
+                    .Include("Categories")
+                    .FirstOrDefault(p => p.Id == id);
 
             return product;
         }

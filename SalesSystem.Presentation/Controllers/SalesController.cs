@@ -343,6 +343,7 @@ namespace SalesSystem.Presentation.Controllers
                         ProductId = saleDetail.ProductId,
                         SaleId = saleDetail.SaleId,
                         ProductName = saleDetail.Products.Name,
+                        UnitTypeName = saleDetail.Products.UnitTypes.Name,
                         Price = saleDetail.CurrentPrice,
                         Quantity = saleDetail.Quantity,
                         Discount = saleDetail.Discount,

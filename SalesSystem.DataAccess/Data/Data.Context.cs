@@ -18,6 +18,7 @@ namespace SalesSystem.DataAccess.Data
         public SalesSystemEntities()
             : base("name=SalesSystemEntities")
         {
+            Configuration.LazyLoadingEnabled = false;
         }
     
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

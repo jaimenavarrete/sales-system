@@ -3,7 +3,6 @@ using SalesSystem.DataAccess.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Data.Entity;
 using SalesSystem.Business.Enums;
 using SalesSystem.Business.Constants;
 
@@ -40,8 +39,7 @@ namespace SalesSystem.Business.Services
         {
             var sale = _context.Sales
                 .Include("Clients")
-                .Include("SaleDetails")
-                .Include(s => s.SaleDetails.Select(sd => sd.Products))
+                .Include("SaleDetails.Products.UnitTypes")
                 .FirstOrDefault(s => s.Id == id);
 
             return sale;
