@@ -20,7 +20,7 @@ namespace SalesSystem.Presentation.Models.ViewModels.Products
 
         public string CategoryName { get; set; }
 
-        public string PhotoUrl { get; set; }
+        public string PhotoFilename { get; set; }
 
         public string PhotoBase64 { get; set; }
 

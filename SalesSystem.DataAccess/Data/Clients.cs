@@ -27,7 +27,7 @@ namespace SalesSystem.DataAccess.Data
         public string Email { get; set; }
         public string Phone { get; set; }
         public string Address { get; set; }
-        public Nullable<decimal> Debt { get; set; }
+        public Nullable<decimal> Credit { get; set; }
         public System.DateTime Created { get; set; }
         public string CreatedBy { get; set; }
         public Nullable<System.DateTime> Modified { get; set; }

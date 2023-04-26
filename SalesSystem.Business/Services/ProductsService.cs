@@ -53,7 +53,7 @@ namespace SalesSystem.Business.Services
         {
             var photoFilename = _photoStorage.SavePhotoFromBytes(productPhotoBytes);
 
-            product.PhotoUrl = photoFilename;
+            product.PhotoFilename = photoFilename;
             product.Created = DateTime.UtcNow;
             product.CreatedBy = Guid.NewGuid().ToString();
 
@@ -67,10 +67,10 @@ namespace SalesSystem.Business.Services
 
             if(productPhotoBytes is object)
             {
-                _photoStorage.DeletePhotoByFileName(currentProduct.PhotoUrl);
+                _photoStorage.DeletePhotoByFileName(currentProduct.PhotoFilename);
 
                 var photoFileName = _photoStorage.SavePhotoFromBytes(productPhotoBytes);
-                currentProduct.PhotoUrl = photoFileName;
+                currentProduct.PhotoFilename = photoFileName;
             }
 
             currentProduct.Name = product.Name;

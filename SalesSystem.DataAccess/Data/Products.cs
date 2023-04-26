@@ -23,11 +23,12 @@ namespace SalesSystem.DataAccess.Data
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+        public decimal MinimumStock { get; set; }
         public decimal Stock { get; set; }
         public decimal Price { get; set; }
         public int UnitTypeId { get; set; }
         public int CategoryId { get; set; }
-        public string PhotoUrl { get; set; }
+        public string PhotoFilename { get; set; }
         public System.DateTime Created { get; set; }
         public string CreatedBy { get; set; }
         public Nullable<System.DateTime> Modified { get; set; }

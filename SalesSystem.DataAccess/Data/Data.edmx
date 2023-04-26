@@ -28,7 +28,7 @@
           <Property Name="Email" Type="varchar" MaxLength="50" />
           <Property Name="Phone" Type="char" MaxLength="8" Nullable="false" />
           <Property Name="Address" Type="varchar" MaxLength="200" Nullable="false" />
-          <Property Name="Debt" Type="decimal" Precision="7" Scale="2" />
+          <Property Name="Credit" Type="decimal" Precision="7" Scale="2" />
           <Property Name="Created" Type="datetime" Nullable="false" />
           <Property Name="CreatedBy" Type="nvarchar" MaxLength="36" Nullable="false" />
           <Property Name="Modified" Type="datetime" />
@@ -48,11 +48,12 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Description" Type="nvarchar" MaxLength="1000" />
+          <Property Name="MinimumStock" Type="decimal" Precision="7" Scale="2" Nullable="false" />
           <Property Name="Stock" Type="decimal" Precision="7" Scale="2" Nullable="false" />
           <Property Name="Price" Type="decimal" Precision="7" Scale="2" Nullable="false" />
           <Property Name="UnitTypeId" Type="int" Nullable="false" />
           <Property Name="CategoryId" Type="int" Nullable="false" />
-          <Property Name="PhotoUrl" Type="nvarchar" MaxLength="100" />
+          <Property Name="PhotoFilename" Type="nvarchar" MaxLength="100" />
           <Property Name="Created" Type="datetime" Nullable="false" />
           <Property Name="CreatedBy" Type="nvarchar" MaxLength="36" Nullable="false" />
           <Property Name="Modified" Type="datetime" />
@@ -83,6 +84,7 @@
           <Property Name="DeliveryDate" Type="datetime" />
           <Property Name="Completed" Type="bit" Nullable="false" />
           <Property Name="PaymentCompleted" Type="bit" Nullable="false" />
+          <Property Name="ProductsQuantity" Type="int" Nullable="false" />
           <Property Name="Total" Type="decimal" Precision="9" Scale="2" Nullable="false" />
           <Property Name="Created" Type="datetime" Nullable="false" />
           <Property Name="CreatedBy" Type="nvarchar" MaxLength="36" Nullable="false" />
@@ -269,7 +271,7 @@
           <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Phone" Type="String" Nullable="false" MaxLength="8" FixedLength="true" Unicode="false" />
           <Property Name="Address" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="Debt" Type="Decimal" Precision="7" Scale="2" />
+          <Property Name="Credit" Type="Decimal" Precision="7" Scale="2" />
           <Property Name="Created" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="36" FixedLength="false" Unicode="true" />
           <Property Name="Modified" Type="DateTime" Precision="3" />
@@ -291,11 +293,12 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Description" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="MinimumStock" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
           <Property Name="Stock" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
           <Property Name="Price" Type="Decimal" Nullable="false" Precision="7" Scale="2" />
           <Property Name="UnitTypeId" Type="Int32" Nullable="false" />
           <Property Name="CategoryId" Type="Int32" Nullable="false" />
-          <Property Name="PhotoUrl" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="PhotoFilename" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="Created" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="36" FixedLength="false" Unicode="true" />
           <Property Name="Modified" Type="DateTime" Precision="3" />
@@ -331,6 +334,7 @@
           <Property Name="DeliveryDate" Type="DateTime" Precision="3" />
           <Property Name="Completed" Type="Boolean" Nullable="false" />
           <Property Name="PaymentCompleted" Type="Boolean" Nullable="false" />
+          <Property Name="ProductsQuantity" Type="Int32" Nullable="false" />
           <Property Name="Total" Type="Decimal" Nullable="false" Precision="9" Scale="2" />
           <Property Name="Created" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="36" FixedLength="false" Unicode="true" />
@@ -453,7 +457,7 @@
                 <ScalarProperty Name="Modified" ColumnName="Modified" />
                 <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
                 <ScalarProperty Name="Created" ColumnName="Created" />
-                <ScalarProperty Name="Debt" ColumnName="Debt" />
+                <ScalarProperty Name="Credit" ColumnName="Credit" />
                 <ScalarProperty Name="Address" ColumnName="Address" />
                 <ScalarProperty Name="Phone" ColumnName="Phone" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
@@ -479,11 +483,12 @@
                 <ScalarProperty Name="Modified" ColumnName="Modified" />
                 <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
                 <ScalarProperty Name="Created" ColumnName="Created" />
-                <ScalarProperty Name="PhotoUrl" ColumnName="PhotoUrl" />
+                <ScalarProperty Name="PhotoFilename" ColumnName="PhotoFilename" />
                 <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
                 <ScalarProperty Name="UnitTypeId" ColumnName="UnitTypeId" />
                 <ScalarProperty Name="Price" ColumnName="Price" />
                 <ScalarProperty Name="Stock" ColumnName="Stock" />
+                <ScalarProperty Name="MinimumStock" ColumnName="MinimumStock" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
@@ -511,6 +516,7 @@
                 <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
                 <ScalarProperty Name="Created" ColumnName="Created" />
                 <ScalarProperty Name="Total" ColumnName="Total" />
+                <ScalarProperty Name="ProductsQuantity" ColumnName="ProductsQuantity" />
                 <ScalarProperty Name="PaymentCompleted" ColumnName="PaymentCompleted" />
                 <ScalarProperty Name="Completed" ColumnName="Completed" />
                 <ScalarProperty Name="DeliveryDate" ColumnName="DeliveryDate" />

@@ -21,7 +21,7 @@ namespace SalesSystem.Presentation.Controllers
                 return null;
             }
 
-            var productPhotoBytes = _productsService.GetProductPhotoBytesByFileName(product.PhotoUrl);
+            var productPhotoBytes = _productsService.GetProductPhotoBytesByFileName(product.PhotoFilename);
 
             var productViewModel = new ProductViewModel()
             {

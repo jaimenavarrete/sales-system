@@ -348,7 +348,7 @@ namespace SalesSystem.Presentation.Controllers
                         Quantity = saleDetail.Quantity,
                         Discount = saleDetail.Discount,
                         // Save the photo filename in this property to get photo base 64 in another method and avoid creating a new property
-                        PhotoBase64 = saleDetail.Products.PhotoUrl
+                        PhotoBase64 = saleDetail.Products.PhotoFilename
                     };
 
                     return saleDetailViewModel;

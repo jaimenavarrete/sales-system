@@ -31,7 +31,7 @@ namespace SalesSystem.Presentation.Controllers
                     Price = product.Price,
                     UnitTypeName = product.UnitTypes.Name,
                     CategoryName = product.Categories.Name,
-                    PhotoUrl = product.PhotoUrl,
+                    PhotoFilename = product.PhotoFilename,
                     Created = product.Created,
                     CreatedBy = product.CreatedBy,
                     Modified = product.Modified,
@@ -45,7 +45,7 @@ namespace SalesSystem.Presentation.Controllers
             // Get the photos of the current page products
             foreach(var product in paginatedList.PageItems)
             {
-                var productPhotoBytes = _productsService.GetProductPhotoBytesByFileName(product.PhotoUrl);
+                var productPhotoBytes = _productsService.GetProductPhotoBytesByFileName(product.PhotoFilename);
                 product.PhotoBase64 = PhotoUtilities.ConvertBytesToBase64(productPhotoBytes);
             }
 
@@ -108,7 +108,7 @@ namespace SalesSystem.Presentation.Controllers
                 return RedirectToAction("Index");
             }
 
-            var productPhotoBytes = _productsService.GetProductPhotoBytesByFileName(product.PhotoUrl);
+            var productPhotoBytes = _productsService.GetProductPhotoBytesByFileName(product.PhotoFilename);
 
             var viewModel = new EditProductViewModel()
             {
