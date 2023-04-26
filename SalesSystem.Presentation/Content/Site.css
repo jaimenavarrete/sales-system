@@ -206,13 +206,40 @@ dl dd {
 
 /* Action buttons */
 
-.action-buttons button,
-.action-buttons a {
-    padding: 7px 10px;
+.action-buttons .dropdown-button,
+.action-buttons > a {
+    background: transparent;
+    color: #96A5A6;
+    font-size: 18px;
+    padding: 7px;
+}
+
+.action-buttons a:hover,
+.action-buttons button:hover {
+    color: #2E3F4F;
 }
 
 .action-buttons .glyphicon {
     margin-right: 0;
+}
+
+.action-buttons .dropdown-menu {
+    left: auto;
+    right: 0;
+}
+
+.action-buttons .dropdown-menu button {
+    padding: 5px;
+    width: 100%;
+}
+
+.action-buttons .dropdown-menu button:hover {
+    background: #E14941;
+    color: white;
+}
+
+.action-buttons .dropdown-menu .glyphicon {
+    margin-right: 5px;
 }
 
 /***** SALE PRODUCTS LIST *****/
