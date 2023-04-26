@@ -29,6 +29,12 @@ span.glyphicon {
     margin-right: 5px;
 }
 
+/* Change buttons size in groups */
+.btn-group button,
+.btn-group a {
+    padding: 7px 10px;
+}
+
 /* Set font-family Archivo for titles */
 h1, h2, h3, h4, h5, h6 {
     font-family: 'Archivo', sans-serif;
@@ -259,22 +265,15 @@ dl dd {
     padding: 10px;
 }
 
-.sale-products-list label {
-    margin-bottom: 0;
-}
-
-.sale-products-list input {
-    height: 40px;
-}
-
-.add-sale-product .sale-product {
-    background-color: #ECF0F1;
-}
-
 .sale-products-list .sale-product,
 .add-sale-product .sale-product {
     margin: 0;
     padding: 10px;
+}
+
+.sale-products-list .sale-product .btn-group .glyphicon,
+.add-sale-product .sale-product .btn-group .glyphicon {
+    margin-right: 0;
 }
 
 .sale-products-list .sale-product,
@@ -283,8 +282,12 @@ dl dd {
     border-top: 0;
 }
 
-.add-sale-product .sale-product .action-buttons {
-    margin-top: 27px;
+.add-sale-product .sale-product {
+    background-color: #ECF0F1;
+}
+
+.sale-products-list input {
+    height: 40px;
 }
 
 .sale-products-list .empty-list {
