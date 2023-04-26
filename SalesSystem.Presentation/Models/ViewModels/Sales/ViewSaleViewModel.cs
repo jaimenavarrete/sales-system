@@ -27,11 +27,11 @@ namespace SalesSystem.Presentation.Models.ViewModels.Sales
 
         public string Observation { get; set; }
 
-        public List<SaleDetailViewModel> SaleDetails { get; set; }
-
         public decimal Taxes { get; set; }
 
-        public int SaleDetailsQuantity => SaleDetails.Count;
+        public List<SaleDetailViewModel> SaleDetails { get; set; }
+
+        public int ProductsQuantity { get; set; }
 
         public decimal Subtotal => Math.Round(Total / ( 1 + Taxes), 2);
 

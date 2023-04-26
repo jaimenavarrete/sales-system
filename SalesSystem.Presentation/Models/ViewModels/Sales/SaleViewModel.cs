@@ -24,6 +24,6 @@ namespace SalesSystem.Presentation.Models.ViewModels.Sales
 
         public decimal Total { get; set; }
 
-        public int SaleDetailsQuantity { get; set; }
+        public int ProductsQuantity { get; set; }
     }
 }

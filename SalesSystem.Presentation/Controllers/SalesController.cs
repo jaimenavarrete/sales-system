@@ -39,7 +39,7 @@ namespace SalesSystem.Presentation.Controllers
                     IsCompleted = sale.Completed,
                     IsPaymentCompleted = sale.PaymentCompleted,
                     Total = sale.Total,
-                    SaleDetailsQuantity = sale.SaleDetails.Count
+                    ProductsQuantity = sale.ProductsQuantity
                 })
                 .ToList();
 
@@ -70,6 +70,7 @@ namespace SalesSystem.Presentation.Controllers
                 SaleDetails = MapSaleDetailsToSaleViewModelWithPhotos(sale.SaleDetails),
                 Client = MapClientToViewModel(sale.Clients),
                 Taxes = SaleConstants.Taxes,
+                ProductsQuantity = sale.ProductsQuantity,
                 Total = sale.Total,
                 DeliveryStatesList = GetDeliveryStates()
             };

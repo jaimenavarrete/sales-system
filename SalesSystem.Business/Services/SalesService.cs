@@ -12,19 +12,18 @@ namespace SalesSystem.Business.Services
     {
         private readonly SalesSystemEntities _context = new SalesSystemEntities();
 
+        public List<Sales> GetOnlySales()
+        {
+            var sales = _context.Sales.ToList();
+            return sales;
+        }
+
         public List<Sales> GetSales()
         {
             var sales = _context.Sales
                 .Include("Clients")
-                .Include("SaleDetails")
                 .ToList();
 
-            return sales;
-        }
-
-        public List<Sales> GetOnlySales()
-        {
-            var sales = _context.Sales.ToList();
             return sales;
         }
 
@@ -75,6 +74,7 @@ namespace SalesSystem.Business.Services
                 saleDetail.Total = Math.Round(saleDetailNewPrice * saleDetail.Quantity, 2);
 
                 sale.Total += saleDetail.Total * (1 + SaleConstants.Taxes);
+                sale.ProductsQuantity += 1;
             }
 
             sale.Total = Math.Round(sale.Total, 2);
@@ -138,6 +138,7 @@ namespace SalesSystem.Business.Services
                 saleDetail.Total = Math.Round(saleDetailNewPrice * saleDetail.Quantity, 2);
 
                 sale.Total += saleDetail.Total * (1 + SaleConstants.Taxes);
+                sale.ProductsQuantity += 1;
 
                 saleDetail.SaleId = sale.Id;
             }
@@ -154,6 +155,7 @@ namespace SalesSystem.Business.Services
                 currentSale.DeliveryStateId = (int)DeliveryState.Ordered;
             }
 
+            currentSale.ProductsQuantity = sale.ProductsQuantity;
             currentSale.Total = Math.Round(sale.Total, 2);
             currentSale.ClientId = sale.ClientId;
             currentSale.HomeDelivery = sale.HomeDelivery;
