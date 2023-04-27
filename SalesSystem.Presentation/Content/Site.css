@@ -13,6 +13,11 @@
     padding-right: 25px;
 }
 
+/* Set overflow to auto to allow scrolling of hidden dropdown menus */
+.table-responsive {
+    overflow: auto;
+}
+
 /* Override the default bootstrap behavior where horizontal description lists 
    will truncate terms that are too long to fit in the left column 
 */

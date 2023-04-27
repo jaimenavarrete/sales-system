@@ -42,20 +42,31 @@
                         </td>
                         <td>@category.Created</td>
                         <td>
-                            <div class="btn-group action-buttons" role="group" aria-label="Action buttons">
-                                <a href="@Url.Action("EditCategory","Categories", new { id = category.Id })" class="btn btn-warning">
-                                    <span class="glyphicon glyphicon-pencil"></span>
-                                </a>
-
-                                <button form="DeleteCategory-@(category.Id)" class="btn btn-danger">
-                                    <span class="glyphicon glyphicon-trash"></span>
-                                </button>
-                                @using (Html.BeginForm("DeleteCategory", "Categories", FormMethod.Post,
-                                    new { id = "DeleteCategory-" + category.Id, @class = "delete-category-button" }))
-                                {
-                                    @Html.AntiForgeryToken()
-                                    @Html.Hidden("Id", category.Id)
-                                }
+                            <div class="action-buttons" role="group" aria-label="Action buttons">
+                                <div class="btn-group">
+                                    <button type="button" class="btn dropdown-button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <span class="glyphicon glyphicon-option-vertical"></span>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a href="@Url.Action("EditCategory","Categories", new { id = category.Id })">
+                                                <span class="glyphicon glyphicon-pencil"></span> Editar
+                                            </a>
+                                        </li>
+                                        <li role="separator" class="divider"></li>
+                                        <li>
+                                            <button form="DeleteCategory-@(category.Id)" class="btn btn-link text-danger">
+                                                <span class="glyphicon glyphicon-trash"></span> Borrar
+                                            </button>
+                                            @using (Html.BeginForm("DeleteCategory", "Categories", FormMethod.Post,
+                                                new { id = "DeleteCategory-" + category.Id, @class = "delete-category-button" }))
+                                            {
+                                                @Html.AntiForgeryToken()
+                                                @Html.Hidden("Id", category.Id)
+                                            }
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
                         </td>
                     </tr>
