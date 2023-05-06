@@ -101,8 +101,8 @@
         }
 
         // Reject negative values
-        if (quantity < 0) {
-            showErrorMessage("La cantidad no puede ser negativa.")
+        if (quantity <= 0) {
+            showErrorMessage("La cantidad no puede negativa ni igual a cero.")
             return false;
         }
 
@@ -137,10 +137,14 @@
             saleDetailElementsList.append(emptyListElement);
         }
 
+        var saleDetailElementsFragment = $(document.createDocumentFragment());
+
         $.each(saleDetails, function (index, saleDetail) {
             var saleDetailElement = createSaleDetailElement(index, saleDetail);
-            saleDetailElementsList.append(saleDetailElement);
+            saleDetailElementsFragment.append(saleDetailElement);
         });
+
+        saleDetailElementsFragment.appendTo(saleDetailElementsList);
 
         updateSaleDetailsInfo();
     }
