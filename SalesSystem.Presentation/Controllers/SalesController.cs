@@ -293,7 +293,7 @@ namespace SalesSystem.Presentation.Controllers
 
         private List<SaleDetails> MapViewModelToSaleDetails(IEnumerable<SaleDetailViewModel> saleDetailsViewModel)
         {
-            var saleDetails = saleDetailsViewModel
+            var saleDetails = saleDetailsViewModel?
                 .Select(saleDetailViewModel => new SaleDetails()
                 {
                     ProductId = saleDetailViewModel.ProductId,
@@ -302,7 +302,7 @@ namespace SalesSystem.Presentation.Controllers
                 })
                 .ToList();
 
-            return saleDetails;
+            return saleDetails ?? new List<SaleDetails>();
         }
 
         private ClientViewModel MapClientToViewModel(Clients client)

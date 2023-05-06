@@ -46,7 +46,12 @@ namespace SalesSystem.Business.Services
 
         public void CreateSale(Sales sale)
         {
-            if(sale.HomeDelivery)
+            if (sale.SaleDetails.Count == 0)
+            {
+                throw new BusinessException($"El listado de productos no puede estar vacío.");
+            }
+
+            if (sale.HomeDelivery)
             {
                 sale.DeliveryStateId = (int)DeliveryState.Ordered;
             }
@@ -89,6 +94,11 @@ namespace SalesSystem.Business.Services
 
         public void EditSale(Sales sale)
         {
+            if(sale.SaleDetails.Count == 0)
+            {
+                throw new BusinessException($"El listado de productos no puede estar vacío.");
+            }
+
             var currentSale = _context.Sales
                 .Include("SaleDetails")
                 .FirstOrDefault(s => s.Id == sale.Id);
@@ -96,6 +106,13 @@ namespace SalesSystem.Business.Services
             if (currentSale is null)
             {
                 throw new BusinessException($"La venta con código #{sale.Id}, no existe.");
+            }
+
+            foreach (var saleDetail in currentSale.SaleDetails)
+            {
+                var product = _context.Products.Find(saleDetail.ProductId);
+
+                product.Stock += saleDetail.Quantity;
             }
 
             foreach (var saleDetail in sale.SaleDetails)
@@ -107,28 +124,15 @@ namespace SalesSystem.Business.Services
                     throw new BusinessException($"El producto con código #{product.Id}, no existe.");
                 }
 
-                // Verify if this product exists in the current sale to keep the same price and
-                // get the difference in quantities
+                // Verify if this product exists in the current sale to keep the same price
                 var currentSaleDetail = _context.SaleDetails
                     .FirstOrDefault(sd => sd.ProductId == product.Id && sd.SaleId == sale.Id);
 
-                if(currentSaleDetail is object)
-                {
-                    saleDetail.CurrentPrice = currentSaleDetail.CurrentPrice;
+                saleDetail.CurrentPrice = currentSaleDetail?.CurrentPrice ?? product.Price;
 
-                    if ((saleDetail.Quantity - currentSaleDetail.Quantity) > product.Stock)
-                    {
-                        throw new BusinessException($"El producto con código #{product.Id}, no tiene las existencias suficientes para la venta.");
-                    }
-                }
-                else
+                if (product.Stock == 0 || saleDetail.Quantity > product.Stock)
                 {
-                    saleDetail.CurrentPrice = product.Price;
-
-                    if (product.Stock == 0 || saleDetail.Quantity > product.Stock)
-                    {
-                        throw new BusinessException($"El producto con código #{product.Id}, no tiene las existencias suficientes para la venta.");
-                    }
+                    throw new BusinessException($"El producto con código #{product.Id}, no tiene las existencias suficientes para la venta.");
                 }
 
                 // Update product stock
@@ -141,13 +145,6 @@ namespace SalesSystem.Business.Services
                 sale.ProductsQuantity += 1;
 
                 saleDetail.SaleId = sale.Id;
-            }
-
-            foreach (var saleDetail in currentSale.SaleDetails)
-            {
-                var product = _context.Products.Find(saleDetail.ProductId);
-
-                product.Stock += saleDetail.Quantity;
             }
 
             if (sale.HomeDelivery && currentSale.DeliveryStateId is null)
